@@ -20,6 +20,7 @@ function InputUserName(props) {
                 .containerForm{
                     display: flex;
                     flex-direction: ${props.display || "column"};
+                    
                 }
             `}
         </style>
