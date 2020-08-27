@@ -3,6 +3,7 @@ import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
 import Navigation from "components/Navigation/Navigation";
+import NotifyBell from "components/bellNotify/index";
 
 export async function getServerSideProps(context) {
   // const params = context.params;
@@ -24,8 +25,6 @@ export async function getServerSideProps(context) {
 
 export default function Home(props) {
   console.log(props.query);
-  // console.log(CONFIG);
-
   if (typeof window == "undefined") {
     console.log("This code is on server-side");
   }
@@ -38,6 +37,9 @@ export default function Home(props) {
         <Navigation></Navigation>
         <p>Something goes here.</p>
         <div>
+          <NotifyBell>
+            
+          </NotifyBell>
         </div>
       </BasicLayout>
     </MasterPage>

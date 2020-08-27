@@ -1,0 +1,45 @@
+@import "../../scss/partials/typography";
+@import "../../scss/variables";
+.icon-statcard{
+    max-width: 24px;
+    width: 100%;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translate(0%,-50%);
+}
+.statcardItem{
+    padding: 0;
+    font-family: $CerebriSansRegular;
+    border: 1px solid #E3EBF6;
+    small{
+        color: #95AAC9;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .c-callout{
+        padding: 20px;
+        margin: 0;
+    }
+    .text-success{
+        background-color:#00d97e1c;
+        color: $COLOR_GREEN;
+        margin-left: 10px;
+        padding: 0 5px;
+        text-align: center;
+        font-family: $CerebriSansRegular;
+    }
+    strong{
+        font-size: 20px;
+        color: #12263F;
+        font-weight: bold;
+        font-family: $CerebriSansRegular;
+    }
+    .col{
+        padding: 0;
+    }
+    .hasChart{
+        width: 40%;
+        max-width: 110px;
+    }
+}
