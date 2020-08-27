@@ -1,0 +1,62 @@
+{
+  "name": "diginext-project-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@coreui/react": "^3.2.3",
+    "@coreui/react-chartjs": "^1.0.1",
+    "autoprefixer": "^9.8.5",
+    "axios": "^0.19.2",
+    "classnames": "^2.2.6",
+    "date-fns": "^2.14.0",
+    "eruda": "^2.3.3",
+    "express": "^4.17.1",
+    "formik": "^2.1.5",
+    "gsap": "^3.4.2",
+    "image-trace-loader": "^1.0.2",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-svgo": "^8.0.0",
+    "jimp": "^0.14.0",
+    "lqip-loader": "^2.2.0",
+    "next": "9.4.4",
+    "next-optimized-images": "^2.6.1",
+    "node-sass": "^4.14.1",
+    "qs": "^6.9.4",
+    "raw-loader": "^4.0.1",
+    "react": "16.13.1",
+    "react-device-detect": "^1.13.1",
+    "react-dom": "16.13.1",
+    "react-redux": "^7.2.1",
+    "react-render-html": "^0.6.0",
+    "responsive-loader": "^1.2.0",
+    "sass": "^1.26.10",
+    "styled-jsx-plugin-sass": "^1.0.0",
+    "svg-sprite-loader": "^5.0.0",
+    "sweetalert2": "^9.17.0",
+    "swr": "^0.2.3",
+    "webp-loader": "^0.6.0"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^5.4.0"
+  },
+  "browserslist": [
+    ">= 0.5%",
+    "chrome >= 42",
+    "and_chr >= 42",
+    "and_ff >= 38",
+    "android >= 4.4",
+    "edge >= 12",
+    "firefox >= 38",
+    "ie >= 11",
+    "ios_saf >= 9",
+    "safari >= 9",
+    "node 10"
+  ]
+}

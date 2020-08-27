@@ -1,0 +1,93 @@
+# This is a sample build configuration for Docker.
+# Check our guides at https://confluence.atlassian.com/x/O1toN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: atlassian/default-image:2
+
+pipelines:
+  branches:
+    prod:
+      - step:
+          name: Build docker image & deploy on GCLOUD Kubernetes of TOP GROUP (PROD)
+          image: google/cloud-sdk:latest
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            # Configure container image & service
+            - export DEPLOYMENT_FILE=deployment.yml
+            - export REPO_SLUG=laucongnghe
+            - export APP_NAME=${REPO_SLUG}
+            - export SVC_NAME=${APP_NAME}-svc
+            - export IMAGE_NAME=${GCLOUD_DOCKER_GCR_URL}/${GCLOUD_PROJECT_ID}/${APP_NAME}:$BITBUCKET_BUILD_NUMBER
+            - export IMAGE_NGINX_NAME=${GCLOUD_DOCKER_GCR_URL}/${GCLOUD_PROJECT_ID}/${APP_NAME}-nginx:$BITBUCKET_BUILD_NUMBER
+            - echo $SVC_NAME
+            - echo $IMAGE_NAME
+            # GCLOUD Credentials Authentication
+            - echo $GCLOUD_API_KEYFILE > gcloud-api-key.json
+            - gcloud auth activate-service-account --key-file gcloud-api-key.json
+            - docker login -u _json_key --password-stdin https://$GCLOUD_DOCKER_GCR_URL < gcloud-api-key.json
+            # Build Docker Image & push to ASIA.GCR.IO repository
+            - docker build -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+            # Build NGINX image
+            # - docker build -t $IMAGE_NGINX_NAME ./nginx
+            # - docker push $IMAGE_NGINX_NAME
+            # Start deploying
+            - gcloud container clusters get-credentials $GCLOUD_K8S_CLUSTER --zone=$GCLOUD_ZONE --project=$GCLOUD_PROJECT_ID
+            # Replace new image repo url
+            - sed -i "s|{{image_name}}|$IMAGE_NAME|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{app_slug}}|$REPO_SLUG|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{app_name}}|$APP_NAME|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{svc_name}}|$SVC_NAME|g" $DEPLOYMENT_FILE
+            # - sed -i "s|{{nginx_image_name}}|$IMAGE_NGINX_NAME|g" $DEPLOYMENT_FILE
+            - echo "$(<$DEPLOYMENT_FILE)"
+            - kubectl apply -f $DEPLOYMENT_FILE
+    dev:
+      - step:
+          name: Build docker image & deploy on GCLOUD Kubernetes of TOP GROUP (DEV)
+          image: google/cloud-sdk:latest
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            # Install JSON QUERY
+            - apt-get update && apt-get install -y jq sudo
+            # Configure container image & service
+            - export DEPLOYMENT_FILE=deployment_dev.yml
+            - export REPO_SLUG=laucongnghe
+            - export APP_NAME=${REPO_SLUG}-dev
+            - export SVC_NAME=${APP_NAME}-svc
+            - export IMAGE_NAME=${GCLOUD_DOCKER_GCR_URL}/${GCLOUD_PROJECT_ID}/${APP_NAME}:$BITBUCKET_BUILD_NUMBER
+            - echo $SVC_NAME
+            - echo $IMAGE_NAME
+            # GCLOUD Credentials Authentication
+            - echo $GCLOUD_API_KEYFILE > gcloud-api-key.json
+            - gcloud auth activate-service-account --key-file gcloud-api-key.json
+            - docker login -u _json_key --password-stdin https://$GCLOUD_DOCKER_GCR_URL < gcloud-api-key.json
+            # Build Docker Image & push to ASIA.GCR.IO repository
+            - docker build --build-arg DEV5_PATH_NAME=$REPO_SLUG -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+            # Start deploying
+            - gcloud container clusters get-credentials $GCLOUD_K8S_CLUSTER --zone=$GCLOUD_ZONE --project=$GCLOUD_PROJECT_ID
+            # Replace new image repo url
+            - sed -i "s|{{image_name}}|$IMAGE_NAME|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{app_slug}}|$REPO_SLUG|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{app_name}}|$APP_NAME|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{svc_name}}|$SVC_NAME|g" $DEPLOYMENT_FILE
+            - sed -i "s|{{app_slug}}|$REPO_SLUG|g" dev5_ingress_patch.json
+            - sed -i "s|{{svc_name}}|$SVC_NAME|g" dev5_ingress_patch.json
+            - echo "$(<dev5_ingress_patch.json)"
+            - echo "$(<$DEPLOYMENT_FILE)"
+            # check if service existed
+            - export SVC_COUNT=$(kubectl get ing/dev5-ingress -n dev5 -o json | jq "[.spec.rules[].http.paths[].backend | select(.serviceName | contains(\"$SVC_NAME\"))] | length")
+            - echo $SVC_COUNT
+            - if [ $SVC_COUNT -eq 0 ]; then
+            -   kubectl -n dev5 patch ingress dev5-ingress --type json --patch "$(cat dev5_ingress_patch.json)"
+            -   echo "DEPLOYED A SERVICE ON DEV5 NAMESPACE SUCCESSFULLY!"
+            - fi
+            # KUBECTL
+            - kubectl apply -f $DEPLOYMENT_FILE

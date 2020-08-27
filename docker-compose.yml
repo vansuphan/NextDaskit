@@ -1,0 +1,17 @@
+version: "3"
+services:
+  nextjs-konva-drawing-canvas:
+    build:
+      context: .
+      dockerfile: deployment/dev.Dockerfile
+    volumes:
+      - .:/usr/app
+    ports:
+      - 3000:3000
+    environment:
+      - NEXT_PUBLIC_ENV=development
+      - NEXT_PUBLIC_BASE_PATH=https://subdomain.app.com
+      - NEXT_PUBLIC_API_BASE_PATH=https://api.app.com
+      - NEXT_PUBLIC_CDN_BASE_PATH=https://cdn.digitop.vn
+      - NEXT_PUBLIC_APP_DOMAIN=www.google.com
+      - SOME_SECRET_KEY=987b3k5bj34bnhj5

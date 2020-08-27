@@ -1,0 +1,7 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/rules/0/http/paths/-",
+    "value": { "path": "/{{app_slug}}", "backend": { "serviceName": "{{svc_name}}", "servicePort": 80 } }
+  }
+]

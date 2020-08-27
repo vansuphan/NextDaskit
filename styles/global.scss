@@ -1,0 +1,83 @@
+/* 
+font-family: 'Cabin', sans-serif;
+font-family: 'Lora', serif;
+font-family: 'Playfair Display', serif;
+*/
+
+@font-face {
+  font-family: "ProximaNova";
+  src: url("/fonts/ProximaNovaRegular.eot");
+  src: url("/fonts/ProximaNovaRegular.eot") format("embedded-opentype"),
+    url("/fonts/ProximaNovaRegular.woff2") format("woff2"),
+    url("/fonts/ProximaNovaRegular.woff") format("woff"),
+    url("/fonts/ProximaNovaRegular.ttf") format("truetype"),
+    url("/fonts/ProximaNovaRegular.svg#ProximaNovaRegular") format("svg");
+  font-style: normal;
+  font-weight: normal;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Lora", serif;
+  line-height: 1.6;
+  font-size: 14px;
+  // background-color: red;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  padding-inline-start: 0px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  line-height: 1;
+}
+li {
+  display: inline-block;
+}
+
+a,
+a:hover,
+a:active {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 1180px;
+  margin: auto;
+}
+
+.col-2-3 {
+  width: 66%;
+  float: left;
+}
+.col-1-3 {
+  width: 33%;
+  float: left;
+}
+
+main {
+  margin-top: 50px;
+}

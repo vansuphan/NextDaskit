@@ -1,0 +1,85 @@
+# NAMESPACE CONFIGURATION
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{app_name}}-ns
+---
+# INGRESS CONFIGURATION
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{app_name}}-ingress
+  namespace: {{app_name}}-ns
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+spec:
+  tls:
+    - hosts:
+      - {{domain}}
+      secretName: dev-{{app_name}}-{{domain}}-secret # this must be unique
+  rules:
+    - host: {{domain}}
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: {{svc_name}}
+            servicePort: 80
+---
+# SERVICE CONFIGURATION
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{svc_name}}
+  namespace: {{app_name}}-ns
+  labels:
+    app: {{app_name}}
+    # project label
+    project: {{app_name}}
+spec:
+  # type: NodePort
+  ports:
+    - port: 80
+      targetPort: 3000
+  selector:
+    app: {{app_name}}
+---
+# POD DEPLOYMENT CONFIGURATION
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{app_name}}
+  namespace: {{app_name}}-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{app_name}}
+  template:
+    metadata:
+      labels:
+        app: {{app_name}}
+        # project label
+        project: {{app_name}}
+    spec:
+      containers:
+        - name: {{app_name}}
+          image: {{image_name}}
+          ports:
+            - containerPort: 3000
+          # ==================================
+          # NEED TO BE CONFIGURED BY DEVELOPER
+          # ==================================
+          env:
+          - name: NEXT_PUBLIC_BASE_PATH
+            value: "{{app_slug}}"
+          - name: NEXT_PUBLIC_API_BASE_PATH
+            value: "https://dev5.digitop.vn"
+          - name: NEXT_PUBLIC_CDN_URL
+            value: ""
+          - name: NEXT_PUBLIC_ENV
+            value: "staging"
+          # ==================================
