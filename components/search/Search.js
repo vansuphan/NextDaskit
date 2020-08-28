@@ -1,23 +1,65 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Item from './item/index'
+import ItemSearch from "./item/search";
+import { set } from 'date-fns';
 
-const BellNotify  = function(props) {
-  // const [classNames, setClassName] = useState('notify')
+const dataTest = [
+  {
+      title:"Hello guy",
+      textContent: "It's a broader card with text below as a natural lead-in to extra content.",
+      timer: 1, 
+  },
+  {
+    title: "Alphazap",
+    textContent: "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
+    timer: 65
+  }, {
+    title: "Voyatouch",
+    textContent: "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
+    timer: 59
+  }, {
+    title: "Lotlux",
+    textContent: "Fusce consequat. Nulla nisl. Nunc nisl.",
+    timer: 17
+  }, {
+    title: "Viva",
+    textContent: "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
+    timer: 51
+  }, {
+    title: "Ventosanzap",
+    textContent: "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.",
+    timer: 21
+  }, {
+    title: "Alphazap",
+    textContent: "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.",
+    timer: 75
+  }, {
+    title: "Flexidy",
+    textContent: "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
+    timer: 98
+  }, {
+    title: "Bytecard",
+    textContent: "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
+    timer: 25
+  }, {
+    title: "Vagram",
+    textContent: "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
+    timer: 17
+  }, {
+    title: "Domainer",
+    textContent: "In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.\n\nAliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\n\nSed ante. Vivamus tortor. Duis mattis egestas metus.",
+    timer: 33
+  }
+]
+
+const Search  = function(props) {
+
   const [classNamesClose, setClassNameClose] = useState('containerNotify hide')
   const [statusClose, setStatusClose] = useState(true)
-  const [notifyNumber, setNotifyNumber] = useState(props.notifyNumber || false)
+  const [data, setData] = useState(dataTest);
 
   useEffect(()=>{
-    if(notifyNumber === 0){
-      setNotifyNumber(false)
-    }
-    if(notifyNumber >= 10){
-      setNotifyNumber("!")
-    }
-    if(typeof(notifyNumber) === "string"){
-      setNotifyNumber("!")
-    }
-  }, [notifyNumber])
+  }, [data])
 
   useEffect(()=>{
     if(statusClose === true){
@@ -26,94 +68,52 @@ const BellNotify  = function(props) {
       setClassNameClose('containerNotify')
     }
   },[statusClose]);
+
+  const handleSearch = (word) => {
+    let newData = dataTest.filter((value)=>{
+      if(value.title.toString().toLowerCase().indexOf(word) !== -1)
+        return value;
+    });
+    setData(newData);
+  }
+
   const onClickClose = () =>{
     setStatusClose(!statusClose)
   }
+
   const onClickOpen = () =>{
     setStatusClose(!statusClose)
   }
+
   return(
-      <div className={"notify"}>
-        <img alt="Notify" src={"images/bell-icon.png"} className="icon iconBell" onClick={onClickOpen}/>
-        {
-          notifyNumber && <span className="number text-danger">{notifyNumber}</span>
-        }
+      <div className={"search"}>
+        <img alt="Search" src={"images/icon-search.png"} className="icon iconBell" onClick={onClickOpen}/>
+        
         <div className={classNamesClose}>
-          <h3 className=" bg-dark closeContainerNotify" onClick={onClickClose}>Notifications</h3>
+          <span className=" bg-dark closeContainerNotify" onClick={onClickClose}></span>
+          
+          <ItemSearch
+            width = {"80%"}
+            height = {"40px"}
+            handleSearch={handleSearch}
+          >
+          </ItemSearch>
           <div className="contentItems">
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
+            {
+              data && data.map((value, index)=>
+                <Item
+                  imgURL={"images/icon-mail-active.png"}
+                  title={value.title}
+                  textContent={value.textContent}
+                  timer ={value.timer}
+                  key={index}
+                ></Item>
+              )
+            }
           </div>
         </div>
         <style jsx>{`
-            .notify{
+            .search{
                   transition: 0.4s ease-in-out;
                   cursor: pointer;
                   max-width: 25px;
@@ -136,7 +136,7 @@ const BellNotify  = function(props) {
                     top: 0;
                   }
               }
-              .notify.hide{
+              .search.hide{
                   transition: 0.4s ease-in-out;
                   width: 0;
                   height: 0;
@@ -232,4 +232,4 @@ const BellNotify  = function(props) {
     )
     
 }
-export default BellNotify;
+export default Search;

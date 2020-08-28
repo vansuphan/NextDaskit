@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 export default function Switch (props) {
-    const [isChecked, setChecked] = useState(false);
+    const [isChecked, setChecked] = useState( props.status || false);
     const handleChecked = ()=>{
         setChecked(!isChecked);
     }
@@ -16,7 +16,6 @@ export default function Switch (props) {
                 <label>
                     <input checked={ isChecked } onChange={ handleChecked } className="switch" type="checkbox" />
                     <div>
-              
                         <div></div>
                     </div>
                 </label>
@@ -35,7 +34,7 @@ export default function Switch (props) {
                     width: 40px;
                     height: 20px;
                     border-radius: 999px;
-                    background-color: #00B0F2;
+                    background-color: #b1c2d9;
                     -webkit-transition-duration: .4s;
                     transition-duration: .4s;
                     -webkit-transition-property: background-color, box-shadow;
@@ -50,14 +49,6 @@ export default function Switch (props) {
                     margin-top: 12px;
                 }
 
-                input[type="checkbox"].switch + div span:nth-child( 1 ) {
-                    margin-left: 15px;
-                }
-
-                input[type="checkbox"].switch + div span:nth-child( 2 ) {
-                    margin-left: 55px;
-                }
-
                 input[type="checkbox"].switch:checked + div {
                     width: 60px;
                     background-position: 0 0;
@@ -67,11 +58,6 @@ export default function Switch (props) {
                 input[type="checkbox"].switch + div {
                     width: 60px;
                     height: 32px;
-                }
-
-
-                input[type="checkbox"].switch:checked + div {
-                    background-color: #57BB00;
                 }
 
                 input[type="checkbox"].switch + div > div {

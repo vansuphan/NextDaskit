@@ -45,12 +45,13 @@ const ConversionsChart = function (props) {
     
     const [dataChart, setDataChart] = useState(data[0]);
     const [statusChart, setStatusChart] = useState(false);
+    
     const onChangeData = ()=>{
         setStatusChart(!statusChart);
     }
+
     useEffect(()=>{
         window.chartTheme.init();
-        // window.chartTheme.globalOptions();
     },[]);
 
     useEffect(()=>{
