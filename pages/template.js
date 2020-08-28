@@ -3,7 +3,10 @@ import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
 import Navigation from "components/Navigation/Navigation";
-
+import NotifyBell from "components/bellNotify/BellNotify";
+import ChartCol from "components/charts/Conversions/index";
+import SwitchButton from "components/button/SwitchButton";
+import Search from "components/search/Search";
 export async function getServerSideProps(context) {
   // const params = context.params;
   // const query = context.query;
@@ -23,9 +26,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-  console.log(props.query);
-  // console.log(CONFIG);
-
+  // console.log(props.query);
   if (typeof window == "undefined") {
     console.log("This code is on server-side");
   }
@@ -38,6 +39,14 @@ export default function Home(props) {
         <Navigation></Navigation>
         <p>Something goes here.</p>
         <div>
+          <NotifyBell
+            notifyNumber={"hihihiads"}>
+          </NotifyBell>
+          <Search></Search>
+          <br></br>
+          <SwitchButton></SwitchButton>
+          <br></br>
+          <ChartCol></ChartCol>
         </div>
       </BasicLayout>
     </MasterPage>

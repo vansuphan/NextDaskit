@@ -16,11 +16,19 @@ font-family: 'Playfair Display', serif;
   font-weight: normal;
 }
 
+@font-face {
+  font-family: "CerebriSansRegular";
+  src: url("/fonts/CerebriSansRegular.woff");
+  src: url("/fonts/CerebriSansRegular.woff") format("embedded-opentype"), url("/fonts/CerebriSansRegular.woff") format("woff2"),
+    url("/fonts/CerebriSansRegular.woff") format("woff"), url("/fonts/CerebriSansRegular.woff") format("truetype"),
+    url("/fonts/CerebriSansRegular.woff") format("svg");
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Lora", serif;
+  font-family: "CerebriSansRegular", sans-serif;
   line-height: 1.6;
   font-size: 14px;
   // background-color: red;
