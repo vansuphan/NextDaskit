@@ -24,7 +24,7 @@ const Item  = function(props) {
               padding-bottom: 0;
               position: relative;
               &:hover{
-                  background-color: #a8aaad;
+                  background-color: #EDF2F9;
               }
               img{
                   border-radius:100%;
@@ -80,6 +80,7 @@ const Item  = function(props) {
                   color: #12263F;
                   margin-bottom: 0px;
                   margin: 0;
+                  font-family: "CerebriSansRegular", sans-serif;
               }
               .text-dark{
                   font-size: 13px;
@@ -91,7 +92,6 @@ const Item  = function(props) {
                   text-overflow: ellipsis; 
                   overflow: hidden;
                   white-space: nowrap;    
-                  
               }
               
           }

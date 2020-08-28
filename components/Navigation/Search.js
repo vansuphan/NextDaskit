@@ -22,7 +22,7 @@ export default function Search(props){
                 }
                 label{
                     position: absolute;
-                    width: 10%;
+                    width: 8%;
                     max-width: 30px;
                     height: 70%;
                     cursor: pointer;
