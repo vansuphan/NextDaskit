@@ -78,38 +78,6 @@ const BellNotify  = function(props) {
               textContent="It's a broader card with text below as a natural lead-in to extra content."
               timer ={1}
             />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
           </div>
         </div>
         <style jsx>{`
