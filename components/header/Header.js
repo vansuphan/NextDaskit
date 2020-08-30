@@ -1,18 +1,17 @@
 import {useContext} from "react";
-import {TemplateContext} from "contexts/TemplateContext"
+import {HeaderContext} from "contexts/HeaderContext"
 
 export default function Header({children, color}){
     const {
         className,
         background,
         header,
-        layout,
         setBgWhite,
         setBgBlack,
         setClass,
         setHeader,
-        setLayout
-    } = useContext(TemplateContext);
+      
+    } = useContext(HeaderContext);
     return(
         <header className={header}>    
             <div>

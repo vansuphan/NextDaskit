@@ -14,11 +14,9 @@ export default function Header() {
           width: 100%;
           height: 72px;
           box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
-
           .col {
             height: 100%;
           }
-
           .left {
             float: left;
             padding: 12px 0;
@@ -58,16 +56,7 @@ export default function Header() {
           </Link>
         </div>
         <div className="col right">
-          <ul className="icons">
-            <li>
-              <Svg src="icons/close" fill={iconColor} />
-            </li>
-            <Link href="/terms">
-              <li>
-                <ButtonOutline text="Sign in" />
-              </li>
-            </Link>
-          </ul>
+         
         </div>
       </div>
     </header>

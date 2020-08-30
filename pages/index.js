@@ -2,7 +2,7 @@ import MasterPage from "components/page/MasterPage";
 import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
-
+import MainContentProvider from "contexts/MainContentContext"
 export async function getServerSideProps(context) {
   // const params = context.params;
   // const query = context.query;
@@ -31,7 +31,8 @@ export default function Home(props) {
 
   return (
     <MasterPage>
-      <BasicLayout padding="50px">
+    <MainContentProvider>
+      <BasicLayout>
         <h1>Home Page</h1>
         <hr />
         <p>Something goes here.</p>
@@ -39,6 +40,7 @@ export default function Home(props) {
           <img src={resource("/images/avatar.png")} />
         </div>
       </BasicLayout>
+      </MainContentProvider>
     </MasterPage>
   );
 }

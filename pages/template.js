@@ -9,12 +9,13 @@ import SwitchButton from "components/button/SwitchButton";
 import Search from "components/search/Search";
 import Popup from "components/popup/Popup";
 
-import RandomNumber from "components/RamdomNumber";
-import Context from "contexts/NumberContext";
-
-import Header from "components/header/Header";
-import TemplateContext from "contexts/TemplateContext";
-
+// context
+import MainContentProvider from "contexts/MainContentContext"
+import HeaderConsumer from "components/header/Header";
+import HeaderProvider from "contexts/HeaderContext";
+import ButtonBlackConsumer from "components/button/ButtonChangeBgBlack";
+import ButtonWhiteConsumer from "components/button/ButtonChangeBgWhite";
+//
 export async function getServerSideProps(context) {
   // const params = context.params;
   // const query = context.query;
@@ -41,17 +42,18 @@ export default function Home(props) {
 
   return (
     <MasterPage>
-      <BasicLayout padding="50px">
-      <TemplateContext>
+      <MainContentProvider>
+      <BasicLayout>
+      <HeaderProvider>
         <h1>Template</h1>
         <hr />
         <Navigation></Navigation>
         <p>Something goes here.</p>
+        <ButtonBlackConsumer></ButtonBlackConsumer>
+        <ButtonWhiteConsumer></ButtonWhiteConsumer>
         <div>
          
-            <Header>
-              <span> children he</span>
-            </Header>
+          <HeaderConsumer></HeaderConsumer>
           
           <NotifyBell
             notifyNumber={"hihihiads"}>
@@ -67,15 +69,11 @@ export default function Home(props) {
             </Popup>
           <br></br>
           <br/>
-
-          <Context>
-             <RandomNumber> hehee </RandomNumber>
-          </Context>
-          
           <ChartCol></ChartCol>
         </div>
-        </TemplateContext>
+        </HeaderProvider>
       </BasicLayout>
+      </MainContentProvider>
     </MasterPage>
   );
 }
