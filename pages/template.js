@@ -2,13 +2,12 @@ import MasterPage from "components/page/MasterPage";
 import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
-import Navigation from "components/Navigation/Navigation";
 import NotifyBell from "components/bellNotify/BellNotify";
 import ChartCol from "components/charts/Conversions/index";
 import SwitchButton from "components/button/SwitchButton";
 import Search from "components/search/Search";
 import Popup from "components/popup/Popup";
-import NavigationLeft from "components/Navigation/NavigationLeft";
+// import NavigationLeft from "components/Navigation/NavigationLeft";
 
 // context
 import MainContentProvider from "contexts/MainContentContext"
@@ -45,8 +44,6 @@ export default function Home(props) {
         <HeaderProvider>
           <h1>Template</h1>
           <hr />
-          <Navigation></Navigation>
-          <NavigationLeft></NavigationLeft>
           <p>Something goes here.</p>
           <div>
             <NotifyBell

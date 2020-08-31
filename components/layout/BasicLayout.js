@@ -1,24 +1,29 @@
 import {MainContentContext} from "contexts/MainContentContext";
 import {useContext} from "react";
 import HeaderLeft from "components/element/HeaderLeft";
+import HeaderTop from "components/element/Header";
+import NavigationRight from "components/Navigation/NavigationRight";
 export default ({children,style}) => {
-  const {
-    className,
-    setClass,
-    background,
-    setBgWhite,
-    setBgBlack,
-  } = useContext(MainContentContext);
+  const valuesContext = useContext(MainContentContext);
+  // {
+  //  header
+  //   className,
+  //   setClass,
+  //   background,
+  //   setBgWhite,
+  //   setBgBlack,
+  // }
   return (
     <>
-      <HeaderLeft></HeaderLeft>
-      <div className={className} style={style}>
+      {valuesContext.header === "top" ? <HeaderTop/> : <HeaderLeft/>}
+      <div className={valuesContext.className} style={style}>
         {children}
+        
       </div>
-
+      <NavigationRight/>
       <style global jsx>{`
         body {
-          background:${background};
+          background:${valuesContext.background};
           transition : 0.3s;
         }
         @media (min-width: 768px){

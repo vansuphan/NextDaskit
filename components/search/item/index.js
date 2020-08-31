@@ -1,7 +1,7 @@
 import React from 'react';
 const Item  = function(props) {
   const onClickNotify = (props) =>{
-    console.log(props);
+    // console.log(props);
   }
     return(
       <div to="#" className='itemNotify' onClick={onClickNotify}>
