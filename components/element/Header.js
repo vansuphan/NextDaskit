@@ -4,21 +4,29 @@ import Svg from "components/image/Svg";
 import config from "web.config";
 
 export default function Header() {
+
   const iconColor = "#979797";
-  // <div className={styles.right}>
 
   return (
     <header className="header">
+      <div className="container">
+        <div className="col left">
+          <Link href="/">
+            <img alt={config.site.title} src="/images/header_logo.png" />
+          </Link>
+        </div>
+        <div className="col right">
+         
+        </div>
+      </div>
       <style jsx>{`
         .header {
           width: 100%;
           height: 72px;
           box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
-
           .col {
             height: 100%;
           }
-
           .left {
             float: left;
             padding: 12px 0;
@@ -27,7 +35,6 @@ export default function Header() {
               height: 100%;
             }
           }
-
           .right {
             float: right;
             line-height: 72px;
@@ -51,25 +58,6 @@ export default function Header() {
         }
       `}</style>
 
-      <div className="container">
-        <div className="col left">
-          <Link href="/">
-            <img alt={config.site.title} src="/images/header_logo.png" />
-          </Link>
-        </div>
-        <div className="col right">
-          <ul className="icons">
-            <li>
-              <Svg src="icons/close" fill={iconColor} />
-            </li>
-            <Link href="/terms">
-              <li>
-                <ButtonOutline text="Sign in" />
-              </li>
-            </Link>
-          </ul>
-        </div>
-      </div>
     </header>
   );
 }

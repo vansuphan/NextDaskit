@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Item from './item/index'
-
-const BellNotify  = function(props) {
-  // const [classNames, setClassName] = useState('notify')
-  const [classNamesClose, setClassNameClose] = useState('containerNotify hide')
-  const [statusClose, setStatusClose] = useState(true)
-  const [notifyNumber, setNotifyNumber] = useState(props.notifyNumber || false)
-
-  useEffect(()=>{
-    if(notifyNumber === 0){
-      setNotifyNumber(false)
-    }
-    if(notifyNumber >= 10){
-      setNotifyNumber("!")
-    }
-    if(typeof(notifyNumber) === "string"){
-      setNotifyNumber("!")
-    }
-  }, [notifyNumber])
+import ButtonChangeBgBlack from "components/button/ButtonChangeBgBlack";
+import ButtonChangeBgWhite from "components/button/ButtonChangeBgWhite";
+const CustomTemplate  = function(props) {
+  const [classNamesClose, setClassNameClose] = useState('containerNotify hide');
+  const [statusClose, setStatusClose] = useState(true);
+  const [alignSelf, setAlignSelf] = useState( props.alignSelf || "unset");
 
   useEffect(()=>{
     if(statusClose === true){
@@ -26,66 +13,53 @@ const BellNotify  = function(props) {
       setClassNameClose('containerNotify')
     }
   },[statusClose]);
+
   const onClickClose = () =>{
     setStatusClose(!statusClose)
   }
+
   const onClickOpen = () =>{
     setStatusClose(!statusClose)
   }
+
   return(
-      <div className={"notify"} onClick={onClickOpen}>
-        <img alt="Notify" src={"images/bell-icon.png"} className="icon iconBell" />
-        {
-          notifyNumber && <span className="number text-danger">{notifyNumber}</span>
-        }
+      <div className={"notify"} >
+        <div className={"button-customize"} onClick={onClickOpen}>
+          <img alt="Notify" src={"images/sliders.png"} className="icon iconBell" />
+          <span>Customize</span>
+        </div>
+        
         <div className={classNamesClose}>
-          <h3 className=" bg-dark closeContainerNotify" onClick={onClickClose}>Notifications</h3>
+          <h3 className="closeContainerNotify" onClick={onClickClose}><span></span></h3>
           <div className="contentItems">
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-               imgURL={"images/icon-mail-active.png"}
-               textContent="It's a broader card with text"
-               title="Hello"
-            />
-            <Item
-              imgURL={"images/icon-mail-active.png"}
-              title="Hello"
-              textContent="It's a broader card with text below as a natural lead-in to extra content."
-              timer ={1}
-            />
+              <div className={"img"}>
+                  <img src={"images/designer-life.svg"}/>
+              </div>
+              <h2 className="text-center">
+                  Make Dashkit Digitop
+              </h2>
+              <p className="text-center">
+                Set preferences that will be cookied for your live preview demonstration.
+              </p>
+            <ButtonChangeBgBlack></ButtonChangeBgBlack>
+            <ButtonChangeBgWhite></ButtonChangeBgWhite>
           </div>
         </div>
+
+
+
+
+
         <style jsx>{`
+            .text-center{
+              text-align: center;
+            }
             .notify{
                   transition: 0.4s ease-in-out;
                   cursor: pointer;
-                  max-width: 25px;
                   position: relative;
+                  width:100%;
+                  align-self: ${alignSelf};
                   .number {
                     transition: 0.3s ease-in-out;
                     position: absolute;
@@ -123,7 +97,7 @@ const BellNotify  = function(props) {
                   width: 300px;
                   height: 100%;
                   top: 0;
-                  left: 0;
+                  right: 0;
                   background-color: #fff;
                   justify-content: flex-start;
                   align-items: start;
@@ -131,14 +105,45 @@ const BellNotify  = function(props) {
                   transition: 0.4s ease-in-out;
                   h3{
                       width: 100%;
-                      padding: 20px;
                       display: flex;
                       justify-content: center;
                       align-items: center;
                       text-align: center;
                       // font-family: $CerebriSansRegular;
                       margin: 0;
-                      
+                      display: flex;
+                      justify-content: flex-end;
+                      position: relative;
+                      span{
+                        position: absolute;
+                        right: 15px;
+                        top: 20px;
+                        width: 20px;
+                        height: 20px;
+                        transition: 0.5s;
+
+                        &::after, &::before{
+                          content:"";
+                          position: absolute;
+                          top:0;
+                          left:0;
+                          width:20px;
+                          height : 3px;
+                          border-radius: 2px;
+                          background-color: #c2c3c3;
+                        }
+                        &:hover::after, &:hover::before{
+                          background-color: red;
+                          
+                        }
+                        &::after{
+                          transform: rotate(45deg);
+                        }
+                        &::before{
+                          transform: rotate(-45deg);
+                        }
+                     
+                      }
                   }
                   a:hover {
                       text-decoration: unset;
@@ -148,6 +153,8 @@ const BellNotify  = function(props) {
               .contentItems{
                   display: flex;
                   width: 100%;
+                  padding: 20px;
+                  
                   flex-direction: column;
                   justify-content: flex-start;
                   align-items: flex-start;
@@ -170,29 +177,68 @@ const BellNotify  = function(props) {
                     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
                     background-color: rgb(180, 175, 175);
                   }
+                  .img{
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                  }
+                  h2,p{
+                    width: 100%;
+                    margin: 2px;
+                  }
+                  p{
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid #e3ebf6;
+                  }
+                 
               }
               .containerNotify.hide{
                   transition: 0.5s ease-in-out;
                   top: 0;
-                  transform: translate(-100%,0%);
+                  transform: translate(100%,0%);
                   overflow: unset;
                   overflow: hidden;
                   z-index: -1;
                   opacity: 0;
               }
               .closeContainerNotify{
+                position: relative;
                   &::after{
                       content: "";
                       position: absolute;
                       background-color: rgba(0,0,0,0.5);
                       width: 100vw;
                       height: 100vh;
-                      left: 300px;
+                      right: 300px;
                       top: 0;
                   }
+                  
               }
               .text-danger{
                 color : red;
+              }
+              .button-customize{
+                width: auto;
+                background-color : #2c7be5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 5px;
+                padding: 7px 10px;
+                transition: 0.2s;
+                &:hover {
+                  color: #fff;
+                  background-color: #1a68d1;
+                  border-color: #1862c6;
+                }
+                img{
+                  max-width: 15px
+                }
+                span{
+                  padding-left:10px;
+                  color:white;
+                  font-size: 15px;
+                }
               }
         `}
         </style>
@@ -200,4 +246,4 @@ const BellNotify  = function(props) {
     )
     
 }
-export default BellNotify;
+export default CustomTemplate;

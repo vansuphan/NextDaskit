@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Item from './item/index'
 import ItemSearch from "./item/search";
-import { set } from 'date-fns';
 
 const dataTest = [
   {
@@ -59,9 +58,6 @@ const Search  = function(props) {
   const [data, setData] = useState(dataTest);
 
   useEffect(()=>{
-  }, [data])
-
-  useEffect(()=>{
     if(statusClose === true){
       setClassNameClose('containerNotify hide')
     }else{
@@ -91,7 +87,6 @@ const Search  = function(props) {
         
         <div className={classNamesClose}>
           <span className=" bg-dark closeContainerNotify" onClick={onClickClose}></span>
-          
           <ItemSearch
             width = {"80%"}
             height = {"40px"}

@@ -89,3 +89,19 @@ img {
 main {
   margin-top: 50px;
 }
+.avatar{
+  img{
+      max-width: 100%;
+  }
+  position: relative;
+  .statusActive{
+      width: 12px;
+      height: 12px;
+      border-radius: 100%;
+      border: solid 2px white;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: #00d97e;
+  }
+}

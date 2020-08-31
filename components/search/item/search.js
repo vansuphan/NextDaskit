@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState, useRef} from "react"
 export default function Search(props){
 
     const [sizeSearch, setSizeSearch] = useState({
@@ -23,9 +23,7 @@ export default function Search(props){
                 id="search" 
                 type="search" 
                 placeholder="Search">
-
             </input>
-
 
             <style jsx>{`
                 div{

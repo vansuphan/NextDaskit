@@ -7,6 +7,13 @@ import NotifyBell from "components/bellNotify/BellNotify";
 import ChartCol from "components/charts/Conversions/index";
 import SwitchButton from "components/button/SwitchButton";
 import Search from "components/search/Search";
+import Popup from "components/popup/Popup";
+import NavigationLeft from "components/Navigation/NavigationLeft";
+
+// context
+import MainContentProvider from "contexts/MainContentContext"
+import HeaderProvider from "contexts/HeaderContext";
+//
 export async function getServerSideProps(context) {
   // const params = context.params;
   // const query = context.query;
@@ -33,22 +40,35 @@ export default function Home(props) {
 
   return (
     <MasterPage>
-      <BasicLayout padding="50px">
-        <h1>Template</h1>
-        <hr />
-        <Navigation></Navigation>
-        <p>Something goes here.</p>
-        <div>
-          <NotifyBell
-            notifyNumber={"hihihiads"}>
-          </NotifyBell>
-          <Search></Search>
-          <br></br>
-          <SwitchButton></SwitchButton>
-          <br></br>
-          <ChartCol></ChartCol>
-        </div>
+      <MainContentProvider>
+      <BasicLayout>
+        <HeaderProvider>
+          <h1>Template</h1>
+          <hr />
+          <Navigation></Navigation>
+          <NavigationLeft></NavigationLeft>
+          <p>Something goes here.</p>
+          <div>
+            <NotifyBell
+              notifyNumber={""}>
+            </NotifyBell>
+            <Search></Search>
+            <br></br>
+            <SwitchButton></SwitchButton>
+            <br/>
+            <br></br>
+              <Popup
+                isVisible = {true}
+              >
+                <span>Children Popup</span>
+              </Popup>
+            <br></br>
+            <br/>
+            <ChartCol></ChartCol>
+          </div>
+        </HeaderProvider>
       </BasicLayout>
+      </MainContentProvider>
     </MasterPage>
   );
 }

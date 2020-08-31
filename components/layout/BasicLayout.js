@@ -1,26 +1,33 @@
-export default ({
-  children,
-  background,
-  padding,
-  margin,
-  border,
-  borderRadius,
-  style,
-}) => {
+import {MainContentContext} from "contexts/MainContentContext";
+import {useContext} from "react";
+import HeaderLeft from "components/element/HeaderLeft";
+export default ({children,style}) => {
+  const {
+    className,
+    setClass,
+    background,
+    setBgWhite,
+    setBgBlack,
+  } = useContext(MainContentContext);
   return (
     <>
-      <style jsx>{`
-        .layout-basic {
-          ${padding ? `padding: ${padding};` : ""}
-          ${margin ? `margin: ${margin};` : ""}
-          ${background ? `background: ${background};` : ""}
-          ${border ? `border: ${border};` : ""}
-          ${borderRadius ? `border-radius: ${borderRadius};` : ""}
-        }
-      `}</style>
-      <div className="layout-basic" style={style}>
+      <HeaderLeft></HeaderLeft>
+      <div className={className} style={style}>
         {children}
       </div>
+
+      <style global jsx>{`
+        body {
+          background:${background};
+          transition : 0.3s;
+        }
+        @media (min-width: 768px){
+          .main-content {
+            margin-left: 250px;
+            padding : 0 20px;
+          }
+        }
+      `}</style>
     </>
   );
 };
