@@ -4,11 +4,21 @@ import Svg from "components/image/Svg";
 import config from "web.config";
 
 export default function Header() {
+
   const iconColor = "#979797";
-  // <div className={styles.right}>
 
   return (
     <header className="header">
+      <div className="container">
+        <div className="col left">
+          <Link href="/">
+            <img alt={config.site.title} src="/images/header_logo.png" />
+          </Link>
+        </div>
+        <div className="col right">
+         
+        </div>
+      </div>
       <style jsx>{`
         .header {
           width: 100%;
@@ -25,7 +35,6 @@ export default function Header() {
               height: 100%;
             }
           }
-
           .right {
             float: right;
             line-height: 72px;
@@ -49,16 +58,6 @@ export default function Header() {
         }
       `}</style>
 
-      <div className="container">
-        <div className="col left">
-          <Link href="/">
-            <img alt={config.site.title} src="/images/header_logo.png" />
-          </Link>
-        </div>
-        <div className="col right">
-         
-        </div>
-      </div>
     </header>
   );
 }

@@ -8,13 +8,11 @@ import ChartCol from "components/charts/Conversions/index";
 import SwitchButton from "components/button/SwitchButton";
 import Search from "components/search/Search";
 import Popup from "components/popup/Popup";
+import NavigationLeft from "components/Navigation/NavigationLeft";
 
 // context
 import MainContentProvider from "contexts/MainContentContext"
-import HeaderConsumer from "components/header/Header";
 import HeaderProvider from "contexts/HeaderContext";
-import ButtonBlackConsumer from "components/button/ButtonChangeBgBlack";
-import ButtonWhiteConsumer from "components/button/ButtonChangeBgWhite";
 //
 export async function getServerSideProps(context) {
   // const params = context.params;
@@ -44,33 +42,30 @@ export default function Home(props) {
     <MasterPage>
       <MainContentProvider>
       <BasicLayout>
-      <HeaderProvider>
-        <h1>Template</h1>
-        <hr />
-        <Navigation></Navigation>
-        <p>Something goes here.</p>
-        <ButtonBlackConsumer></ButtonBlackConsumer>
-        <ButtonWhiteConsumer></ButtonWhiteConsumer>
-        <div>
-         
-          <HeaderConsumer></HeaderConsumer>
-          
-          <NotifyBell
-            notifyNumber={"hihihiads"}>
-          </NotifyBell>
-          <Search></Search>
-          <br></br>
-          <SwitchButton></SwitchButton>
-          <br></br>
-            <Popup
-              isVisible = {true}
-            >
-              <span>Children Popup</span>
-            </Popup>
-          <br></br>
-          <br/>
-          <ChartCol></ChartCol>
-        </div>
+        <HeaderProvider>
+          <h1>Template</h1>
+          <hr />
+          <Navigation></Navigation>
+          <NavigationLeft></NavigationLeft>
+          <p>Something goes here.</p>
+          <div>
+            <NotifyBell
+              notifyNumber={""}>
+            </NotifyBell>
+            <Search></Search>
+            <br></br>
+            <SwitchButton></SwitchButton>
+            <br/>
+            <br></br>
+              <Popup
+                isVisible = {true}
+              >
+                <span>Children Popup</span>
+              </Popup>
+            <br></br>
+            <br/>
+            <ChartCol></ChartCol>
+          </div>
         </HeaderProvider>
       </BasicLayout>
       </MainContentProvider>

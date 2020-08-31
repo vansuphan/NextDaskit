@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Header from "../element/Header";
-import Footer from "../element/Footer";
+import Header from "components/element/HeaderLeft";
+// import Footer from "../element/Footer";
 import CONFIG from "web.config";
 import { useRouter } from "next/router";
 
@@ -36,9 +36,9 @@ function MasterPage({ pageName, children }) {
           rel="stylesheet"
         />
       </Head>
-      <Header></Header>
+      {/* <Header></Header> */}
       {children}
-      <Footer></Footer>
+      {/* <Footer></Footer> */}
     </>
   );
 }
