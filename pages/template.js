@@ -47,14 +47,6 @@ export default function Home(props) {
           <hr />
           <p>Something goes here.</p>
           <div>
-            <NotifyBell
-              notifyNumber={""}>
-            </NotifyBell>
-            <Search></Search>
-            <br></br>
-            <SwitchButton></SwitchButton>
-            <br/>
-            <Menu></Menu>
             <br></br>
               <Popup
                 isVisible = {true}

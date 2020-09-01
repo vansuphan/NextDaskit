@@ -1,6 +1,5 @@
 import {useCallback, useState, useEffect, useRef, useMemo} from "react";
 import Link from "next/link";
-import AOS from "aos";
 import css from "./DropDown.module.scss";
 export default function DropDown ({
     children,
@@ -12,30 +11,19 @@ export default function DropDown ({
     srcIcon="", 
     srcArrow="images/ar-ft.png"}){
 
-
     const [_displayChild, setDisplayChild] = useState( displayChild || false);
     const [hasChild, setHasChild] = useState(false);
     const [heightRef, setHeightRef] = useState(null)
     const refEle = useRef();
     
     const handleStatus = () => setDisplayChild(!_displayChild);
-
    
     useEffect(()=>{
-        AOS.init({
-            duration: 300,
-        });
-        setHeightRef(refEle.current.offsetHeight)
+        setHeightRef(refEle.current.offsetHeight);
     },[]);
 
     useEffect(()=>{
         children ? setHasChild(true) : setHasChild(false);
-        if(_displayChild==true && refEle.current.offsetHeight !== 0){
-          
-           
-                setHeightRef(refEle.current.offsetHeight)
-            
-        }
     },[_displayChild])
 
     return (
@@ -59,7 +47,7 @@ export default function DropDown ({
                                 <a><img src={srcIcon || "null"}></img></a>
                             </Link>
                             :
-                            <Link href={linkTo}><a></a></Link>
+                            <a></a>
                         }
                         
                         <Link href={linkTo || ""}>
@@ -72,17 +60,15 @@ export default function DropDown ({
                 }
             </>
             {
-                
-                    <div className={css["children"]}
-                    ref={refEle}
-                   
-                    style={ heightRef !== null ? {maxHeight: _displayChild === true ? 
-                        heightRef : 0, transition: "all 0.3s ease"} : { transition: "all 0.3s ease"}}  
-                    >
-                        <ul>
-                            {children}
-                        </ul>
-                    </div>
+                <div className={css["children"]}
+                ref={refEle}
+                style={ heightRef !== null ? {maxHeight: _displayChild === true ? 
+                        heightRef : 0, transition: "0.3s ease"} : { transition: "0.3s ease"}}  
+                >
+                    <ul>
+                        {children}
+                    </ul>
+                </div>
             }
             
         </div>
