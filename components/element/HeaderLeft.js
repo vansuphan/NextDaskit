@@ -3,24 +3,27 @@ import config from "web.config";
 import ButtonCustomizeTemplate from "components/button/CustomTemplate";
 import Notify from "components/bellNotify/BellNotify";
 import Search from "components/search/Search";
+import Menu from "components/menu/MenuLeft";
+import DropDown from "components/dropdown/DropdownCore";
+import DropDownItem from "components/dropdown/DropdownItem";
 export default function Header() {
 
   const iconColor = "#979797";
-
+  
   return (
     <header className="header-left">
       <div className="container">
         <div className="logo">
-          <Link href="/">
+          <Link href="#">
             <img alt={config.site.title} src="/images/header_logo.png" />
           </Link>
         </div>
         <div className="content">
-            
+          <Menu></Menu>
         </div>
         <div className="btn-customize">
             <ButtonCustomizeTemplate
-                alignSelf={"flex-end"}>
+              alignSelf={"flex-end"}>
             </ButtonCustomizeTemplate>
         </div>
         <div className="bottom">
@@ -45,6 +48,8 @@ export default function Header() {
           top : 0;
           box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
           z-index: 2;
+          opacity: 1;
+          transition: 0.3s;
 
         }
         .container {
@@ -59,8 +64,27 @@ export default function Header() {
         .content{
             padding: 10px 20px;
             display:flex;
+            flex-direction:column;
             max-height : 100%;
             height: 100%;
+            overflow: hidden;
+            overflow-y: auto;
+            &::-webkit-scrollbar-track{
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+              border-radius: 10px;
+              background-color: #F5F5F5;
+            }
+            &::-webkit-scrollbar{
+              width: 5px;
+              background-color: #F5F5F5;
+              border-radius:2px;
+            }
+            &::-webkit-scrollbar-thumb{
+              border-radius: 10px;
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+              background-color: rgb(180, 175, 175);
+            }
+            
         }
         .bottom{
             height: 80px;

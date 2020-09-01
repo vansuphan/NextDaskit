@@ -26,20 +26,17 @@ const BellNotify  = function(props) {
       setClassNameClose('containerNotify')
     }
   },[statusClose]);
-  const onClickClose = () =>{
-    setStatusClose(!statusClose)
-  }
-  const onClickOpen = () =>{
-    setStatusClose(!statusClose)
-  }
+
+  const handleStatus = () => setStatusClose(!statusClose);
+  
   return(
-      <div className={"notify"} onClick={onClickOpen}>
+      <div className={"notify"} onClick={handleStatus}>
         <img alt="Notify" src={"images/bell-icon.png"} className="icon iconBell" />
         {
           notifyNumber && <span className="number text-danger">{notifyNumber}</span>
         }
         <div className={classNamesClose}>
-          <h3 className=" bg-dark closeContainerNotify" onClick={onClickClose}>Notifications</h3>
+          <h3 className=" bg-dark closeContainerNotify" onClick={handleStatus}>Notifications</h3>
           <div className="contentItems">
             <Item
               imgURL={"images/icon-mail-active.png"}

@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-  console.log(props.query);
+  // console.log(props.query);
   // console.log(CONFIG);
 
   if (typeof window == "undefined") {

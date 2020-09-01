@@ -1,0 +1,95 @@
+.container-dropdown{
+    overflow: hidden;
+    position: relative;
+}
+
+.dropdown-icon,.dropdown-full{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0px;
+    transition : 0.5s;
+    position: relative;
+    a{
+        max-height: 100%;
+        color: black;
+    }
+    span{
+        display: flex;
+        cursor: pointer;
+        width : 10px;
+        justify-content : flex-end;
+        &::after{
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+    span:hover::after{
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+.dropdown-full{
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    background: white;
+    .title{
+        font-size: 16px;
+        flex:1;
+        padding-left: 0;
+    }
+    .dropdown-full{
+        padding:0;
+    }
+}
+.dropdown-full>a{
+    justify-self: flex-start;
+    height: 100%;
+    align-self: flex-end;
+    img{
+        height: 20px;
+        max-width: 100%;
+        margin-right: 10px;
+    }
+}
+.children{
+    z-index: 9;
+    position: relative;
+    
+}
+.children ul{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    overflow: hidden;
+    position: relative;
+    z-index: -1;
+    li{
+        padding: 2px 0;
+    }
+    a{
+        color:black;
+        padding: 10px 0px 10px 20px;
+    }
+    ul a:nth-child(1){
+        padding-top: 7px;
+    }
+    ul a:last-child{
+        padding-bottom: 20px;
+    }
+    .dropdown-full{
+        .title{
+            font-size: 14px;
+            padding: 3px 0px;
+        }
+    }
+}
