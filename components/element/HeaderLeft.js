@@ -3,10 +3,11 @@ import config from "web.config";
 import ButtonCustomizeTemplate from "components/button/CustomTemplate";
 import Notify from "components/bellNotify/BellNotify";
 import Search from "components/search/Search";
+import Menu from "components/menu/MenuLeft";
 export default function Header() {
 
   const iconColor = "#979797";
-
+  
   return (
     <header className="header-left">
       <div className="container">
@@ -16,7 +17,7 @@ export default function Header() {
           </Link>
         </div>
         <div className="content">
-            
+            <Menu></Menu>
         </div>
         <div className="btn-customize">
             <ButtonCustomizeTemplate

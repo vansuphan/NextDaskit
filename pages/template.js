@@ -7,11 +7,12 @@ import ChartCol from "components/charts/Conversions/index";
 import SwitchButton from "components/button/SwitchButton";
 import Search from "components/search/Search";
 import Popup from "components/popup/Popup";
-// import NavigationLeft from "components/Navigation/NavigationLeft";
+import menu from "components/menu/MenuLeft";
 
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
+import Menu from "components/menu/MenuLeft";
 //
 export async function getServerSideProps(context) {
   // const params = context.params;
@@ -53,6 +54,7 @@ export default function Home(props) {
             <br></br>
             <SwitchButton></SwitchButton>
             <br/>
+            <Menu></Menu>
             <br></br>
               <Popup
                 isVisible = {true}
