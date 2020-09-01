@@ -11,7 +11,7 @@ export default function Header() {
     <header className="header-left">
       <div className="container">
         <div className="logo">
-          <Link href="/">
+          <Link href="#">
             <img alt={config.site.title} src="/images/header_logo.png" />
           </Link>
         </div>
@@ -45,6 +45,8 @@ export default function Header() {
           top : 0;
           box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
           z-index: 2;
+          opacity: 1;
+          transition: 0.3s;
 
         }
         .container {

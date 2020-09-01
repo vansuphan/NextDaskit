@@ -73,25 +73,21 @@ const Search  = function(props) {
     setData(newData);
   }
 
-  const onClickClose = () =>{
-    setStatusClose(!statusClose)
-  }
-
-  const onClickOpen = () =>{
-    setStatusClose(!statusClose)
-  }
+  const handleStatus = () => setStatusClose(!statusClose);
 
   return(
       <div className={"search"}>
-        <img alt="Search" src={"images/icon-search.png"} className="icon iconBell" onClick={onClickOpen}/>
+        <img alt="Search" src={"images/icon-search.png"} className="icon iconBell" onClick={handleStatus}/>
         
         <div className={classNamesClose}>
-          <span className=" bg-dark closeContainerNotify" onClick={onClickClose}></span>
+          <span className="closeContainerNotify" onClick={handleStatus}></span>
+
           <ItemSearch
             width = {"80%"}
             height = {"40px"}
             handleSearch={handleSearch}
           >
+
           </ItemSearch>
           <div className="contentItems">
             {
