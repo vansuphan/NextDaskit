@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import css from "./DropDown.module.scss";
 export default function DropDown ({
     children,
     displayChild,
@@ -13,7 +12,7 @@ export default function DropDown ({
 
     const [_displayChild, setDisplayChild] = useState( displayChild || false);
     const [hasChild, setHasChild] = useState(false);
-    const [heightRef, setHeightRef] = useState(null)
+    const [heightRef, setHeightRef] = useState(null);
     const refEle = useRef();
     
     const handleStatus = () => setDisplayChild(!_displayChild);
@@ -27,7 +26,7 @@ export default function DropDown ({
     },[_displayChild])
 
     return (
-        <div className={css["container-dropdown-absolute"]}>
+        <div className={"container-dropdown-absolute"}>
             {
                 displayTitle === false ?
                 <div className={"dropdown-icon"}>
@@ -93,7 +92,7 @@ export default function DropDown ({
                     justify-content: flex-start;
                     align-items: center;
                     padding: 5px 0px;
-                    transition : 0.5s;
+                    transition : 0.3s;
                     position: relative;
                     a{
                         max-height: 100%;

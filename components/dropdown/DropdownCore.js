@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import css from "./DropDown.module.scss";
-export default function DropDown ({
+import css from "./DropDownCore.module.scss";
+
+function DropDown ({
     children,
     displayChild,
     displayIcon=true,
@@ -69,3 +70,13 @@ export default function DropDown ({
         </div>
     )
 }
+
+function DropDownItem({children, linkTo=""}){
+    return(
+        <Link href={linkTo} >
+            <a>{children}</a>
+        </Link>
+    )
+}
+
+export {DropDown, DropDownItem}

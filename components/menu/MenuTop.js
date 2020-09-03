@@ -1,6 +1,6 @@
 
 import DropDown from "components/dropdown/DropDownAbsolute";
-import DropDownItem from "components/dropdown/DropDownItem";
+import {  DropDownItem }  from "components/dropdown/DropdownCore";
 export default function Menu({children}){
     return(
         <div className={"menu-top"}>
@@ -11,40 +11,13 @@ export default function Menu({children}){
                     displayIcon={false}
                     displayChild={false}>
                     <DropDownItem linkTo="">Default</DropDownItem>
-                    <DropDownItem linkTo="">Project Manager </DropDownItem>
-                    <DropDownItem linkTo="">E-Commerce</DropDownItem>
+                    
                 </DropDown>
                 <DropDown
                     title="Pages"
                     displayIcon={false}
                     displayChild={false}>
                     <DropDownItem linkTo="">Default</DropDownItem>
-                    <DropDownItem linkTo="">Project Manager </DropDownItem>
-                    <DropDownItem linkTo="">E-Commerce</DropDownItem>
-                    <DropDown
-                        title="Sub dropdown 1"
-                        displayIcon={false}
-                        displayChild={false}>
-                        <DropDownItem linkTo="">Default</DropDownItem>
-                        <DropDownItem linkTo="">Project Manager </DropDownItem>
-                        <DropDownItem linkTo="">E-Commerce</DropDownItem>
-                    </DropDown>
-                    <DropDown
-                        title="Sub dropdown 2"
-                        displayIcon={false}
-                        displayChild={false}>
-                        <DropDownItem linkTo="">Default</DropDownItem>
-                        <DropDownItem linkTo="">Project Manager </DropDownItem>
-                        <DropDownItem linkTo="">E-Commerce</DropDownItem>
-                    </DropDown>
-                    <DropDown
-                        title="Sub dropdown 3"
-                        displayIcon={false}
-                        displayChild={false}>
-                        <DropDownItem linkTo="">Default</DropDownItem>
-                        <DropDownItem linkTo="">Project Manager </DropDownItem>
-                        <DropDownItem linkTo="">E-Commerce</DropDownItem>
-                    </DropDown>
                 </DropDown>
 
                 <DropDown
@@ -63,8 +36,6 @@ export default function Menu({children}){
                 srcIcon={"images/book-open-icon.png"}
                 displayChild={false}>
                     <DropDownItem linkTo="">Default</DropDownItem>
-                    <DropDownItem linkTo="">Project Manager </DropDownItem>
-                    <DropDownItem linkTo="">E-Commerce</DropDownItem>
                 </DropDown>
 
                 {children}
