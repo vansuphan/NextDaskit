@@ -5,7 +5,7 @@ import BasicLayout from "components/layout/BasicLayout";
 import ChartCol from "components/charts/Conversions/index";
 // import RecentActive from "components/recentActive/recentActive";
 import {InputSearch} from "components/search/Search";
-import {Tabs} from "components/tabs/Tabs";
+import {Tabs, TabsContent, TabsName} from "components/tabs/Tabs";
 
 // context
 import MainContentProvider from "contexts/MainContentContext"
@@ -78,7 +78,16 @@ export default function Home(props) {
               ></InputSearch>
             </div>
               <div style={{width: "300px", height:"300px"}}>
-                <Tabs></Tabs>
+                <Tabs
+                  tabsName={
+                    ["Tab1", "Tab 2"]
+                  }
+                >
+                  <TabsContent
+                    status={true}
+                  >Tab 1</TabsContent>
+                  <TabsContent>Tab 2</TabsContent>
+                </Tabs>
               </div>
             <br></br>
             <br/>
