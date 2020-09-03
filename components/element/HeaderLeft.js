@@ -2,10 +2,30 @@ import Link from "next/link";
 import config from "web.config";
 import ButtonCustomizeTemplate from "components/button/CustomTemplate";
 import Notify from "components/bellNotify/BellNotify";
-import Search from "components/search/Search";
+import {SearchFullSize} from "components/search/Search";
 import Menu from "components/menu/MenuLeft";
-import DropDown from "components/dropdown/DropdownCore";
-import DropDownItem from "components/dropdown/DropdownItem";
+
+const dataTest = [
+  {
+      title:"Hello guy",
+      textContent: "It's a broader card with text below as a natural lead-in to extra content.",
+      timer: 1, 
+  },
+  {
+    title: "Alphazap",
+    textContent: "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
+    timer: 65
+  }, {
+    title: "Voyatouch",
+    textContent: "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
+    timer: 59
+  }, {
+    title: "Lotlux",
+    textContent: "Fusce consequat. Nulla nisl. Nunc nisl.",
+    timer: 17
+  }
+]
+
 export default function Header() {
 
   const iconColor = "#979797";
@@ -35,7 +55,9 @@ export default function Header() {
                 <span className="statusActive bg-success"></span>
            </div>
            <div className={"search"}>
-                <Search></Search>
+                <SearchFullSize
+                  dataSearch={dataTest}>
+                </SearchFullSize>
            </div>
         </div>
       </div>

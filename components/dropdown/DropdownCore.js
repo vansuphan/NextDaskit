@@ -1,7 +1,8 @@
-import {useCallback, useState, useEffect, useRef, useMemo} from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import css from "./DropDown.module.scss";
-export default function DropDown ({
+import css from "./DropDownCore.module.scss";
+
+function DropDown ({
     children,
     displayChild,
     displayIcon=true,
@@ -35,7 +36,7 @@ export default function DropDown ({
                         <a><img src={srcIcon || ""}></img></a>
                     </Link>
                     {
-                        hasChild === true ? <span onClick={handleStatus} ><img src={srcArrow}></img></span> : <span></span>
+                        hasChild === true ? <span onClick={handleStatus}><img src={srcArrow}></img></span> : <span></span>
                     }
                 </div> 
                 :
@@ -43,24 +44,25 @@ export default function DropDown ({
                     {
                         displayIcon ? 
                         <Link href={linkTo}>
-                                <a><img src={srcIcon || "null"}></img></a>
+                            <a><img src={srcIcon || "null"}></img></a>
                         </Link>
-                        :
-                        <a></a>
+                        :<a></a>
                     }
                     <Link href={linkTo || ""}>
                         <a className={css["title"]}>{title || ""}</a> 
                     </Link>
                     {
-                        hasChild === true ? <span onClick={handleStatus} ><img src={srcArrow}></img></span> : <span></span>
+                        hasChild === true ? <span onClick={handleStatus}><img src={srcArrow}></img></span> : <span></span>
                     }
                 </div>
             }
-            <div className={css["children"]}
-            ref={refEle}
-            style={ heightRef !== null ? {maxHeight: _displayChild === true ? 
-                    heightRef : 0, transition: "0.3s ease"} : { transition: "0.3s ease"}}  
-            >
+            <div 
+                className={css["children"]}
+                ref={refEle}
+                style={
+                    heightRef !== null ? {maxHeight: _displayChild === true ? 
+                    heightRef : 0, transition: "0.3s ease"} : { transition: "0.3s ease"}
+                }>
                 <ul>
                     {children}
                 </ul>
@@ -68,3 +70,13 @@ export default function DropDown ({
         </div>
     )
 }
+
+function DropDownItem({children, linkTo=""}){
+    return(
+        <Link href={linkTo} >
+            <a>{children}</a>
+        </Link>
+    )
+}
+
+export {DropDown, DropDownItem}

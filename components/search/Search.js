@@ -1,61 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import Item from './item/index'
-import ItemSearch from "./item/search";
+import React, { useState, useRef, useEffect } from 'react'
 
-const dataTest = [
-  {
-      title:"Hello guy",
-      textContent: "It's a broader card with text below as a natural lead-in to extra content.",
-      timer: 1, 
-  },
-  {
-    title: "Alphazap",
-    textContent: "Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.\n\nCras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.",
-    timer: 65
-  }, {
-    title: "Voyatouch",
-    textContent: "Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
-    timer: 59
-  }, {
-    title: "Lotlux",
-    textContent: "Fusce consequat. Nulla nisl. Nunc nisl.",
-    timer: 17
-  }, {
-    title: "Viva",
-    textContent: "Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.",
-    timer: 51
-  }, {
-    title: "Ventosanzap",
-    textContent: "Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\n\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\n\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.",
-    timer: 21
-  }, {
-    title: "Alphazap",
-    textContent: "Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.",
-    timer: 75
-  }, {
-    title: "Flexidy",
-    textContent: "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.",
-    timer: 98
-  }, {
-    title: "Bytecard",
-    textContent: "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
-    timer: 25
-  }, {
-    title: "Vagram",
-    textContent: "Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.\n\nPraesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.",
-    timer: 17
-  }, {
-    title: "Domainer",
-    textContent: "In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.\n\nAliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\n\nSed ante. Vivamus tortor. Duis mattis egestas metus.",
-    timer: 33
-  }
-]
-
-const Search  = function(props) {
+export function SearchFullSize({children, dataSearch}) {
 
   const [classNamesClose, setClassNameClose] = useState('containerNotify hide')
   const [statusClose, setStatusClose] = useState(true)
-  const [data, setData] = useState(dataTest);
+  const [data, setData] = useState(dataSearch);
 
   useEffect(()=>{
     if(statusClose === true){
@@ -65,8 +14,10 @@ const Search  = function(props) {
     }
   },[statusClose]);
 
+  useEffect(()=>{},[data]);
+
   const handleSearch = (word) => {
-    let newData = dataTest.filter((value)=>{
+    let newData = dataSearch.filter((value)=>{
       if(value.title.toString().toLowerCase().indexOf(word) !== -1)
         return value;
     });
@@ -82,25 +33,24 @@ const Search  = function(props) {
         <div className={classNamesClose}>
           <span className="closeContainerNotify" onClick={handleStatus}></span>
 
-          <ItemSearch
+          <InputSearch
             width = {"80%"}
             height = {"40px"}
-            handleSearch={handleSearch}
-          >
-
-          </ItemSearch>
+            handleSearch={handleSearch}>
+          </InputSearch>
           <div className="contentItems">
-            {
-              data && data.map((value, index)=>
-                <Item
-                  imgURL={"images/icon-mail-active.png"}
-                  title={value.title}
-                  textContent={value.textContent}
-                  timer ={value.timer}
-                  key={index}
-                ></Item>
-              )
-            }
+              {
+                data && data.map((value, index)=>
+                  <ItemSearch
+                        imgURL={"images/icon-mail-active.png"}
+                        title={value.title}
+                        textContent={value.textContent}
+                        timer ={value.timer}
+                        key={index}>
+                        cb={()=>console.log("onclick item")}
+                  </ItemSearch>)
+              }
+              {children}
           </div>
         </div>
         <style jsx>{`
@@ -221,6 +171,293 @@ const Search  = function(props) {
         </style>
       </div>
     )
-    
 }
-export default Search;
+
+
+export function InputSearch({
+  children,
+  width, 
+  height, 
+  handleSearch, 
+  type, 
+  status,
+  data }){
+
+  const [dataLocal, setData] = useState(data);
+  const [statusSearch, setStatus] = useState(status||false);
+
+  const [typeSearch, setType] = useState(type||"");
+  const [sizeSearch, setSizeSearch] = useState({
+    width : width || "100%",
+    height : height || "100%"
+  });
+
+  const inputSearch = useRef(null);
+
+  const HandleChange = () => {
+    console.log("onchange")
+    if(handleSearch){
+      handleSearch(inputSearch.current.value);
+    }else{
+      setStatus(true);
+      handleSearchLocal(inputSearch.current.value)
+    }
+  }
+
+  const handleSearchLocal = (word) => {
+    if(data){
+      let newData = data.filter((value)=>{
+        if(value.title.toString().toLowerCase().indexOf(word) !== -1)
+          return value;
+      });
+      setData(newData);
+    }
+  }
+
+  return(
+      <div className={ type || "default" } onMouseLeave={()=>setStatus(false)}>
+          <label htmlFor="search"></label>
+          <input 
+              ref={inputSearch}
+              onChange={HandleChange}
+              id="search"
+              type="search" 
+              placeholder="Search">
+              
+          </input>
+          {
+            statusSearch === true && typeSearch === "mini" && dataLocal.length > 1 ? 
+              (
+                <div className="contentItems">
+                  {dataLocal && dataLocal.map((value, index)=>
+                    <ItemSearch
+                        imgURL={"images/icon-mail-active.png"}
+                        title={value.title}
+                        textContent={value.textContent}
+                        timer ={value.timer}
+                        key={index}>
+                    </ItemSearch>)
+                  }
+                </div>
+              )
+            : <div></div>
+          }
+
+
+          <style jsx>{`
+            
+              .mini{
+                width: ${sizeSearch.width};
+                height: ${sizeSearch.height};
+                min-height: 30px;
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                margin: 20px;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 300px;
+              }
+              .contentItems{
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                max-height: 325px;
+                width: auto;
+                max-width: 100%;
+                top:100%;
+                right:0;
+                background-color: #fff;
+                overflow: hidden;
+                overflow-y: auto;
+                height: auto;
+                z-index: 2;
+                box-shadow: 0px 2px 9px 5px #ececec;
+                border-radius: 5px;
+                padding: 5px 10px;
+                border: solid 10px white;
+                border-right: 0;
+                border-left: 0;
+              }
+              .default{
+                  width: ${sizeSearch.width};
+                  height: ${sizeSearch.height};
+                  min-height: 30px;
+                  position: relative;
+                  display: flex;
+                  flex-direction: row;
+                  margin: 20px;
+                  margin-left: auto;
+                  margin-right: auto;
+              }
+              label{
+                  position: absolute;
+                  width: 6%;
+                  max-width: 30px;
+                  height: 70%;
+                  cursor: pointer;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-size: 100%;
+                  background-image: url('./images/icon-search.png');
+                  top: 50%;
+                  left: 6%;
+                  transform: translate(0,-50%)
+              }
+              input{
+                  width: 100%;
+                  height: 100%;
+                  padding: 0 10px 0 40px;
+                  border: solid 1px #c3d0e1;
+                  border-radius: 20px;
+                  outline: none;
+                  justify-content: center;
+
+              }
+              ::-webkit-input-placeholder { /* Edge */
+                  color: #c3d0e1;
+              }
+
+              :-ms-input-placeholder { /* Internet Explorer 10-11 */
+                  color: #c3d0e1;
+              }
+
+              ::placeholder {
+                  color: #c3d0e1;
+              }
+          `}
+          </style>
+      </div>
+  )
+}
+
+export function ItemSearch ({
+  linkTo="",
+  imgURL,
+  title, 
+  textContent, 
+  timer}){
+
+  const onClickNotify = () => {
+    console.log(window.location.href)
+    window.location.href = linkTo;
+  }
+  
+  return(
+      <div to="#" className='itemNotify' onClick={onClickNotify}>
+          <div className="row-item">
+            <div className="img">
+                <img src={imgURL}/> 
+            </div>
+            <div className="contentActiveItems">
+                <h5 className="title">{title}</h5>
+                <p className="text-dark">{textContent}</p>
+                {
+                  timer ? 
+                  <p className="text-dark"><small className="text-muted">Last updated {timer} mins ago</small></p>
+                  : 
+                  <p className="text-dark"></p>
+                }
+                
+            </div>
+          </div>
+          <style jsx>{`
+            .itemNotify{
+              width: 100%;
+              display: flex;
+              align-items: center;
+              padding:0px 10px;
+              padding-bottom: 0;
+              position: relative;
+              cursor: pointer;
+              &:hover{
+                  background-color: #EDF2F9;
+              }
+              img{
+                  border-radius:100%;
+                  width: 100%;
+                  height: 100%;
+                  max-width: 50px;
+                  max-height: 50px;
+                  border-radius: 100%;
+                  z-index: 2;
+              }
+              
+              .img{
+                  max-width: 50px;   
+                  height: 50px;
+                  position: relative;
+                  z-index: 2;
+                  background-color: white;
+                  border-radius: 100%;
+                
+              }
+          }
+          .itemNotify:not(:last-child){
+              .img{
+                  &::before {
+                      content: '';
+                      position: absolute;
+                      top: 100%;
+                      left: 50%;
+                      height: 100%;
+                      border-left: 1px solid #eaf2fd;
+                      z-index: -1;
+                  }
+              }
+          }
+          .itemNotify{
+              .row-item{
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  padding: 10px 0;
+              }
+              
+              .contentActiveItems{
+                  margin-left: 10px;
+                  width: 100%;
+                  flex: 1;
+                  overflow: hidden;
+                  text-overflow: ellipsis; 
+              }
+              .title{
+                  font-size: 13px;
+                  font-weight: bold;
+                  color: #12263F;
+                  margin-bottom: 0px;
+                  margin: 0;
+                  font-family: "CerebriSansRegular", sans-serif;
+              }
+              .text-dark{
+                  font-size: 13px;
+                  color: #6E84A3;
+                  margin-bottom: 0px;
+                  margin-top: 5px;
+                  overflow: hidden;
+                  width: 100%;
+                  text-overflow: ellipsis; 
+                  overflow: hidden;
+                  white-space: nowrap;    
+              }
+              
+          }
+          .itemNotify:not(:last-child){
+              .img{
+                  &::before {
+                      content: '';
+                      position: absolute;
+                      top: 100%;
+                      left: 50%;
+                      height: 100%;
+                      border-left: 1px solid #eaf2fd;
+                      z-index: -1;
+                  }
+              }
+          }
+
+            `}
+          </style>
+      </div>
+  )
+}

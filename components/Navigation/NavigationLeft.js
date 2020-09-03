@@ -1,7 +1,6 @@
 import css from "./Navigation.module.scss"
 var classNames = require('classnames')
 import React, {useState, useEffect} from "react"
-import Search from './Search'
 export default function NavigationLeft (props) {
     const [colorDefault, setColor ]  = useState("#8492A6");
     const [textArr, setTextArr ]= useState([

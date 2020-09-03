@@ -1,8 +1,7 @@
+import { DropDown, DropDownItem} from "components/dropdown/DropDownCore";
+// import DropDownItem from "components/dropdown/DropDownItem";
 
-import DropDown from "components/dropdown/DropDownCore";
-import DropDownItem from "components/dropdown/DropDownItem";
-
-export default function Menu(props){
+export default function Menu({children}){
     return(
         <div className={"menu-left"}>
             <ul>
@@ -74,27 +73,30 @@ export default function Menu(props){
                     <DropDownItem linkTo="">E-Commerce</DropDownItem>
                 </DropDown>
 
-            <hr/>
-            <h3>Documentation</h3>
-            <DropDown
-                title="Sub dropdown 1"
-                srcIcon={"images/icon-home-active.png"}
-                displayChild={false}
-                >
-                <DropDownItem linkTo="">Default</DropDownItem>
-                <DropDownItem linkTo="">Project Manager </DropDownItem>
-                <DropDownItem linkTo="">E-Commerce</DropDownItem>
-            </DropDown>
-
-            <DropDown
-                title="Component"
-                srcIcon={"images/book-open-icon.png"}
-                displayChild={false}
-                >
+                <hr/>
+                <h3>Documentation</h3>
+                <DropDown
+                    title="Sub dropdown 1"
+                    srcIcon={"images/icon-home-active.png"}
+                    displayChild={false}
+                    >
                     <DropDownItem linkTo="">Default</DropDownItem>
                     <DropDownItem linkTo="">Project Manager </DropDownItem>
                     <DropDownItem linkTo="">E-Commerce</DropDownItem>
-            </DropDown>
+                </DropDown>
+
+                <DropDown
+                    title="Component"
+                    srcIcon={"images/book-open-icon.png"}
+                    displayChild={false}
+                    >
+                        <DropDownItem linkTo="">Default</DropDownItem>
+                        <DropDownItem linkTo="">Project Manager </DropDownItem>
+                        <DropDownItem linkTo="">E-Commerce</DropDownItem>
+                </DropDown>
+
+                {children}
+
             </ul>
             <style jsx>{`
                 ul{

@@ -8,8 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@coreui/react-chartjs": "^1.0.1",
-    "aos": "^2.3.4",
     "autoprefixer": "^9.8.5",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
