@@ -2,17 +2,14 @@ import MasterPage from "components/page/MasterPage";
 import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
-import NotifyBell from "components/bellNotify/BellNotify";
 import ChartCol from "components/charts/Conversions/index";
-import SwitchButton from "components/button/SwitchButton";
-import Search from "components/search/Search";
 import Popup from "components/popup/Popup";
-import menu from "components/menu/MenuLeft";
 
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
 import Menu from "components/menu/MenuLeft";
+import MenuTop from "components/menu/MenuTop";
 //
 export async function getServerSideProps(context) {
   // const params = context.params;
@@ -47,6 +44,7 @@ export default function Home(props) {
           <hr />
           <p>Something goes here.</p>
           <div>
+            <MenuTop></MenuTop>
             <br></br>
               <Popup
                 isVisible = {true}
