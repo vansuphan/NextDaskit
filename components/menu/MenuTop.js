@@ -1,6 +1,5 @@
 
-import DropDown from "components/dropdown/DropDownAbsolute";
-import {  DropDownItem }  from "components/dropdown/DropdownCore";
+import {  DropDownItem, DropDown }  from "components/dropdown/DropdownCore";
 export default function Menu({children}){
     return(
         <div className={"menu-top"}>

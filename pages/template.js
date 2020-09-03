@@ -77,16 +77,34 @@ export default function Home(props) {
                 data={dataTest}
               ></InputSearch>
             </div>
-              <div style={{width: "300px", height:"300px"}}>
+              <div style={{width: "300px", height:"auto"}}>
                 <Tabs
-                  tabsName={
-                    ["Tab1", "Tab 2"]
-                  }
-                >
+                  tabsName={["Tab 1", "Tab 2", "Tab 3"]}
+                  tabActive={1}
+                  widthTab="70px"
+                  tabsDirection="row"
+                  tabNameDirection="column"
+                  >
+                  
                   <TabsContent
-                    status={true}
-                  >Tab 1</TabsContent>
-                  <TabsContent>Tab 2</TabsContent>
+                  flexDirection="column"
+                  alignItems="flex-end"
+                  justifyContent="center"
+                  >
+                    <h3>Hello Word !</h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tempor sodales eros in tincidunt. Aenean at dolor eleifend, blandit eros a, varius ligula. Nulla purus neque, ornare vitae nulla a, pretium rhoncus elit. Sed aliquam libero a tortor ornare bibendum. Morbi venenatis quis nunc hendrerit convallis. Fusce sagittis ultrices nunc, ac fermentum justo tempus sagittis. Vivamus interdum venenatis blandit.</span>
+                  </TabsContent>
+                  <TabsContent
+                  flexDirection="column"
+                  alignItems="flex-start"
+                  justifyContent="center"
+                  >
+                    <h3>Tab 2</h3>
+                    <span>
+                    <span>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.Nulla facilisi.</span>
+                    </span>
+                  </TabsContent>
                 </Tabs>
               </div>
             <br></br>
