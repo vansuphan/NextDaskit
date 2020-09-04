@@ -96,9 +96,15 @@ export function TabsName({children, className, widthTab}){
                 .tab{
                     padding : 10px 10px;
                     width: ${widthTab};
+                    border-radius:2px;
+                    font-weight: bold;
+                    text-align: center;
+                    cursor : pointer;
                 }
                 .tab.active{
-                    color: blue;
+                    color: white;
+                    font-weight: bold;
+                    background-color: #0088ff;
                 }
             `}</style>
         </li>

@@ -6,7 +6,7 @@ import ChartCol from "components/charts/Conversions/index";
 // import RecentActive from "components/recentActive/recentActive";
 import {InputSearch} from "components/search/Search";
 import {Tabs, TabsContent, TabsName} from "components/tabs/Tabs";
-
+import {Selection,SelectItem} from "components/selection/Selection";
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
@@ -106,6 +106,7 @@ export default function Home(props) {
                     </span>
                   </TabsContent>
                 </Tabs>
+                <Selection></Selection>
               </div>
             <br></br>
             <br/>
