@@ -153,6 +153,8 @@ export const PasswordInput =  React.forwardRef(({
         }
     }
 
+
+
     const handleStatus = () => setStatusShow(!statusShow);
 
     return(
@@ -258,12 +260,12 @@ export function FormLogin ({
     const [_typeFrom, setTypeForm] = useState("");
     
     const handleSubmit = (event) => { 
-        const emailEle = Array.from(refEmail.current.children).find((value, index)=>{
+        const emailEle = Array.from(refEmail.current.children).find((value)=>{
             if(value.tagName === "INPUT"){
                 return value;
             }
         });
-        const passwordEle= Array.from(refPassword.current.children).find((value, index)=>{
+        const passwordEle= Array.from(refPassword.current.children).find((value)=>{
             if(value.tagName === "INPUT"){
                 return value;
             }
@@ -301,16 +303,16 @@ export function FormLogin ({
                         {type === "signin" ? (<span style={{ marginTop:"10px" }}>Don’t have an account yet?<Link href={linkTo ||"/signin"}><a style={{color: "#2C7BE5"}}>Log in</a></Link>.</span>):null}                       
                     </div>
                     {
-                        typeFrom === "cover" ? (
+                        typeFrom.toLocaleLowerCase() === "cover" ? (
                             <div className="right">
                                 <span>cover</span>
                             </div>
                         ):null
                     }
                     {
-                        typeFrom === "Illustration" ? (
+                        typeFrom.toLocaleLowerCase() === "illustration" ? (
                             <div className="right">
-                                <span>Signup Illustration</span>
+                                <span>Illustration</span>
                             </div>
                         ):null
                     }
@@ -406,3 +408,124 @@ export function FormLogin ({
         </div>
     )
 }
+
+export const InputUnverified =  React.forwardRef(({
+    typeInput="text",
+    label="Password",
+    placeholder="Enter your password", 
+    forwardRef}, {ref}) => {
+
+    const [passwords, setPassword] = useState("");
+    const [statusShow, setStatusShow] = useState(false);
+    
+    
+
+    function onChangePassword (event) {
+        setPassword(event.target.value);
+    }
+    
+    const handleStatus = () => setStatusShow(!statusShow);
+
+    return(
+        <div ref={forwardRef} className={"success"}>
+            <label>{label}</label>
+            {
+                typeInput === "password" ? (
+                    
+                    statusShow === true ? (
+                        <input 
+                            className={"success"} 
+                            type="text" name="password" 
+                            placeholder={placeholder} value={undefined}
+                            onChange={onChangePassword}/>
+                        ):(
+                        <input 
+                            className={"success"} 
+                            type="password" name="password" 
+                            placeholder={placeholder} value={undefined} 
+                            onChange={onChangePassword}/>
+                    )
+                    
+                ):(
+                    <input 
+                        className={"success"} 
+                        type={typeInput} name="password" 
+                        placeholder={placeholder} value={undefined} 
+                        onChange={onChangePassword}/>
+                )
+            }
+            {
+                typeInput === "password" ? (
+                    <div onClick={handleStatus} className={"show-password"}><img src={"images/icon-eye.png"}/></div>
+                ) : null
+            }
+        
+            <style jsx>{`
+                    *:focus {
+                        outline: none;
+                    }
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }
+                    .show-password{
+                        position: absolute;
+                        width: 15px;
+                        right: 15px;
+                        top: 60%;
+                        cursor: pointer;
+                    }
+                    input[type="password"],input[type="text"]{
+                        display: block;
+                        box-sizing: border-box;
+                        margin-bottom: 20px;
+                        padding: 4px 15px;
+                        min-width: 310px;
+                        width: 100%;
+                        height: 40px;
+                        border: 1px solid #E3EBF6;
+                        font-weight: 400;
+                        font-size: 15px;
+                        transition: 0.2s ease;
+                        outline: none;
+                        border-radius: 2px;
+                        ::placeholder{
+                            color: #95AAC9;
+                        }
+                    }
+                    input[type="password"]:focus, input[type="text"]:focus {
+                        color: #12263f;
+                        background-color: #fff;
+                        border-color: #2c7be5;
+                        outline: 0;
+                        box-shadow: transparent;
+                    }
+                    .error{
+                        position: relative;
+                    }
+                    .error input{
+                        position: relative !important;
+                        color: #F44336 !important;
+                        border-color: red;
+                    }
+                    .error span{
+                        position: absolute !important;
+                        color: #F44336 !important;
+                        top : 4px;
+                        right : 0;
+                        font-size: 10px
+                    }
+                    .success{
+                        position: relative;
+                    }
+                    .success span{
+                        display:none;
+                    }
+                    .success input{
+                        color: #008eff !important;
+                    }   
+            `}</style>
+        </div>
+    )
+})
