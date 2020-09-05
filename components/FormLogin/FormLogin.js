@@ -20,16 +20,17 @@ export const EmailInput = React.forwardRef(({
 
     function onChangeEmail (event) {
         const checked = checkEmailPattern(event.target.value);
-        if(event.target.value === ""){
-            setMsError("Email không được để trống")
+        if(event.target.value.trim() === ""){
+            setError(true);
+            setMsError("Email không được để trống");
         }else{
             checked === true ? setError(false) : setError(true);
-            error === true ? setMsError("Email không đúng") : setMsError("")
+            error === true ? setMsError("Email không đúng") : setMsError("");
         }
     }
 
     return(
-        <div ref={forwardRef} className={classNames({"error": error, "success":!error })} >
+        <div ref={forwardRef} className={classNames({"error": error, "success":!error })}>
             <label>{label}</label>
             <input
                 className={classNames({"error": error, "success":!error})} 
@@ -95,7 +96,7 @@ export const EmailInput = React.forwardRef(({
     )
 })
 
-export const PasswordInput =  React.forwardRef(({
+export const PasswordInput = React.forwardRef(({
     label="Password",
     placeholder="Enter your password", 
     forwardRef}, {ref}) => {
@@ -175,7 +176,7 @@ export const PasswordInput =  React.forwardRef(({
             )
             }
             <span>{msError}</span>
-            <div onClick={handleStatus} className={"show-password"}><img src={"images/icon-eye.png"}/></div>
+            <div onClick={handleStatus} className={"show-password"}><img src={"../images/icon-eye.png"}/></div>
             <style jsx>{`
                     *:focus {
                         outline: none;
@@ -249,79 +250,121 @@ export const PasswordInput =  React.forwardRef(({
 
 export function FormLogin ({
 
-    typeFrom="",
+    method="POST",
+    action="/api/login",
+    styleFrom="",
     type="signup",
     nameForm="Sign in",
-    linkTo="/signin"}) {
+    nameSubmit,
+    linkTo=""}) {
     
-    const [error, setError] = useState(false);
     const refEmail = useRef();
     const refPassword = useRef();
-    const [_typeFrom, setTypeForm] = useState("");
+    const [_styleFrom, setTypeForm] = useState("");
     
     const handleSubmit = (event) => { 
-        const emailEle = Array.from(refEmail.current.children).find((value)=>{
-            if(value.tagName === "INPUT"){
-                return value;
+        if(type === "reset-password"){
+            const emailEle = Array.from(refEmail.current.children).find((value)=>{
+                if(value.tagName === "INPUT"){
+                    return value;
+                }
+            });
+            if(emailEle.value.trim() === "" || 
+                Array.from(emailEle.classList).indexOf("error") !== -1){
+                emailEle.focus();
+                event.preventDefault();
             }
-        });
-        const passwordEle= Array.from(refPassword.current.children).find((value)=>{
-            if(value.tagName === "INPUT"){
-                return value;
+        }else{
+
+            const emailEle = Array.from(refEmail.current.children).find((value)=>{
+                if(value.tagName === "INPUT"){
+                    return value;
+                }
+            });
+            const passwordEle = Array.from(refPassword.current.children).find((value)=>{
+                if(value.tagName === "INPUT"){
+                    return value;
+                }
+            });
+
+            if(passwordEle){
+                if(passwordEle.value.trim() === "" || 
+                    Array.from(passwordEle.classList).indexOf("error") !== -1){
+                    passwordEle.focus();
+                    event.preventDefault();
+                }
             }
-        });
-        if(passwordEle.value.trim() === "" || 
-            Array.from(passwordEle.classList).indexOf("error") !== -1){
-            passwordEle.focus();
-            event.preventDefault();
-        }
-        if(emailEle.value.trim() === "" || 
-            Array.from(emailEle.classList).indexOf("error") !== -1){
-            emailEle.focus();
-            event.preventDefault();
+            if(emailEle){
+                if(emailEle.value.trim() === "" || 
+                    Array.from(emailEle.classList).indexOf("error") !== -1){
+                    emailEle.focus();
+                    event.preventDefault();
+                }
+            }
         }
     };
     
     return(
-        <div className={"formSignUp " + typeFrom}>
-            <form action="/api/login" method="POST">
+        <div className={"formSignUp " + styleFrom}>
+            <form action={action} method={method}>
                 <div id="login-box">
                     <div className="left">
                         <h1>{nameForm}</h1>
                         <span>Free access to our dashboard.</span>
-                        <EmailInput forwardRef={refEmail} ref={refEmail}s></EmailInput>
-                        <PasswordInput forwardRef={refPassword} ref={refPassword}></PasswordInput>
+                        {
+                            type === "reset-password" ? (
+                                <EmailInput forwardRef={refEmail} ref={refEmail}s></EmailInput>
+                            ):(
+                                <>
+                                    <EmailInput forwardRef={refEmail} ref={refEmail}s></EmailInput>
+                                    {
+                                        type === "signup" ? (
+                                            <PasswordInput forwardRef={refPassword} ref={refPassword}></PasswordInput>
+                                        ):(
+                                            <>
+                                                <Link href="reset-password"><a className={"forgot-password"}>Forgot Password?</a></Link>
+                                                <InputUnverified typeInput="password" forwardRef={refPassword} ref={refPassword}></InputUnverified>
+                                            </>
+                                        )
+                                    }
+                                </>
+                            )
+                        }
+                        
+
                         <div className={"btn-submit"}>
                             <input
                                 type="submit"
                                 name="signup-submit" 
-                                value= {nameForm}
+                                value= {nameSubmit||nameForm}
                                 onClick={handleSubmit}
                             />
                         </div>
-                        {type === "signup" ? (<span style={{ marginTop:"10px" }}>Already have an account?<Link href={linkTo ||"signup"}><a style={{color: "#2C7BE5"}}>Log in</a></Link>.</span>):null}
-                        {type === "signin" ? (<span style={{ marginTop:"10px" }}>Don’t have an account yet?<Link href={linkTo ||"/signin"}><a style={{color: "#2C7BE5"}}>Log in</a></Link>.</span>):null}                       
+                        {type === "signup" ? (<span style={{ marginTop:"10px" }}>Already have an account? <Link href={linkTo ||"login"}><a style={{color: "#2C7BE5"}}>Log in</a></Link>.</span>):null}
+                        {type === "signin" ? (<span style={{ marginTop:"10px" }}>Don’t have an account yet? <Link href={linkTo ||"signup"}><a style={{color: "#2C7BE5"}}>Sign up</a></Link>.</span>):null}                       
                     </div>
+
                     {
-                        typeFrom.toLocaleLowerCase() === "cover" ? (
+                        styleFrom.toLocaleLowerCase() === "cover" ? (
                             <div className="right">
-                                <span>cover</span>
+                                <img src={"images/"}/>
                             </div>
                         ):null
                     }
+
                     {
-                        typeFrom.toLocaleLowerCase() === "illustration" ? (
+                        styleFrom.toLocaleLowerCase() === "illustration" ? (
                             <div className="right">
                                 <span>Illustration</span>
                             </div>
                         ):null
                     }
+
                     <div className="right">
                     </div>
                 </div>
             </form>
-            <style jsx>
-                {`
+            <style jsx>{`
                     *:focus {
                         outline: none;
                     }
@@ -403,6 +446,18 @@ export function FormLogin ({
                         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
                         transition: 0.1s ease;
                     }
+                    .forgot-password{
+                        position: absolute;
+                        right: 0;
+                        transform: translate(0, 2px);
+                        font-size: 12px;
+                        color: #6E84A3;
+                        cursor: pointer;
+                        z-index: 3;
+                        :hover{
+                            color: #2c7be5;
+                        }
+                    }
                 `}
             </style>
         </div>
@@ -410,6 +465,7 @@ export function FormLogin ({
 }
 
 export const InputUnverified =  React.forwardRef(({
+
     typeInput="text",
     label="Password",
     placeholder="Enter your password", 
@@ -456,7 +512,7 @@ export const InputUnverified =  React.forwardRef(({
             }
             {
                 typeInput === "password" ? (
-                    <div onClick={handleStatus} className={"show-password"}><img src={"images/icon-eye.png"}/></div>
+                    <div onClick={handleStatus} className={"show-password"}><img src={"../images/icon-eye.png"}/></div>
                 ) : null
             }
         
@@ -524,7 +580,8 @@ export const InputUnverified =  React.forwardRef(({
                     }
                     .success input{
                         color: #008eff !important;
-                    }   
+                    }
+                    
             `}</style>
         </div>
     )

@@ -39,8 +39,10 @@ export default function Home(props) {
       <FullScreenLayout>
         <HeaderProvider>
             <FormLogin
-              nameForm="Sign up"
-              typeFrom=""
+                method="POST"
+                nameForm="Reset password"
+                type="reset-password"
+                action="api/reset-password"
             ></FormLogin>
         </HeaderProvider>
       </FullScreenLayout>
