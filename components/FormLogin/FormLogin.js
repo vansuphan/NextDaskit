@@ -252,15 +252,15 @@ export function FormLogin ({
 
     method="POST",
     action="/api/login",
-    styleFrom="",
-    type="signup",
-    nameForm="Sign in",
-    nameSubmit,
-    linkTo=""}) {
+    styleFrom="",   // has 3 mode :  "illustration" || "cover" || default is ""
+    type="signup", // has 3 mode:  "sigup" || "signin" || r"eset-password"
+    nameForm="Sign in", // title form
+    nameSubmit,     // name button submit
+    linkTo=""       // link bottom form 
+    }) {
     
     const refEmail = useRef();
     const refPassword = useRef();
-    const [_styleFrom, setTypeForm] = useState("");
     
     const handleSubmit = (event) => { 
         if(type === "reset-password"){
@@ -275,7 +275,6 @@ export function FormLogin ({
                 event.preventDefault();
             }
         }else{
-
             const emailEle = Array.from(refEmail.current.children).find((value)=>{
                 if(value.tagName === "INPUT"){
                     return value;
@@ -286,7 +285,6 @@ export function FormLogin ({
                     return value;
                 }
             });
-
             if(passwordEle){
                 if(passwordEle.value.trim() === "" || 
                     Array.from(passwordEle.classList).indexOf("error") !== -1){
@@ -307,7 +305,7 @@ export function FormLogin ({
     return(
         <div className={"formSignUp " + styleFrom}>
             <form action={action} method={method}>
-                <div id="login-box">
+                <div className="login-box">
                     <div className="left">
                         <h1>{nameForm}</h1>
                         <span>Free access to our dashboard.</span>
@@ -355,13 +353,13 @@ export function FormLogin ({
                     {
                         styleFrom.toLocaleLowerCase() === "illustration" ? (
                             <div className="right">
-                                <span>Illustration</span>
+                                <img src={"../images/illustration-form.png"}/>
                             </div>
                         ):null
                     }
 
-                    <div className="right">
-                    </div>
+                    {/* <div className="right">
+                    </div> */}
                 </div>
             </form>
             <style jsx>{`
@@ -396,7 +394,33 @@ export function FormLogin ({
                             }
                         }
                     }
-                    #login-box {
+
+                    .illustration{
+                        form{
+                            max-width: 1000px;
+                            padding-left:7%;
+                        }
+                        .login-box{
+                            position: relative;
+                            flex-direction:row;
+                            display:flex;
+                            justify-content: center;
+                            flex-wrap: wrap;
+                        }
+
+                        .left{
+                            max-width:500px;
+                            position: relative;
+                        }
+                        .right{
+                            flex:1;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                        
+                    }
+                    .login-box {
                         position: absolute;
                         width: auto;
                         height: auto;
@@ -408,7 +432,7 @@ export function FormLogin ({
                         flex-direction: column;
                         span{
                             display: block;
-                            padding: 0px 0 20px 0;
+                            padding: 0px 0 35px 0;
                             text-align: center;
                             color: #6E84A3;
                             font-size: 15px;
@@ -457,6 +481,20 @@ export function FormLogin ({
                         :hover{
                             color: #2c7be5;
                         }
+                    }
+
+                    @media only screen and (max-width : 767px){
+                       
+                        .illustration{
+                            .right{
+                                display:none;
+                            }
+                            form{
+                                max-width: 1000px;
+                                padding-left:0;
+                            }
+                        }
+                            
                     }
                 `}
             </style>

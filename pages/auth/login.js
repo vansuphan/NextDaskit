@@ -41,6 +41,7 @@ export default function Home(props) {
             <FormLogin
               method="POST"
               nameForm="Sign in"
+              styleFrom="illustration"
               type="signin"
               action="api/login"
             ></FormLogin>
