@@ -4,15 +4,20 @@ import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
 import ChartCol from "components/charts/Conversions/index";
 // import RecentActive from "components/recentActive/recentActive";
-import {InputSearch} from "components/search/Search";
-import {Tabs, TabsContent, TabsName} from "components/tabs/Tabs";
-import {Selection,SelectItem} from "components/selection/Selection";
+
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
 import MenuTop from "components/menu/MenuTop";
+import {InputCore} from "components/input/InputCore"
+
 //
 
+// list component
+import {InputSearch} from "components/search/Search";
+import {Tabs, TabsContent, TabsName} from "components/tabs/Tabs";
+import {Selection,SelectItem} from "components/selection/Selection";
+//
 const dataTest = [
   {
       title:"Hello guy",
@@ -54,9 +59,9 @@ export async function getServerSideProps(context) {
 
 export default function Home(props) {
   // console.log(props.query);
-  if (typeof window == "undefined") {
-    console.log("This code is on server-side");
-  }
+  // if (typeof window == "undefined") {
+  //   console.log("This code is on server-side");
+  // }
 
   return (
     <MasterPage>
@@ -107,6 +112,66 @@ export default function Home(props) {
                   </TabsContent>
                 </Tabs>
                 <Selection></Selection>
+              </div>
+              <div style={{width: "300px", height:"auto"}}>
+
+                <InputCore
+                  label="Input text"
+                  placeholder="Input"
+                  heightInput="60px"
+                  borderRadius="4px"
+                  typeInput="text">  
+                </InputCore>
+
+                <InputCore
+                  label="Input password"
+                  typeInput="password">  
+                </InputCore>
+                <InputCore
+                  validate={true}
+                  label="Input password validate"
+                  typeInput="password">  
+                </InputCore>
+
+                <InputCore
+                  description="This contact will be shown to others publicly, so choose it carefully."
+                  label="Input email"
+                  typeInput="email">
+                </InputCore>
+                 
+                <InputCore
+                  validate ={true}
+                  label="Input email validate"
+                  typeInput="email">  
+                  
+                </InputCore>
+
+                <InputCore
+                  label="Input number"
+                  typeInput="number">  
+                </InputCore>
+
+                <InputCore
+                  label="Input textarea"
+                  placeholder="Input textarea"
+                  heightInput="100px"
+                  borderRadius="4px"
+                  typeInput="textarea"
+                  description="This contact will be shown to others publicly, so choose it carefully."
+                >
+                </InputCore>
+                <InputCore
+                  label="Input Phone"
+                  placeholder="0xx-xxx-xxxx"
+                  heightInput="40px"
+                  typeInput="phone"
+                >
+                </InputCore>
+                <InputCore
+                  typeInput="quill"
+                >
+                </InputCore>
+
               </div>
             <br></br>
             <br/>

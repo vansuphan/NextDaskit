@@ -1,6 +1,6 @@
 import './style.module.scss';
 import React from "react";
-import {useState, useEffect, useRef} from 'react';
+import {useState, useRef} from 'react';
 import Link from "next/link";
 import classNames from 'classnames';
 
@@ -311,10 +311,10 @@ export function FormLogin ({
                         <span>Free access to our dashboard.</span>
                         {
                             type === "reset-password" ? (
-                                <EmailInput forwardRef={refEmail} ref={refEmail}s></EmailInput>
+                                <EmailInput forwardRef={refEmail} ref={refEmail} ></EmailInput>
                             ):(
                                 <>
-                                    <EmailInput forwardRef={refEmail} ref={refEmail}s></EmailInput>
+                                    <EmailInput forwardRef={refEmail} ref={refEmail} ></EmailInput>
                                     {
                                         type === "signup" ? (
                                             <PasswordInput forwardRef={refPassword} ref={refPassword}></PasswordInput>
