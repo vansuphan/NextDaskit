@@ -1,14 +1,16 @@
 
 import React from "react";
 import { useState, useEffect, useRef } from 'react';
-import Link from "next/link";
+// import Link from "next/link";
 import classNames from 'classnames';
 
+import DatePicker from 'react-modern-calendar-datepicker';
 // import CKEditor from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-export function InputCore({
+export function Input({
     children,
+    name,   // name input
     typeInput = "text",   // type input ex : "password" || "mail" || "text"
     label = " Please enter props label",      // label Input
     placeholder = "Please enter props placeholder!", // placeholder input
@@ -26,6 +28,7 @@ export function InputCore({
                         <InputBasic
                             borderRadius={borderRadius}
                             heightInput={heightInput}
+                            name={name}
                             typeInput={typeInput}
                             label={label}
                             forwardRef={refInputText}
@@ -45,6 +48,7 @@ export function InputCore({
                                 <PasswordInputValidate
                                     borderRadius={borderRadius}
                                     heightInput={heightInput}
+                                    name={name}
                                     typeInput={typeInput}
                                     label={label}
                                     forwardRef={refInputText}
@@ -59,6 +63,7 @@ export function InputCore({
                                 <InputBasic
                                     borderRadius={borderRadius}
                                     heightInput={heightInput}
+                                    name={name}
                                     typeInput={typeInput}
                                     label={label}
                                     forwardRef={refInputText}
@@ -79,6 +84,7 @@ export function InputCore({
                                 <EmailInputValidate
                                     borderRadius={borderRadius}
                                     heightInput={heightInput}
+                                    name={name}
                                     typeInput={typeInput}
                                     label={label}
                                     forwardRef={refInputText}
@@ -111,6 +117,7 @@ export function InputCore({
                         <InputBasic
                             borderRadius={borderRadius}
                             heightInput={heightInput}
+                            name={name}
                             typeInput={typeInput}
                             label={label}
                             forwardRef={refInputText}
@@ -129,6 +136,7 @@ export function InputCore({
                         <InputTextarea
                             borderRadius={borderRadius}
                             heightInput={heightInput}
+                            name={name}
                             typeInput={typeInput}
                             label={label}
                             forwardRef={refInputText}
@@ -140,12 +148,14 @@ export function InputCore({
                     </div>
                 ) : null
             }
+
             {
                 (typeInput === "phone") ? (
                     <div className="content-input">
                         <InputPhone
                             borderRadius={borderRadius}
                             heightInput={heightInput}
+                            name={name}
                             typeInput={typeInput}
                             label={label}
                             forwardRef={refInputText}
@@ -157,14 +167,61 @@ export function InputCore({
                     </div>
                 ) : null
             }
+
             {
                 (typeInput === "quill") ? (
                     <div className="content-input">
-                        <InputQuill></InputQuill>
+                        <InputQuill
+                            borderRadius={borderRadius}
+                            heightInput={heightInput}
+                            name={name}
+                            typeInput={typeInput}
+                            label={label}
+                            forwardRef={refInputText}
+                            ref={refInputText}
+                            placeholder={placeholder}
+                            description={description}
+                        ></InputQuill>
                         {children}
                     </div>
                 ) : null
+            }
 
+            {
+                (typeInput === "calendar") ? (
+                    <div className="content-input">
+                        <InputCalendar
+                            borderRadius={borderRadius}
+                            heightInput={heightInput}
+                            name={name}
+                            typeInput={typeInput}
+                            label={label}
+                            forwardRef={refInputText}
+                            ref={refInputText}
+                            placeholder={placeholder}
+                            description={description}
+                        ></InputCalendar>
+                        {children}
+                    </div>
+                ) : null
+            }
+            {
+                (typeInput === "selection") ? (
+                    <div className="content-input">
+                        <InputSelection
+                            borderRadius={borderRadius}
+                            heightInput={heightInput}
+                            name={name}
+                            typeInput={typeInput}
+                            label={label}
+                            forwardRef={refInputText}
+                            ref={refInputText}
+                            placeholder={placeholder}
+                            description={description}
+                        ></InputSelection>
+                        {children}
+                    </div>
+                ) : null
             }
         </>
 
@@ -172,7 +229,8 @@ export function InputCore({
 }
 
 export const InputBasic = React.forwardRef(({
-
+    
+    name, // name input
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -192,29 +250,35 @@ export const InputBasic = React.forwardRef(({
 
     return (
         <div ref={forwardRef} >
-            <label>{label}</label>
+            <label >{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
             {
                 typeInput === "password" ? (
 
                     statusShow === true ? (
                         <input
+                           
+                            name={name || "password"}
                             className={"success"}
-                            type="text" name="password"
+                            type="text"
                             placeholder={placeholder} value={undefined}
                             onChange={onChangePassword} />
                     ) : (
                             <input
+                                
+                                name={name || "password"}
                                 className={"success"}
-                                type="password" name="password"
+                                type="password"
                                 placeholder={placeholder} value={undefined}
                                 onChange={onChangePassword} />
                         )
 
                 ) : (
                         <input
+                            name={name || ""}
                             className={"success"}
-                            type={typeInput} name="password"
+                            type={typeInput} 
+                            name={name || ""}
                             placeholder={placeholder} value={undefined}
                             onChange={onChangePassword} />
                     )
@@ -310,6 +374,7 @@ export const InputBasic = React.forwardRef(({
 
 export const EmailInputValidate = React.forwardRef(({
 
+    name, // name input
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -342,8 +407,9 @@ export const EmailInputValidate = React.forwardRef(({
             <label>{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
             <input
+                name={name || "email"}
                 className={classNames({ "error": error, "success": !error })}
-                type="email" name="email"
+                type="email"
                 placeholder={placeholder} value={undefined}
                 onChange={onChangeEmail} />
             <span>{msError}</span>
@@ -412,6 +478,7 @@ export const EmailInputValidate = React.forwardRef(({
 
 export const PasswordInputValidate = React.forwardRef(({
 
+    name, // name input
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -484,12 +551,14 @@ export const PasswordInputValidate = React.forwardRef(({
             {description ? (<span className="description-input">{description}</span>) : null}
             {statusShow === true ? (
                 <input
+                    name={name || "password"}
                     className={classNames({ "error": error, "success": !error })}
                     type="text" name="password"
                     placeholder={placeholder} value={undefined}
                     onChange={onChangePassword} />
             ) : (
                     <input
+                        name={name || "password"}
                         className={classNames({ "error": error, "success": !error })}
                         type="password" name="password"
                         placeholder={placeholder} value={undefined}
@@ -574,6 +643,7 @@ export const PasswordInputValidate = React.forwardRef(({
 
 export const InputTextarea = React.forwardRef(({
 
+    name,
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -594,6 +664,7 @@ export const InputTextarea = React.forwardRef(({
             <label>{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
             <textarea
+                name={name || ""}
                 className={"success"}
                 name="Textarea"
                 placeholder={placeholder} value={undefined}
@@ -659,6 +730,7 @@ export const InputTextarea = React.forwardRef(({
 
 export const InputPhone = React.forwardRef(({
 
+    name, // name input
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -697,13 +769,12 @@ export const InputPhone = React.forwardRef(({
             {description ? (<span className="description-input">{description}</span>) : null}
             <input
                 className={"success"}
-                name="phone"
+                name={name || "phone"}
                 type="text"
                 maxLength="10"
                 placeholder={placeholder || "0xx-xxx-xxxx"}
                 value={undefined}
                 onChange={onChange}
-
             />
             <span>{msError}</span>
             <style jsx>{`
@@ -779,10 +850,18 @@ export const InputPhone = React.forwardRef(({
     )
 })
 
-export function InputQuill() {
-    
-    
-const editorRef = useRef();
+export const InputQuill = React.forwardRef(({
+
+    name, // name input
+    borderRadius,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description,
+    forwardRef }, { ref }) => {
+
+    const editorRef = useRef();
     const [editorLoader, setEditorLoaded] = useState(false)
     const { CKEditor, ClassicEditor } = editorRef.current || {}
     const [data, setData] = useState('')
@@ -796,19 +875,28 @@ const editorRef = useRef();
         setEditorLoaded(true)
     }, [])
 
+    useEffect(()=>{
+        onEditorChange
+    },[editorLoader])
 
     const onEditorChange = (event, editor) => {
         const data = editor.getData();
         console.log("editor",{ event, editor, data });
     }
-    
-
 
     return editorLoader ?
         (
-            <>
-                <CKEditor
+            <div ref={forwardRef} style={{width: "100%"}}>
+                {description ? (<span className="description-input">{description}</span>) : null}
+                <CKEditor 
+                    name={name || ""}
+                    className={"editorCustom"}
                     editor={ClassicEditor}
+                    config={{
+                        ckfinder:{
+                            uploadUrl: "https://vi.imgbb.com/"
+                        }
+                    }}
                     data={data}
                     // data="<p>Hello from CKEditor 5!</p>"
                     onInit={editor => {
@@ -823,16 +911,246 @@ const editorRef = useRef();
                     //     console.log('Focus.', editor);
                     // }}
                 />
-            </>
+            </div>
         )
-
         : <></>
+})
+
+export const InputCalendar = React.forwardRef(({
+
+    name,
+    borderRadius,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description,
+    forwardRef }, { ref }) =>{
+
+    const inputRefHide = useRef()
+    const [selectedDay, setSelectedDay] = useState(undefined);
+    const [value, setValue] = useState(undefined);
+
+    const handleChange = (selectedDay)=>{
+        let formatDate = selectedDay.day + "/" + selectedDay.month+ "/" + selectedDay.year;
+        setValue(formatDate)
+        inputRefHide.current.focus();
+        inputRefHide.current.value = value;
+    }
+
+    const onFocus = ()=>{
+        inputRefHide.current.focus();
+    }
+
+    useEffect(()=>{
+        if(selectedDay !== undefined){
+            handleChange(selectedDay)
+        }
+    }, [selectedDay])
+    
+    const renderCustomInput = ({ ref }) => (
+        <>
+            <input
+                readOnly
+                className="custom-input-hide" // a styling class
+                ref={ref} // necessary
+                placeholder={placeholder}
+                value={selectedDay || ""}
+                onChange={handleChange}
+                onFocus={onFocus}
+            />
+             <input
+                readOnly
+                name={ name || "calendar"}
+                type="text"
+                id={ name !== undefined ? name + " calendar" : "calendar"}
+                className="custom-input-calendar" // a styling class
+                ref={inputRefHide} // necessary
+                placeholder={placeholder}
+                value={value||""}
+                onChange={handleChange}
+            />
+            <style jsx>{`
+                .custom-input-hide{
+                    opacity: 0;
+                    position: absolute;
+                }
+                input,input[type="number"]{
+                        display: block;
+                        box-sizing: border-box;
+                        margin-bottom: 20px;
+                        padding: 4px 15px;
+                        min-width: 310px;
+                        width: 100%;
+                        height: ${heightInput || "40px"};
+                        border: 1px solid #E3EBF6;
+                        font-weight: 400;
+                        font-size: 15px;
+                        transition: 0.2s ease;
+                        outline: none;
+                        border-radius: ${borderRadius || "2px"};
+                        ::placeholder{
+                            color: #95AAC9;
+                        }
+                    }
+                    input:focus, input[type="number"]{
+                        background-color: #fff;
+                        border-color: #2c7be5;
+                        outline: 0;
+                        box-shadow: transparent;
+                    }
+            `}</style>
+        </>
+    )
+    return (
+        <div ref={forwardRef}>
+            <label htmlFor={ name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
+            {description ? (<span className="description-input">{description}</span>) : null}
+            <DatePicker
+                value={selectedDay}
+                onChange={setSelectedDay}
+                shouldHighlightWeekends
+                renderInput={renderCustomInput} // render a custom input
+                locale="en" // add this
+            />
+
+            <style jsx>{`
+                    *:focus {
+                        outline: none;
+                    }
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }
+                    .description-input{
+                        color: #6E84A3;
+                        font-size:  13px; 
+                    }
+                    .success{
+                        position: relative;
+                    }
+                    .success span{
+                        display:none;
+                    }
+                    .success input{
+                        color: #008eff !important;
+                    }
+            `}</style>
+        </div>
+    );
+});
 
 
-}
+const listItemsTest = ["option 1", "option 2", "option 3", "option 3"]
 
+export const InputSelection = React.forwardRef(({
 
-
-
-
-
+    name, // name input
+    borderRadius,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description,
+    forwardRef }, { ref }) => {
+    const refSelect = useRef()
+    const [clear, setClear] = useState(false);
+    const [value, setValue] = useState(null)
+    const handleChange = (e) => {setValue(e.target.value);console.log(setValue(e.target.value))}
+    const onClickItems = (e) =>{
+        console.log(e.target);
+        refSelect.current.insertBefore(e.target,refSelect.current.firstChild);
+    }
+    function hasClass(element, className) {
+        return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
+    }
+    const handleClear = (event)=>{
+        setClear(true);
+        if( clear === true ){
+            let items = Array.from(refSelect.current.children);
+            items.map((value)=>{
+                if(hasClass(value, "selec-item")){
+                    value.remove()
+                }
+            });
+            setClear(false);
+        }
+    }
+    return(
+        <div className={"container-select"}>
+            <div className={"content-select"}>
+    
+                <div ref={refSelect} className="selection-control">
+                    <input
+                        type="text"
+                    />
+                    <span onClick={handleClear} className={"clear"}></span>
+                    <span className={"open"}></span>
+                </div>
+            </div>
+            <div className={"content-value"}>
+                {listItemsTest.map((value, index)=>(
+                    <div key={index}
+                        className="select-item"
+                        onClick={onClickItems}
+                        >
+                        {value}
+                    </div>
+                ))}
+                
+            </div>
+            <style jsx>{`
+                .content-select{
+                    position: relative;
+                    border: 1px solid #E3EBF6;
+                    border-radius: ${ borderRadius || "2px"};
+                    height: ${heightInput || "40px"};
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    input[type="text"]{
+                        outline: none;
+                        display: flex;
+                        flex: 1;
+                    }
+                }
+                .container-select{
+                    position: relative;
+                }
+                .clear{
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        width: 20px;
+                        height: 30px;
+                        transform: translate(0,-50%);
+                        transition: 0.5s;
+                        cursor: pointer;
+                        &::after, &::before{
+                          content:"";
+                          position: absolute;
+                          top:13px;
+                          left:0;
+                          width:20px;
+                          height : 3px;
+                          border-radius: 2px;
+                          background-color: #c2c3c3;
+                        }
+                        &:hover::after, &:hover::before{
+                          background-color: red;
+                          
+                        }
+                        &::after{
+                          transform: rotate(45deg);
+                        }
+                        &::before{
+                          transform: rotate(-45deg);
+                        }
+                     
+                      }
+               `}</style>
+           </div>
+    )
+})

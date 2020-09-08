@@ -9,7 +9,7 @@ import ChartCol from "components/charts/Conversions/index";
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
 import MenuTop from "components/menu/MenuTop";
-import {InputCore} from "components/input/InputCore"
+import {Input} from "components/input/Input"
 
 //
 
@@ -68,6 +68,7 @@ export default function Home(props) {
       <MainContentProvider>
       <BasicLayout>
         <HeaderProvider>
+        
           <h1>Template</h1>
           <hr />
           <p>Something goes here.</p>
@@ -115,43 +116,42 @@ export default function Home(props) {
               </div>
               <div style={{width: "300px", height:"auto"}}>
 
-                <InputCore
+                <Input
                   label="Input text"
                   placeholder="Input"
                   heightInput="60px"
                   borderRadius="4px"
                   typeInput="text">  
-                </InputCore>
+                </Input>
 
-                <InputCore
+                <Input
                   label="Input password"
                   typeInput="password">  
-                </InputCore>
-                <InputCore
+                </Input>
+                <Input
                   validate={true}
                   label="Input password validate"
                   typeInput="password">  
-                </InputCore>
+                </Input>
 
-                <InputCore
+                <Input
                   description="This contact will be shown to others publicly, so choose it carefully."
                   label="Input email"
                   typeInput="email">
-                </InputCore>
+                </Input>
                  
-                <InputCore
+                <Input
                   validate ={true}
                   label="Input email validate"
-                  typeInput="email">  
-                  
-                </InputCore>
+                  typeInput="email"> 
+                </Input>
 
-                <InputCore
+                <Input
                   label="Input number"
                   typeInput="number">  
-                </InputCore>
+                </Input>
 
-                <InputCore
+                <Input
                   label="Input textarea"
                   placeholder="Input textarea"
                   heightInput="100px"
@@ -159,18 +159,33 @@ export default function Home(props) {
                   typeInput="textarea"
                   description="This contact will be shown to others publicly, so choose it carefully."
                 >
-                </InputCore>
-                <InputCore
+                </Input>
+                <Input
                   label="Input Phone"
                   placeholder="0xx-xxx-xxxx"
                   heightInput="40px"
                   typeInput="phone"
                 >
-                </InputCore>
-                <InputCore
+                </Input>
+                <Input
                   typeInput="quill"
+                  description="Input Quill"
                 >
-                </InputCore>
+                </Input>
+
+                <Input
+                  label="Input calendar"
+                  typeInput="calendar"
+                  // description="Input Calender"
+                >
+                </Input>
+
+                <Input
+                  label="Input selection"
+                  typeInput="selection"
+                  // description="Input Calender"
+                >
+                </Input>
 
               </div>
             <br></br>
@@ -180,6 +195,7 @@ export default function Home(props) {
         </HeaderProvider>
       </BasicLayout>
       </MainContentProvider>
+      
     </MasterPage>
   );
 }
