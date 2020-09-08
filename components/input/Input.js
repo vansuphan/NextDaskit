@@ -1042,8 +1042,6 @@ export const InputCalendar = React.forwardRef(({
 });
 
 
-const listItemsTest = ["option 1", "option 2", "option 3", "option 3"]
-
 export const InputSelection = React.forwardRef(({
 
     name, // name input
@@ -1054,48 +1052,65 @@ export const InputSelection = React.forwardRef(({
     placeholder, // placeholder input
     description,
     forwardRef }, { ref }) => {
+
+    const listItemsTest = ["option 1", "option 2", "option 3", "option 4", "option 5", "option 6","option 7"]
+
     const refSelect = useRef()
+    const refContentItems = useRef();
+    const refInput = useRef(); 
     const [clear, setClear] = useState(false);
-    const [value, setValue] = useState(null)
+    const [value, setValue] = useState(null);
+
     const handleChange = (e) => {setValue(e.target.value);console.log(setValue(e.target.value))}
+
     const onClickItems = (e) =>{
-        console.log(e.target);
-        refSelect.current.insertBefore(e.target,refSelect.current.firstChild);
+        e.target.classList.add("add");
+        // itemAdd.classList.add("add");
+        refSelect.current.insertBefore(e.target.cloneNode(true),refSelect.current.firstChild);
     }
+
     function hasClass(element, className) {
         return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
     }
-    const handleClear = (event)=>{
-        setClear(true);
+
+    const handleClear = () => setClear(true);
+    const handleInputSelect = () => refInput.current.focus();
+    useEffect(()=>{
         if( clear === true ){
-            let items = Array.from(refSelect.current.children);
-            items.map((value)=>{
-                if(hasClass(value, "selec-item")){
-                    value.remove()
+            let items = [];
+            Array.from(refSelect.current.children).map((value)=>{
+                if(hasClass(value, "select-item")){
+                    items.push(value);
                 }
             });
+            items.map((value)=>value.remove());
+            Array.from(refContentItems.current.children).map((value)=>{
+                value.classList.remove("add");
+            })
             setClear(false);
         }
-    }
+    },[clear]);
+
     return(
         <div className={"container-select"}>
             <div className={"content-select"}>
-    
-                <div ref={refSelect} className="selection-control">
+                <div onClick={handleInputSelect} ref={refSelect} className="selection-control">
                     <input
+                        ref={refInput}
                         type="text"
                     />
                     <span onClick={handleClear} className={"clear"}></span>
                     <span className={"open"}></span>
                 </div>
             </div>
-            <div className={"content-value"}>
+            <div ref={refContentItems} className={"content-value"}>
                 {listItemsTest.map((value, index)=>(
                     <div key={index}
                         className="select-item"
                         onClick={onClickItems}
                         >
                         {value}
+                        <span>x</span>
                     </div>
                 ))}
                 
@@ -1105,7 +1120,7 @@ export const InputSelection = React.forwardRef(({
                     position: relative;
                     border: 1px solid #E3EBF6;
                     border-radius: ${ borderRadius || "2px"};
-                    height: ${heightInput || "40px"};
+                    min-height: ${heightInput || "40px"};
                     display: flex;
                     align-items: center;
                     flex-wrap: wrap;
@@ -1114,10 +1129,33 @@ export const InputSelection = React.forwardRef(({
                         outline: none;
                         display: flex;
                         flex: 1;
+                        border:none;
+                        height:100%;
+                         margin: 2px 0;
+                    }
+                    .selection-control{
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        padding: 5px 40px 5px 10px;
+                        width: 100%;
+                        height: 100%;
+                        
+                    }
+                    .select-item{
+                        background-color: snow;
+                        border-radius: 2px;
+                        color: blue;
+                        margin: 2px 5px;
                     }
                 }
                 .container-select{
                     position: relative;
+                }
+                .content-value{
+                    .add{
+                        display: none;
+                    }
                 }
                 .clear{
                         position: absolute;
