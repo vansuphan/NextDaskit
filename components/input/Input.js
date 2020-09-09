@@ -1150,7 +1150,7 @@ export const InputSelection = React.forwardRef(({
         setStatusInput(true);
     };
 
-    const handelLeaveInput = (e)=>{
+    const handleLeaveInput = (e)=>{
         setStatusInput(false);
     }
 
@@ -1199,7 +1199,7 @@ export const InputSelection = React.forwardRef(({
     },[clearOneItem])
 
     return(
-        <div className={"container-select"} onMouseLeave={handelLeaveInput}onClick={handleChange}>
+        <div className={"container-select"} onMouseLeave={handleLeaveInput}onClick={handleChange}>
             <label>{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
             <div className={"content-select"}>
