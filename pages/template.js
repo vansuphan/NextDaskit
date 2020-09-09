@@ -112,7 +112,7 @@ export default function Home(props) {
                     </span>
                   </TabsContent>
                 </Tabs>
-                <Selection></Selection>
+              
               </div>
               <div style={{width: "300px", height:"auto"}}>
 
@@ -125,11 +125,13 @@ export default function Home(props) {
                 </Input>
 
                 <Input
+                  
                   label="Input password"
                   typeInput="password">  
                 </Input>
                 <Input
                   validate={true}
+                  
                   label="Input password validate"
                   typeInput="password">  
                 </Input>
@@ -137,24 +139,29 @@ export default function Home(props) {
                 <Input
                   description="This contact will be shown to others publicly, so choose it carefully."
                   label="Input email"
+                  widthInput="280px"
                   typeInput="email">
                 </Input>
                  
                 <Input
                   validate ={true}
                   label="Input email validate"
+                  widthInput="280px"
                   typeInput="email"> 
                 </Input>
 
                 <Input
+                  widthInput="280px"
                   label="Input number"
-                  typeInput="number">  
+                  typeInput="number"> 
+                   
                 </Input>
 
                 <Input
                   label="Input textarea"
                   placeholder="Input textarea"
                   heightInput="100px"
+                  widthInput="280px"
                   borderRadius="4px"
                   typeInput="textarea"
                   description="This contact will be shown to others publicly, so choose it carefully."
@@ -165,11 +172,14 @@ export default function Home(props) {
                   placeholder="0xx-xxx-xxxx"
                   heightInput="40px"
                   typeInput="phone"
+                  widthInput="280px"
                 >
                 </Input>
                 <Input
                   typeInput="quill"
+                  label="Input quill"
                   description="Input Quill"
+                  widthInput="280px"
                 >
                 </Input>
 
@@ -177,16 +187,25 @@ export default function Home(props) {
                   label="Input calendar"
                   typeInput="calendar"
                   // description="Input Calender"
+                  widthInput="280px"
                 >
                 </Input>
 
                 <Input
                   label="Input selection"
                   typeInput="selection"
-                  // description="Input Calender"
+                  description="Input selection tag"
+                  widthInput="280px"
                 >
                 </Input>
-
+                <Input
+                  label="Input images"
+                  typeInput="image"
+                  description="Please use an image no larger than 1200px * 600px."
+                  widthInput="300px"
+                  heightInput="200px"
+                >
+                </Input>
               </div>
             <br></br>
             <br/>

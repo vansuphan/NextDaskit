@@ -17,6 +17,7 @@ export function Input({
     description,
     validate = false,
     heightInput = "40px",
+    widthInput,
     borderRadius = "2px",
 }) {
     const refInputText = useRef();
@@ -28,6 +29,7 @@ export function Input({
                         <InputBasic
                             borderRadius={borderRadius}
                             heightInput={heightInput}
+                            widthInput={widthInput}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -48,6 +50,7 @@ export function Input({
                                 <PasswordInputValidate
                                     borderRadius={borderRadius}
                                     heightInput={heightInput}
+                                    widthInput={widthInput}
                                     name={name}
                                     typeInput={typeInput}
                                     label={label}
@@ -62,6 +65,7 @@ export function Input({
                             <div className="content-input">
                                 <InputBasic
                                     borderRadius={borderRadius}
+                                    widthInput={widthInput}
                                     heightInput={heightInput}
                                     name={name}
                                     typeInput={typeInput}
@@ -83,6 +87,7 @@ export function Input({
                             <div className="content-input">
                                 <EmailInputValidate
                                     borderRadius={borderRadius}
+                                    widthInput={widthInput}
                                     heightInput={heightInput}
                                     name={name}
                                     typeInput={typeInput}
@@ -98,6 +103,7 @@ export function Input({
                             <div className="content-input">
                                 <InputBasic
                                     borderRadius={borderRadius}
+                                    widthInput={widthInput}
                                     heightInput={heightInput}
                                     typeInput={typeInput}
                                     label={label}
@@ -117,6 +123,7 @@ export function Input({
                         <InputBasic
                             borderRadius={borderRadius}
                             heightInput={heightInput}
+                            widthInput={widthInput}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -135,6 +142,7 @@ export function Input({
                     <div className="content-input">
                         <InputTextarea
                             borderRadius={borderRadius}
+                            widthInput={widthInput}
                             heightInput={heightInput}
                             name={name}
                             typeInput={typeInput}
@@ -154,6 +162,7 @@ export function Input({
                     <div className="content-input">
                         <InputPhone
                             borderRadius={borderRadius}
+                            widthInput={widthInput}
                             heightInput={heightInput}
                             name={name}
                             typeInput={typeInput}
@@ -173,6 +182,7 @@ export function Input({
                     <div className="content-input">
                         <InputQuill
                             borderRadius={borderRadius}
+                            widthInput={widthInput}
                             heightInput={heightInput}
                             name={name}
                             typeInput={typeInput}
@@ -192,6 +202,7 @@ export function Input({
                     <div className="content-input">
                         <InputCalendar
                             borderRadius={borderRadius}
+                            widthInput={widthInput}
                             heightInput={heightInput}
                             name={name}
                             typeInput={typeInput}
@@ -210,6 +221,7 @@ export function Input({
                     <div className="content-input">
                         <InputSelection
                             borderRadius={borderRadius}
+                            widthInput={widthInput}
                             heightInput={heightInput}
                             name={name}
                             typeInput={typeInput}
@@ -223,8 +235,32 @@ export function Input({
                     </div>
                 ) : null
             }
-        </>
+            {
+                (typeInput === "image") ? (
+                    <div className="content-input">
+                        <InputImage
+                        borderRadius={borderRadius}
+                        widthInput={widthInput}
+                        heightInput={heightInput}
+                        name={name}
+                        typeInput={typeInput}
+                        label={label}
+                        forwardRef={refInputText}
+                        ref={refInputText}
+                        placeholder={placeholder}
+                        description={description}>
+                        </InputImage>
+                        {children}
+                    </div>
+                ) : null
+            }
 
+            <style jsx>{`
+                .content-input{
+                    position: relative
+                }
+            `}</style>
+        </>
     )
 }
 
@@ -232,6 +268,7 @@ export const InputBasic = React.forwardRef(({
     
     name, // name input
     borderRadius,
+    widthInput,
     heightInput,  // height input
     typeInput,   // type input
     label,      // label Input
@@ -249,7 +286,7 @@ export const InputBasic = React.forwardRef(({
     const handleStatus = () => setStatusShow(!statusShow);
 
     return (
-        <div ref={forwardRef} >
+        <div ref={forwardRef} > 
             <label >{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
             {
@@ -257,7 +294,6 @@ export const InputBasic = React.forwardRef(({
 
                     statusShow === true ? (
                         <input
-                           
                             name={name || "password"}
                             className={"success"}
                             type="text"
@@ -314,8 +350,8 @@ export const InputBasic = React.forwardRef(({
                         box-sizing: border-box;
                         margin-bottom: 20px;
                         padding: 4px 15px;
-                        min-width: 310px;
-                        width: 100%;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
                         height: ${heightInput || "40px"};
                         border: 1px solid #E3EBF6;
                         font-weight: 400;
@@ -376,6 +412,7 @@ export const EmailInputValidate = React.forwardRef(({
 
     name, // name input
     borderRadius,
+    widthInput,
     heightInput,  // height input
     typeInput,   // type input
     label,      // label Input
@@ -419,8 +456,8 @@ export const EmailInputValidate = React.forwardRef(({
                         box-sizing: border-box;
                         margin-bottom: 20px;
                         padding: 4px 15px;
-                        min-width: 310px;
-                        width: 100%;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
 
                         height: ${heightInput || "40px"};
                         border: 1px solid #E3EBF6;
@@ -480,6 +517,7 @@ export const PasswordInputValidate = React.forwardRef(({
 
     name, // name input
     borderRadius,
+    widthInput,
     heightInput,  // height input
     typeInput,   // type input
     label,      // label Input
@@ -588,8 +626,8 @@ export const PasswordInputValidate = React.forwardRef(({
                         box-sizing: border-box;
                         margin-bottom: 20px;
                         padding: 4px 15px;
-                        min-width: 310px;
-                        width: 100%;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
                         height: ${heightInput || "40px"};
                         border: 1px solid #E3EBF6;
                         font-weight: 400;
@@ -645,6 +683,7 @@ export const InputTextarea = React.forwardRef(({
 
     name,
     borderRadius,
+    widthInput,
     heightInput,  // height input
     typeInput,   // type input
     label,      // label Input
@@ -691,8 +730,8 @@ export const InputTextarea = React.forwardRef(({
                         box-sizing: border-box;
                         margin-bottom: 20px;
                         padding: 4px 15px;
-                        min-width: 310px;
-                        width: 100%;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
                         height: ${heightInput || "40px"};
                         border: 1px solid #E3EBF6;
                         font-weight: 400;
@@ -732,6 +771,7 @@ export const InputPhone = React.forwardRef(({
 
     name, // name input
     borderRadius,
+    widthInput,
     heightInput,  // height input
     typeInput,   // type input
     label,      // label Input
@@ -798,8 +838,8 @@ export const InputPhone = React.forwardRef(({
                         box-sizing: border-box;
                         margin-bottom: 20px;
                         padding: 4px 15px;
-                        min-width: 310px;
-                        width: 100%;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
                         height: ${heightInput || "40px"};
                         border: 1px solid #E3EBF6;
                         font-weight: 400;
@@ -854,6 +894,7 @@ export const InputQuill = React.forwardRef(({
 
     name, // name input
     borderRadius,
+    widthInput,
     heightInput,  // height input
     typeInput,   // type input
     label,      // label Input
@@ -886,7 +927,8 @@ export const InputQuill = React.forwardRef(({
 
     return editorLoader ?
         (
-            <div ref={forwardRef} style={{width: "100%"}}>
+            <div ref={forwardRef} style={{width: widthInput}}>
+                <label htmlFor={ name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
                 {description ? (<span className="description-input">{description}</span>) : null}
                 <CKEditor 
                     name={name || ""}
@@ -911,6 +953,17 @@ export const InputQuill = React.forwardRef(({
                     //     console.log('Focus.', editor);
                     // }}
                 />
+                <style jsx>{`
+                    .description-input{
+                        color: #6E84A3;
+                        font-size:  13px; 
+                    }
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }    
+                `}</style>
             </div>
         )
         : <></>
@@ -921,6 +974,7 @@ export const InputCalendar = React.forwardRef(({
     name,
     borderRadius,
     heightInput,  // height input
+    widthInput,
     typeInput,   // type input
     label,      // label Input
     placeholder, // placeholder input
@@ -980,7 +1034,7 @@ export const InputCalendar = React.forwardRef(({
                         box-sizing: border-box;
                         margin-bottom: 20px;
                         padding: 4px 15px;
-                        min-width: 310px;
+                        min-width: ${widthInput||"310px"};
                         width: 100%;
                         height: ${heightInput || "40px"};
                         border: 1px solid #E3EBF6;
@@ -1041,10 +1095,10 @@ export const InputCalendar = React.forwardRef(({
     );
 });
 
-
 export const InputSelection = React.forwardRef(({
 
     name, // name input
+    widthInput,
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -1057,70 +1111,184 @@ export const InputSelection = React.forwardRef(({
 
     const refSelect = useRef()
     const refContentItems = useRef();
-    const refInput = useRef(); 
-    const [clear, setClear] = useState(false);
-    const [value, setValue] = useState(null);
+    const refInput = useRef();
 
-    const handleChange = (e) => {setValue(e.target.value);console.log(setValue(e.target.value))}
+    const [listItemsSelect, setListItemsSelect] = useState([]);
+    const [listItemsDefault, setListItemsDefault] = useState(listItemsTest);
+    const [lisItemsSearch, setLisItemsSearch] = useState(listItemsTest);
+    const [clearAllItems, setClearAllItems] = useState(false);
+    const [clearOneItem, setClearOneItem] = useState(false);
+    const [valueSearch, setValueSearch] = useState(null);
+    const [statusInput, setStatusInput] = useState(false);
 
-    const onClickItems = (e) =>{
-        e.target.classList.add("add");
-        // itemAdd.classList.add("add");
-        refSelect.current.insertBefore(e.target.cloneNode(true),refSelect.current.firstChild);
+    const handleInputSelect = () => refInput.current.focus();
+    const handleClearAll = () => setClearAllItems(true);
+
+    const handleClearOneItem = (e)=> {
+        const value = e.target.parentNode.textContent;
+        setListItemsDefault([...listItemsDefault,value]);
+        setListItemsSelect(listItemsSelect.filter((item) => item !== value));
+        setClearOneItem(true)
+    };
+    
+    const handleSearch = (word) => {
+        if(listItemsDefault){
+          let newData = listItemsDefault.filter((value)=>{
+            if(value.toString().toLowerCase().indexOf(word) !== -1)
+              return value;
+          });
+          setLisItemsSearch(newData);
+        }
     }
 
     function hasClass(element, className) {
         return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
     }
 
-    const handleClear = () => setClear(true);
-    const handleInputSelect = () => refInput.current.focus();
-    useEffect(()=>{
-        if( clear === true ){
-            let items = [];
-            Array.from(refSelect.current.children).map((value)=>{
-                if(hasClass(value, "select-item")){
-                    items.push(value);
+    const handleChange = (e) => {
+        setValueSearch(e.target.value);
+        setStatusInput(true);
+    };
+
+    const handelLeaveInput = (e)=>{
+        setStatusInput(false);
+    }
+
+    // them 1 item
+    const onClickItems = (e) => {
+        if(hasClass(e.target, "select-item") === true){
+            const value = e.target.textContent;
+            if(listItemsSelect.indexOf(value) === -1){
+                setListItemsSelect([...listItemsSelect,e.target.textContent])
+                setListItemsDefault(listItemsDefault.filter((item) => item !== value))
+                setLisItemsSearch(lisItemsSearch.filter((item) => item !== value))
+                if(listItemsDefault.length===0){
+                    setStatusInput(false);
                 }
-            });
-            items.map((value)=>value.remove());
-            Array.from(refContentItems.current.children).map((value)=>{
-                value.classList.remove("add");
-            })
-            setClear(false);
+            }
         }
-    },[clear]);
+    }
+
+    useEffect(()=>{
+        if(statusInput=== true){
+            refInput.current.focus();
+        }
+    }, [statusInput])
+
+    // tim cac item
+    useEffect(() => {
+        handleSearch(valueSearch);
+    },[valueSearch])
+
+    // xoa tat ca cac item
+    useEffect(()=>{
+        if( clearAllItems === true ){
+            setListItemsSelect([]);
+            setListItemsDefault(listItemsTest);
+            refInput.current.value="";
+            setClearAllItems(false);
+        }
+    },[clearAllItems]);
+
+    /// xoa 1 item da chon
+    useEffect( () =>{
+        if( clearOneItem === true ){
+            refInput.current.value = "";
+            setClearOneItem(false);
+        }
+    },[clearOneItem])
 
     return(
-        <div className={"container-select"}>
+        <div className={"container-select"} onMouseLeave={handelLeaveInput}onClick={handleChange}>
+            <label>{label}</label>
+            {description ? (<span className="description-input">{description}</span>) : null}
             <div className={"content-select"}>
                 <div onClick={handleInputSelect} ref={refSelect} className="selection-control">
-                    <input
-                        ref={refInput}
-                        type="text"
+                    {listItemsDefault ? (
+                        listItemsSelect.map((value, index)=>(
+                            <div key={index}
+                                className="select-item"
+                                >
+                                {value}
+                                <span onClick={handleClearOneItem}></span>
+                            </div>
+                        ))
+                    ):(<></>)}
+                    {
+                        statusInput === true ? (
+                        <input
+                            defaultValue=""
+                            ref={refInput}
+                            type="text"
+                            onChange={handleChange}
+                            onClick={handleChange}
+                            
+                        />
+                        ) : (
+                        <input
+                            ref={refInput}
+                            type="text"
+                            onChange={handleChange}
+                            style={{display:"none"}}
+                        />)
+                    }
+                     <input
+                        onChange={()=>{console.log("")}}
+                        defaultValue={undefined}
+                        name={ name || "list-tag" }
+                        value={listItemsSelect}
+                        style={{display:"none"}}
                     />
-                    <span onClick={handleClear} className={"clear"}></span>
+                    { 
+                        statusInput === true ? (
+                            <span onClick={handleClearAll} className={"clear"}></span>
+                        ) : (<></>)
+                    }
                     <span className={"open"}></span>
                 </div>
             </div>
-            <div ref={refContentItems} className={"content-value"}>
-                {listItemsTest.map((value, index)=>(
-                    <div key={index}
-                        className="select-item"
-                        onClick={onClickItems}
-                        >
-                        {value}
-                        <span>x</span>
-                    </div>
-                ))}
-                
+            <div ref={refContentItems} className={ statusInput === true? "content-value active" : "content-value" }>
+                {
+                    statusInput === true ? (
+                        lisItemsSearch.length !== 0 ? (
+                            lisItemsSearch.map((value, index)=>(
+                                <div key={index}
+                                    className="select-item"
+                                    onClick={onClickItems}
+                                >
+                                    {value}
+                                </div>
+                            ))
+                        ) : (
+                                listItemsDefault.map((value, index)=>(
+                                    <div key={index}
+                                        className="select-item"
+                                        onClick={onClickItems}
+                                    >
+                                        {value}
+                                    </div>))
+                            )
+                    ) : (<></>)
+                }
             </div>
+            
             <style jsx>{`
+               
+                .description-input{
+                    color: #6E84A3;
+                    font-size:  13px; 
+                }
+                label{
+                    font-size: 15px;
+                    display: block;
+                    margin: 5px 0;
+                }
                 .content-select{
                     position: relative;
                     border: 1px solid #E3EBF6;
                     border-radius: ${ borderRadius || "2px"};
                     min-height: ${heightInput || "40px"};
+                    
                     display: flex;
                     align-items: center;
                     flex-wrap: wrap;
@@ -1130,8 +1298,8 @@ export const InputSelection = React.forwardRef(({
                         display: flex;
                         flex: 1;
                         border:none;
-                        height:100%;
-                         margin: 2px 0;
+                        height:22px;
+                        margin: 2px 0;
                     }
                     .selection-control{
                         display: flex;
@@ -1140,26 +1308,88 @@ export const InputSelection = React.forwardRef(({
                         padding: 5px 40px 5px 10px;
                         width: 100%;
                         height: 100%;
-                        
                     }
                     .select-item{
-                        background-color: snow;
-                        border-radius: 2px;
-                        color: blue;
+                        display: flex;
                         margin: 2px 5px;
+                        align-items: center;
+                        padding-left: .375rem;
+                        padding-right: .375rem;
+                        margin: 0 .25rem .25rem 0;
+                        font-size: .8125rem;
+                        background-color: #edf2f9;
+                        border-radius: .1875rem;
+                        span{
+                            position: relative;
+                            width: 15px;
+                            height: 100%;
+                            transition: 0.5s;
+                            cursor: pointer;
+                            &::after, &::before{
+                                content:"";
+                                position: absolute;
+                                top: 47%;
+                                left: 40%;
+                                width: 8px;
+                                height : 2px;
+                                border-radius: 1px;
+                                background-color: #c2c3c3;
+                            }
+                            &:hover::after, &:hover::before{
+                                background-color: red;
+                            
+                            }
+                            &::after{
+                                transform: rotate(45deg);
+                            }
+                            &::before{
+                                transform: rotate(-45deg);
+                            }
+                        }
                     }
                 }
                 .container-select{
                     position: relative;
+                    width: ${widthInput || "100%"};
                 }
                 .content-value{
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    
                     .add{
                         display: none;
                     }
+                    .select-item{
+                        color: #6e84a3;
+                        cursor: pointer;
+                        font-size: .9375rem;
+                        &:hover{
+                            color: #12263f;
+                        }
+                    }
+                }
+                .content-value.active{
+                    max-height: 325px;
+                    width: 100%;
+                    max-width: 100%;
+                    top:100%;
+                    right:0;
+                    background-color: #fff;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    height: auto;
+                    z-index: 2;
+                    box-shadow: 0px 2px 9px 5px #ececec;
+                    border-radius: 5px;
+                    padding: 5px 10px;
+                    border: solid 10px white;
+                    border-right: 0;
+                    border-left: 0;
                 }
                 .clear{
                         position: absolute;
-                        right: 15px;
+                        right: 10px;
                         top: 50%;
                         width: 20px;
                         height: 30px;
@@ -1171,7 +1401,7 @@ export const InputSelection = React.forwardRef(({
                           position: absolute;
                           top:13px;
                           left:0;
-                          width:20px;
+                          width:15px;
                           height : 3px;
                           border-radius: 2px;
                           background-color: #c2c3c3;
@@ -1186,9 +1416,132 @@ export const InputSelection = React.forwardRef(({
                         &::before{
                           transform: rotate(-45deg);
                         }
-                     
-                      }
+                }
                `}</style>
            </div>
+    )
+})
+
+export const InputImage = React.forwardRef(({
+    name, // name input
+    borderRadius,
+    widthInput,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description,
+    forwardRef }, { ref }) => {
+    
+    const refInput = useRef();
+    const refContent = useRef()
+    const handleClick = () => {
+        refInput.current.click();
+    }
+    const [data, setData] = useState(null);
+    const [statusImage, setStatusImage] = useState(false);
+    const [allFiles, setAllFiles] = useState([]);
+
+    const handleFilesChange = async (event) => {
+        event.preventDefault();
+        event.persist();
+        
+        const files = event.target.files || [];
+
+        let currentFiles = data;
+        
+        
+        
+        // get item
+        let file = files.item(0);
+        // ensure it's small enough
+        // if (file.size > 10000) {
+        //     console.error(`${"upload-file-oversize"} - ` + file.name);
+        //     continue;
+        // };
+        let newFile;
+        // BASE64 FILE:
+        let reader = new FileReader();
+        reader.onload = async (readerEvent) => {
+            console.log(reader.result);
+            newFile = reader.result;
+            setData(newFile);
+        }
+        
+        reader.readAsDataURL(file);
+        event.target.value = null;
+    }
+
+    return (
+        <div ref={forwardRef} >
+            <label>{label}</label>
+            {description ? (<span className="description-input">{description}</span>) : null}
+            <div className="content-image" 
+                ref={refContent}
+                onClick={handleClick} 
+                style={{backgroundImage: `url(${data})`}}
+                >
+                    {data !== null ? (
+                        <> </>
+                    ):( <span>handleClick</span>) }
+                
+               
+            </div>
+           
+                <input
+                    className={"success"}
+                    name={name || "image"}
+                    type="file" id="img" accept="image/*"
+                    placeholder={placeholder || ""}
+                    ref={refInput}
+                    data={data}
+                    onChange={handleFilesChange}
+                    style={{display:"none"}}
+                            
+                />
+             
+            <style jsx>{`
+                    *:focus {
+                        outline: none;
+                    }
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }
+                    .description-input{
+                        color: #6E84A3;
+                        font-size:  13px; 
+                    }
+                   .content-image{
+                        height: ${heightInput || "50px"};
+                        width: ${widthInput || "100%"};
+                        border-radius: ${borderRadius ||"2px"};
+                        background-color: #fff;
+                        border: 1px dashed #d2ddec;
+                        text-align: center;
+                        color: #95aac9;
+                        transition: all .2s ease-in-out;
+                        background-size: 100%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        display: flex;
+                        align-items: center;
+                        justify-content:center;
+                        cursor:pointer; 
+                        span{
+                            display:flex;
+                        }
+                        img{
+                            max-width: 100%;
+                            max-height: 100%;
+                            width: 100%;
+                            height: 100%;
+                            border: "none";
+                        }
+                   }
+                    
+            `}</style>
+        </div>
     )
 })
