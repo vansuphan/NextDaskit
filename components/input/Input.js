@@ -3,8 +3,8 @@ import React from "react";
 import { useState, useEffect, useRef } from 'react';
 // import Link from "next/link";
 import classNames from 'classnames';
-
 import DatePicker from 'react-modern-calendar-datepicker';
+import Dropzone from "react-dropzone";
 // import CKEditor from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -217,9 +217,9 @@ export function Input({
                 ) : null
             }
             {
-                (typeInput === "selection") ? (
+                (typeInput === "tag") ? (
                     <div className="content-input">
-                        <InputSelection
+                        <InputTag
                             borderRadius={borderRadius}
                             widthInput={widthInput}
                             heightInput={heightInput}
@@ -230,13 +230,13 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
-                        ></InputSelection>
+                        ></InputTag>
                         {children}
                     </div>
                 ) : null
             }
             {
-                (typeInput === "image") ? (
+                (typeInput === "image" || typeInput === "files" ) ? (
                     <div className="content-input">
                         <InputImage
                         borderRadius={borderRadius}
@@ -1095,7 +1095,7 @@ export const InputCalendar = React.forwardRef(({
     );
 });
 
-export const InputSelection = React.forwardRef(({
+export const InputTag = React.forwardRef(({
 
     name, // name input
     widthInput,
@@ -1422,7 +1422,7 @@ export const InputSelection = React.forwardRef(({
     )
 })
 
-export const InputImage = React.forwardRef(({
+export const InputImage2 = React.forwardRef(({
     name, // name input
     borderRadius,
     widthInput,
@@ -1448,9 +1448,7 @@ export const InputImage = React.forwardRef(({
         
         const files = event.target.files || [];
 
-        let currentFiles = data;
-        
-        
+        // let currentFiles = data;
         
         // get item
         let file = files.item(0);
@@ -1476,29 +1474,29 @@ export const InputImage = React.forwardRef(({
         <div ref={forwardRef} >
             <label>{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
-            <div className="content-image" 
-                ref={refContent}
-                onClick={handleClick} 
-                style={{backgroundImage: `url(${data})`}}
+   
+                <div className="content-image" 
+                    ref={refContent}
+                    onClick={handleClick}
+                    onDrop={handleClick}
+                    style={{backgroundImage: `url(${data})`}}
                 >
-                    {data !== null ? (
-                        <> </>
-                    ):( <span>handleClick</span>) }
-                
-               
-            </div>
-           
-                <input
-                    className={"success"}
-                    name={name || "image"}
-                    type="file" id="img" accept="image/*"
-                    placeholder={placeholder || ""}
-                    ref={refInput}
-                    data={data}
-                    onChange={handleFilesChange}
-                    style={{display:"none"}}
-                            
-                />
+                        {data !== null ? (
+                            <> </>
+                        ):( <span>handleClick</span>) }
+                </div>
+            
+                    <input
+                        className={"success"}
+                        name={name || "image"}
+                        type="file" id="img" accept="image/*"
+                        placeholder={placeholder || ""}
+                        ref={refInput}
+                        data={data}
+                        onChange={handleFilesChange}
+                        style={{display:"none"}}
+                                
+                    />
              
             <style jsx>{`
                     *:focus {
@@ -1539,8 +1537,196 @@ export const InputImage = React.forwardRef(({
                             height: 100%;
                             border: "none";
                         }
-                   }
-                    
+                    }
+            `}</style>
+        </div>
+    )
+})
+
+export const InputImage = React.forwardRef(({
+    name, // name input
+    borderRadius,
+    widthInput,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description,
+    forwardRef }, { ref }) => {
+    
+    const [fileNames, setFileNames] = useState([]);
+    const [file, setFile] = useState([]);
+    const [files, setFiles] = useState([])
+    const handleDrop = async (acceptedFiles) => {
+        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
+        setFile([
+            ...acceptedFiles.map(file =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+            )
+        ]);
+    }
+    const handleDropMuti = async (acceptedFiles) => {
+        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
+        setFiles([
+            ...files,...acceptedFiles.map(file =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+            )
+        ]);
+    }
+    useEffect(()=>{
+        if(files.length !==0){
+            console.log("files",files);
+            console.log("files name",fileNames);
+            console.log("file", file);
+        }
+     },[files, file])
+    return (
+        <div ref={forwardRef} >
+            <label>{label}</label>
+            {description ? (<span className="description-input">{description}</span>) : null}
+   
+                {
+                    typeInput === "image" ? (
+                        <div className="content-image">
+                        <Dropzone onDrop={handleDrop}>
+                            {({ getRootProps, getInputProps }) => (
+                            <div className="drop-zone" {...getRootProps({ className: "dropzone" })}>
+                                <input {...getInputProps()} />
+                                {
+                                    file[0] ? null : <p>{placeholder||"Drop files here upload"}</p>
+                                }
+                                {file[0] ? <img src={file[0].preview}/> : null}
+                            </div>
+                            )}
+                        </Dropzone>
+                        </div>
+                    ):(
+                        null
+                    )
+                }
+                {
+                    typeInput === "files" ? (
+                        <>
+                            <div className="content-image" style={{border:"none", padding: "20px"}}>
+                                <Dropzone onDrop={handleDropMuti}>
+                                    {({ getRootProps, getInputProps }) => (
+                                    <div className="drop-zone" {...getRootProps({ className: "dropzone" })} 
+                                        style={{border: "1px dashed #d2ddec", borderRadius: `${borderRadius ||"2px"}`}}>
+                                        <input {...getInputProps()} />
+                                        {
+                                            files[0] ? null : <p>{placeholder||"Drop files here upload"}</p>
+                                        }
+                                        {files[0] ? <img src={files[0].preview}/> : null}
+                                    </div>
+                                    )}
+                                </Dropzone>
+                            </div>
+                            <div className="list-items-upload">
+                                    {
+                                        files.length !== 0 ? (
+                                        <>
+                                            {/* <strong>Files:</strong> */}
+                                            <ul>
+                                                
+                                                {files.map((file, index) => (
+                                                    <li key={index} className="item-upload">
+                                                        <img src={file.preview}/>
+                                                        <span>{file.path}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                        ):null
+                                    }
+                            </div>
+                        </>
+                    ):(
+                        null
+                    )
+                }
+            <style jsx>{`
+                    *:focus {
+                        outline: none;
+                    }
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }
+                    .description-input{
+                        color: #6E84A3;
+                        font-size:  13px; 
+                    }
+                   .content-image{
+                        height: ${heightInput || "50px"};
+                        width: ${widthInput || "100%"};
+                        border-radius: ${borderRadius ||"2px"};
+                        background-color: #fff;
+                        border: 1px dashed #d2ddec;
+                        text-align: center;
+                        color: #95aac9;
+                        transition: all .2s ease-in-out;
+                        background-size: 100%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        display: flex;
+                        align-items: center;
+                        justify-content:center;
+                        overflow: hidden;
+                        position: relative;
+                        .drop-zone{
+                            width:100%;
+                            height:100%;
+                            justify-content: center;
+                            align-items: center;
+                            overflow: hide;
+                        }
+                        p{
+                            display:flex;
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 1;
+                            cursor:pointer;
+                            width:100%;
+                            height: 100%;
+                            margin:0;
+                        }
+                        img{
+                            max-width: 100%;
+                            max-height: 100%;
+                            width: 100%;
+                            height: 100%;
+                            border: "none";
+                            display:flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor:pointer;
+                        }
+                       
+                    }
+                    ul{
+                        width: 100%;
+                        background-color: #fff;
+                        li{
+                            width: 100%;
+                            align-items: center;
+                            padding: 20px;
+                        }
+                    }
+                    .item-upload{
+                        display: flex;
+                        width : 100%;
+                        img{
+                            border-radius: 5px;
+                            width: 40px !important;
+                            height: 40px !important;
+                            margin-right: 10px;
+                        }
+                    }
             `}</style>
         </div>
     )

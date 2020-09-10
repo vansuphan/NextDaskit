@@ -2,7 +2,7 @@ import MasterPage from "components/page/MasterPage";
 import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
-import ChartCol from "components/charts/Conversions/index";
+// import ChartCol from "components/charts/Conversions/index";
 // import RecentActive from "components/recentActive/recentActive";
 
 // context
@@ -16,7 +16,6 @@ import {Input} from "components/input/Input"
 // list component
 import {InputSearch} from "components/search/Search";
 import {Tabs, TabsContent, TabsName} from "components/tabs/Tabs";
-import {Selection,SelectItem} from "components/selection/Selection";
 //
 const dataTest = [
   {
@@ -125,13 +124,11 @@ export default function Home(props) {
                 </Input>
 
                 <Input
-                  
                   label="Input password"
                   typeInput="password">  
                 </Input>
                 <Input
                   validate={true}
-                  
                   label="Input password validate"
                   typeInput="password">  
                 </Input>
@@ -192,10 +189,19 @@ export default function Home(props) {
                 </Input>
 
                 <Input
-                  label="Input selection"
-                  typeInput="selection"
+                  label="Input tag selection"
+                  typeInput="tag"
                   description="Input selection tag"
                   widthInput="280px"
+                >
+                </Input>
+                <Input
+                  label="Input images"
+                  typeInput="files"
+                  description="Please use an image no larger than 1200px * 600px."
+                  widthInput="300px"
+                  heightInput="200px"
+                  placeholder="Drop files here upload"
                 >
                 </Input>
                 <Input
@@ -204,12 +210,12 @@ export default function Home(props) {
                   description="Please use an image no larger than 1200px * 600px."
                   widthInput="300px"
                   heightInput="200px"
+                  placeholder="Drop files here upload"
                 >
                 </Input>
               </div>
             <br></br>
             <br/>
-            <ChartCol></ChartCol>
           </div>
         </HeaderProvider>
       </BasicLayout>

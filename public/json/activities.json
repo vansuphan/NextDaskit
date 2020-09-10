@@ -1,0 +1,24 @@
+[
+    {
+        "user": {
+            "name": "Dianna Smiley",
+            "image": "images/avatar.jpg"
+        },
+        "action": {
+            "description": "Uploaded the files 'Launchday Logo' and 'New Design'.",
+            "link": "",
+            "createdAt": "10/8/2020, 4:43:20 PM"
+        }
+    },
+    {
+        "user": {
+            "name": "  Ab Hadley",
+            "image": "images/avatar.jpg"
+        },
+        "action": {
+            "description": "Shared the 'Why Dashkit?' post with 124 subscribers.",
+            "link": "",
+            "createdAt": "10/8/2020, 3:43:20 PM"
+        }
+    }
+]
