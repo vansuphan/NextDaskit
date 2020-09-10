@@ -80,6 +80,7 @@ export default function Home(props) {
                 height={"40px"}
                 type="mini"
                 data={dataTest}
+                
               ></InputSearch>
             </div>
               <div style={{width: "300px", height:"auto"}}>
@@ -120,6 +121,7 @@ export default function Home(props) {
                   placeholder="Input"
                   heightInput="60px"
                   borderRadius="4px"
+                  value="hehehe"
                   typeInput="text">  
                 </Input>
 
@@ -183,8 +185,9 @@ export default function Home(props) {
                 <Input
                   label="Input calendar"
                   typeInput="calendar"
-                  // description="Input Calender"
+                  description="Input Calender"
                   widthInput="280px"
+                  value="01/06/1997"
                 >
                 </Input>
 
@@ -210,6 +213,15 @@ export default function Home(props) {
                   description="Please use an image no larger than 1200px * 600px."
                   widthInput="300px"
                   heightInput="200px"
+                  placeholder="Drop files here upload"
+                >
+                </Input>
+                <Input
+                  label="Input Selection"
+                  typeInput="selection"
+                  value="hello Selection"
+                  // description="Please use an image no larger than 1200px * 600px."
+                  widthInput="300px"
                   placeholder="Drop files here upload"
                 >
                 </Input>

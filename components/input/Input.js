@@ -9,10 +9,12 @@ import Dropzone from "react-dropzone";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export function Input({
+    dataSelect,
     children,
     name,   // name input
+    value,
     typeInput = "text",   // type input ex : "password" || "mail" || "text"
-    label = " Please enter props label",      // label Input
+    label = "Please enter props label",      // label Input
     placeholder = "Please enter props placeholder!", // placeholder input
     description,
     validate = false,
@@ -30,6 +32,7 @@ export function Input({
                             borderRadius={borderRadius}
                             heightInput={heightInput}
                             widthInput={widthInput}
+                            value={value}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -51,6 +54,7 @@ export function Input({
                                     borderRadius={borderRadius}
                                     heightInput={heightInput}
                                     widthInput={widthInput}
+                                    value={value}
                                     name={name}
                                     typeInput={typeInput}
                                     label={label}
@@ -67,6 +71,7 @@ export function Input({
                                     borderRadius={borderRadius}
                                     widthInput={widthInput}
                                     heightInput={heightInput}
+                                    value={value}
                                     name={name}
                                     typeInput={typeInput}
                                     label={label}
@@ -89,6 +94,7 @@ export function Input({
                                     borderRadius={borderRadius}
                                     widthInput={widthInput}
                                     heightInput={heightInput}
+                                    value={value}
                                     name={name}
                                     typeInput={typeInput}
                                     label={label}
@@ -105,6 +111,8 @@ export function Input({
                                     borderRadius={borderRadius}
                                     widthInput={widthInput}
                                     heightInput={heightInput}
+                                    value={value}
+                                    name={name}
                                     typeInput={typeInput}
                                     label={label}
                                     forwardRef={refInputText}
@@ -124,6 +132,7 @@ export function Input({
                             borderRadius={borderRadius}
                             heightInput={heightInput}
                             widthInput={widthInput}
+                            value={value}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -144,6 +153,7 @@ export function Input({
                             borderRadius={borderRadius}
                             widthInput={widthInput}
                             heightInput={heightInput}
+                            value={value}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -164,6 +174,7 @@ export function Input({
                             borderRadius={borderRadius}
                             widthInput={widthInput}
                             heightInput={heightInput}
+                            value={value}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -204,6 +215,7 @@ export function Input({
                             borderRadius={borderRadius}
                             widthInput={widthInput}
                             heightInput={heightInput}
+                            value={value}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -223,6 +235,8 @@ export function Input({
                             borderRadius={borderRadius}
                             widthInput={widthInput}
                             heightInput={heightInput}
+                            value={value}
+                            dataSelect={dataSelect}
                             name={name}
                             typeInput={typeInput}
                             label={label}
@@ -242,6 +256,7 @@ export function Input({
                         borderRadius={borderRadius}
                         widthInput={widthInput}
                         heightInput={heightInput}
+                        value={value}
                         name={name}
                         typeInput={typeInput}
                         label={label}
@@ -254,7 +269,26 @@ export function Input({
                     </div>
                 ) : null
             }
-
+            {
+                typeInput === "selection" ? (
+                    <div className="content-input">
+                        <InputSelection
+                        borderRadius={borderRadius}
+                        widthInput={widthInput}
+                        heightInput={heightInput}
+                        value={value}
+                        name={name}
+                        typeInput={typeInput}
+                        label={label}
+                        forwardRef={refInputText}
+                        ref={refInputText}
+                        placeholder={placeholder}
+                        description={description}>
+                        </InputSelection>
+                        {children}
+                    </div>
+                ) : null
+            }
             <style jsx>{`
                 .content-input{
                     position: relative
@@ -266,7 +300,8 @@ export function Input({
 
 export const InputBasic = React.forwardRef(({
     
-    name, // name input
+    name, // name 
+    value,
     borderRadius,
     widthInput,
     heightInput,  // height input
@@ -291,7 +326,6 @@ export const InputBasic = React.forwardRef(({
             {description ? (<span className="description-input">{description}</span>) : null}
             {
                 typeInput === "password" ? (
-
                     statusShow === true ? (
                         <input
                             name={name || "password"}
@@ -315,7 +349,7 @@ export const InputBasic = React.forwardRef(({
                             className={"success"}
                             type={typeInput} 
                             name={name || ""}
-                            placeholder={placeholder} value={undefined}
+                            placeholder={placeholder} value={value || undefined}
                             onChange={onChangePassword} />
                     )
             }
@@ -337,7 +371,7 @@ export const InputBasic = React.forwardRef(({
                     .show-password{
                         position: absolute;
                         width: 15px;
-                        right: 10px;
+                        right: 15px;
                         top: 60%;
                         cursor: pointer;
                     }
@@ -411,6 +445,7 @@ export const InputBasic = React.forwardRef(({
 export const EmailInputValidate = React.forwardRef(({
 
     name, // name input
+    value,
     borderRadius,
     widthInput,
     heightInput,  // height input
@@ -447,7 +482,7 @@ export const EmailInputValidate = React.forwardRef(({
                 name={name || "email"}
                 className={classNames({ "error": error, "success": !error })}
                 type="email"
-                placeholder={placeholder} value={undefined}
+                placeholder={placeholder} value={value || undefined}
                 onChange={onChangeEmail} />
             <span>{msError}</span>
             <style jsx>{`
@@ -682,6 +717,7 @@ export const PasswordInputValidate = React.forwardRef(({
 export const InputTextarea = React.forwardRef(({
 
     name,
+    value,
     borderRadius,
     widthInput,
     heightInput,  // height input
@@ -706,7 +742,7 @@ export const InputTextarea = React.forwardRef(({
                 name={name || ""}
                 className={"success"}
                 name="Textarea"
-                placeholder={placeholder} value={undefined}
+                placeholder={placeholder} value={value || undefined}
                 onChange={onChangePassword}
             />
             <style jsx>{`
@@ -770,6 +806,7 @@ export const InputTextarea = React.forwardRef(({
 export const InputPhone = React.forwardRef(({
 
     name, // name input
+    value,
     borderRadius,
     widthInput,
     heightInput,  // height input
@@ -813,7 +850,7 @@ export const InputPhone = React.forwardRef(({
                 type="text"
                 maxLength="10"
                 placeholder={placeholder || "0xx-xxx-xxxx"}
-                value={undefined}
+                value={value || undefined}
                 onChange={onChange}
             />
             <span>{msError}</span>
@@ -972,6 +1009,7 @@ export const InputQuill = React.forwardRef(({
 export const InputCalendar = React.forwardRef(({
 
     name,
+    value,
     borderRadius,
     heightInput,  // height input
     widthInput,
@@ -983,13 +1021,13 @@ export const InputCalendar = React.forwardRef(({
 
     const inputRefHide = useRef()
     const [selectedDay, setSelectedDay] = useState(undefined);
-    const [value, setValue] = useState(undefined);
+    const [valueLocal, setValue] = useState( value ||undefined);
 
     const handleChange = (selectedDay)=>{
         let formatDate = selectedDay.day + "/" + selectedDay.month+ "/" + selectedDay.year;
         setValue(formatDate)
         inputRefHide.current.focus();
-        inputRefHide.current.value = value;
+        inputRefHide.current.value = valueLocal;
     }
 
     const onFocus = ()=>{
@@ -1021,7 +1059,7 @@ export const InputCalendar = React.forwardRef(({
                 className="custom-input-calendar" // a styling class
                 ref={inputRefHide} // necessary
                 placeholder={placeholder}
-                value={value||""}
+                value={valueLocal||""}
                 onChange={handleChange}
             />
             <style jsx>{`
@@ -1727,6 +1765,152 @@ export const InputImage = React.forwardRef(({
                             margin-right: 10px;
                         }
                     }
+            `}</style>
+        </div>
+    )
+})
+
+export const InputSelection = React.forwardRef(({
+    
+    name, // name 
+    value,
+    dataSelect,
+    borderRadius,
+    widthInput,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description, // description below title
+    forwardRef }, { ref }) => {
+
+    const [listItemsSelect, setListItemsSelect] = useState( dataSelect ||["Data test 1","Data test 2", "Data test 3"]);
+    const [statusShow, setStatusShow] = useState(false);
+    const [valueLocal,setValueLocal] = useState(value||undefined);
+    
+    const handleStatus = () => setStatusShow(!statusShow);
+    const handleClickItem = (e) => {
+        setStatusShow(false)
+        if(e.target.textContent){
+            console.log(e.target.textContent);
+            setValueLocal(e.target.textContent);
+        }
+    }
+    useEffect(()=>{
+        console.log(listItemsSelect);
+    },[listItemsSelect])
+    return (
+        <div ref={forwardRef} className="input-seletion" > 
+            <label >{label}</label>
+            {description ? (<span className="description-input">{description}</span>) : null}
+                <input
+                readOnly={true}
+                name={ name || ""}
+                className={"success"}
+                type={typeInput} 
+                placeholder={placeholder} value={ valueLocal }
+                onClick={handleStatus}
+               />
+            <div className={`${statusShow === true ? "content-list-items-select active" : "content-list-items-select"}`} >
+                {listItemsSelect.length > 0 ? (
+                    <ul>
+                        {
+                            listItemsSelect.map((value,index)=>(
+                                <li 
+                                    key={index}
+                                    onClick={handleClickItem}
+                                >
+                                    {value}
+                                </li>
+                            ))
+                        }
+                    </ul>
+                ): null}
+                
+            </div>
+            
+            <style jsx>{`
+                    *:focus {
+                        outline: none;
+                    }
+                    .input-seletion{
+                        position: relative;
+                    }
+                    .content-list-items-select{
+                        display: flex;
+                        width: 100%;
+                        transition: 0.3s ease-in-out;
+                        overflow: hidden;
+                        ul{
+                            display: flex;
+                            width: 100%;
+                            flex-direction: column;
+                            z-index: -1;
+                            height: 0;
+                            opacity: 0;
+                        }
+                        li{
+                            margin: 10px 0;
+                            margin-top:0;
+                        }
+                    }
+                    .content-list-items-select.active{
+                        transition: 0.3s ease-in-out;
+                        
+                        ul{
+                            height: auto;
+                            z-index: auto;
+                            opacity: 1;
+                        }
+                        li{
+                            margin: 10px 0;
+                            margin-top:0;
+                        }
+                    }
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }
+                   
+                    input{
+                        display: block;
+                        box-sizing: border-box;
+                        margin-bottom: 20px;
+                        padding: 4px 15px;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
+                        height: ${heightInput || "40px"};
+                        border: 1px solid #E3EBF6;
+                        font-weight: 400;
+                        font-size: 15px;
+                        transition: 0.2s ease;
+                        outline: none;
+                        border-radius: ${borderRadius || "2px"};
+                        ::placeholder{
+                            color: #95AAC9;
+                        }
+                    }
+                    input:focus,{
+                        background-color: #fff;
+                        border-color: #2c7be5;
+                        outline: 0;
+                        box-shadow: transparent;
+                    }
+                    .description-input{
+                        color: #6E84A3;
+                        font-size: 13px; 
+                    }
+                    .success{
+                        position: relative;
+                    }
+                    .success span{
+                        display:none;
+                    }
+                    .success input{
+                        color: #008eff !important;
+                    }
+                    
             `}</style>
         </div>
     )

@@ -142,6 +142,47 @@ export default function Home(props) {
                         </form>
                         
                     </TabsContent>
+                    <TabsContent
+                        flexDirection="column"
+                        alignItems="flex-start"
+                        justifyContent="center"
+                        background="white">
+                        <form action="profile" method="POST">
+                            <div className="list-items-input" style={{width: "400px", height:"auto"}}>
+                                <div className="item">
+                                    <Input
+                                        label="Họ tên 3"
+                                        placeholder="Input name..."
+                                        borderRadius="2px"
+                                        typeInput="text">  
+                                    </Input>
+                                    <Input
+                                        description=""
+                                        label="Email"
+                                        placeholder="Input email..."
+                                        typeInput="email">
+                                    </Input>
+                                    <Input
+                                        label="Mật khẩu"
+                                        validate={true}
+                                        placeholder="Input password..."
+                                        typeInput="password">  
+                                    </Input>
+                                    <Input
+                                        label="Nhập lại mật khẩu"
+                                        placeholder="Input password..."
+                                        typeInput="password">  
+                                    </Input>
+                                    <Input
+                                        label="Input tag selection"
+                                        typeInput="tag"
+                                        description="Input selection tag"
+                                    ></Input>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </TabsContent>
                 </Tabs>
         
         </HeaderProvider>

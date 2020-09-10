@@ -2,6 +2,6 @@
 
 export default async (req, res) => {
     res.statusCode = 200;
-    res.json({ name: "Duy Nguyen", id: res.param.id });
+    res.json({ name: "Client 1", id: res.param.id });
   };
   
