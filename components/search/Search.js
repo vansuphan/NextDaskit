@@ -195,7 +195,7 @@ export function InputSearch({
   const inputSearch = useRef(null);
 
   const HandleChange = () => {
-    console.log("onchange")
+    // console.log("onchange")
     if(handleSearch){
       handleSearch(inputSearch.current.value);
     }else{

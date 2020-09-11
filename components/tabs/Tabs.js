@@ -1,5 +1,6 @@
 import {useState, useRef, useEffect} from "react";
 export function Tabs({
+    onChange,
     children, 
     tabsName, 
     tabActive=0,
@@ -8,18 +9,30 @@ export function Tabs({
     tabsDirection="column",
     tabNameDirection="row"}){
     const [status, setStatus] = useState(false);
-    
+    const [indexGlobal, setIndexGlobal] = useState(tabActive||0);
     const refEle = useRef();
     const refContent = useRef();
-    const handelStatus = ()=>{
-        setStatus(!status)
-    }
+    
+    // const handelStatus = () => {
+    //     setStatus(!status);
+    // }
+
+    useEffect( () => {
+      
+        if(onChange){
+            onChange(indexGlobal);
+        }
+    },[indexGlobal])
+
     useEffect(()=>{
         const listTabs = Array.from(refEle.current.children);
         const listContent = Array.from(refContent.current.children);
         if(listContent.length > 0){
-            listContent[tabActive > 0 ? tabActive-1 : 0 ].classList.add("active");
-            listTabs[tabActive > 0 ? tabActive-1 : 0 ].classList.add("active");
+            listTabs[indexGlobal > 0 ? indexGlobal - 1 : 0 ].classList.add("active");
+            if(listContent[indexGlobal-1]){
+                listContent[indexGlobal > 0 ? indexGlobal - 1 : 0 ].classList.add("active");
+            }
+            
         }
         listTabs.map((values, index)=>{
             values.addEventListener("click",(e)=>{
@@ -27,12 +40,15 @@ export function Tabs({
                     _values.classList.remove("active");
                 });
                 values.classList.add("active");
+                setIndexGlobal(index)
                 if(listContent){
                     listContent.map((_values, _index)=>{
                         _values.classList.remove("active");
                     })
                     if(listContent.find((_values,_index)=>index == _index)){
+                        // setIndex()
                         listContent.find((_values,_index)=>index == _index).classList.add("active");
+                        
                     }else{
                         console.warn(`Content tab ${index+1} null !! Please add component TabsContent below component TabsName!`);
                     }
@@ -48,13 +64,13 @@ export function Tabs({
                     <TabsName
                         widthTab={widthTab}
                         key={index}
-                        className={"tab"}
-                        onClick={handelStatus}>
+                        className={"tab"}>
                         {value}
                     </TabsName>
                     )) 
                 }
             </ul>
+            <hr></hr>
             <div ref={refContent}>
                 {children}
             </div>
@@ -68,6 +84,7 @@ export function Tabs({
                         display: flex;
                         flex-direction:${tabNameDirection}; 
                         justify-content: ${justifyContent};
+                        margin: 10px 0;
                     }
                     .content-tab.active{
                         display : flex;
@@ -96,9 +113,15 @@ export function TabsName({children, className, widthTab}){
                 .tab{
                     padding : 10px 10px;
                     width: ${widthTab};
+                    border-radius:2px;
+                    font-weight: bold;
+                    text-align: center;
+                    cursor : pointer;
                 }
                 .tab.active{
-                    color: blue;
+                    color: white;
+                    font-weight: bold;
+                    background-color: #0088ff;
                 }
             `}</style>
         </li>

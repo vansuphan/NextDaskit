@@ -1,0 +1,13 @@
+{
+    "status": 1,
+    "msg": [
+        "Success"
+    ],
+    "data": {
+        "ext": "png",
+        "file": "data:image/png;base64,",
+        "file_size": "1866641",
+        "id": 1,
+        "name": "asset-12_423b66b163cf85ad7ba1e5cf9523695f.png"
+    }
+}

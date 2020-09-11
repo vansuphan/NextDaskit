@@ -1,0 +1,17 @@
+{
+    "status": 1,
+    "msg": [
+        "Success"
+    ],
+    "data": {
+        "id": 1,
+        "name": "  Ab Hadley",
+        "image": "images/profiles/avatar-1.jpg",
+        "active": true,
+        "email": "em@ail.com",
+        "role": {
+            "id": 1,
+            "permissions": []
+        }
+    }
+}
