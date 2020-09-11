@@ -215,6 +215,14 @@ export default function Home(props) {
                   heightInput="200px"
                   placeholder="Drop files here upload"
                 >
+                  <Input
+                  label="Input  avatar"
+                  typeInput="avatar"
+                  description="Please use an image no larger than 1200px * 600px."
+                  widthInput="300px"
+                  heightInput="200px"
+                  placeholder="Drop files here upload"
+                ></Input>
                 </Input>
                 <Input
                   label="Input Selection"

@@ -9,6 +9,7 @@ import Dropzone from "react-dropzone";
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export function Input({
+    dataOption,
     dataSelect,
     children,
     name,   // name input
@@ -145,7 +146,6 @@ export function Input({
                     </div>
                 ) : null
             }
-
             {
                 (typeInput === "textarea") ? (
                     <div className="content-input">
@@ -236,6 +236,7 @@ export function Input({
                             widthInput={widthInput}
                             heightInput={heightInput}
                             value={value}
+                            dataOption={dataOption}
                             dataSelect={dataSelect}
                             name={name}
                             typeInput={typeInput}
@@ -270,12 +271,34 @@ export function Input({
                 ) : null
             }
             {
+                typeInput==="avatar" ? (
+                    <div className="content-input">
+                        <InputImageAvatar
+                        borderRadius={borderRadius}
+                        widthInput={widthInput}
+                        heightInput={heightInput}
+                        value={value}
+                        name={name}
+                        typeInput={typeInput}
+                        label={label}
+                        forwardRef={refInputText}
+                        ref={refInputText}
+                        placeholder={placeholder}
+                        description={description}>
+                        </InputImageAvatar>
+                        {children}
+                    </div>
+                ) : null
+            }
+            {
                 typeInput === "selection" ? (
                     <div className="content-input">
                         <InputSelection
                         borderRadius={borderRadius}
                         widthInput={widthInput}
                         heightInput={heightInput}
+                        dataOption={dataOption}
+                        dataSelect={dataSelect}
                         value={value}
                         name={name}
                         typeInput={typeInput}
@@ -349,7 +372,7 @@ export const InputBasic = React.forwardRef(({
                             className={"success"}
                             type={typeInput} 
                             name={name || ""}
-                            placeholder={placeholder} value={value || undefined}
+                            placeholder={placeholder} value={value || ""}
                             onChange={onChangePassword} />
                     )
             }
@@ -1137,6 +1160,8 @@ export const InputTag = React.forwardRef(({
 
     name, // name input
     widthInput,
+    dataOption,
+    dataSelect,
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -1145,13 +1170,12 @@ export const InputTag = React.forwardRef(({
     description,
     forwardRef }, { ref }) => {
 
-    const listItemsTest = ["option 1", "option 2", "option 3", "option 4", "option 5", "option 6","option 7"]
-
+    const listItemsTest = dataOption || ["option 1", "option 2", "option 3", "option 4", "option 5", "option 6","option 7"]
     const refSelect = useRef()
     const refContentItems = useRef();
     const refInput = useRef();
 
-    const [listItemsSelect, setListItemsSelect] = useState([]);
+    const [listItemsSelect, setListItemsSelect] = useState( dataSelect || []);
     const [listItemsDefault, setListItemsDefault] = useState(listItemsTest);
     const [lisItemsSearch, setLisItemsSearch] = useState(listItemsTest);
     const [clearAllItems, setClearAllItems] = useState(false);
@@ -1774,6 +1798,7 @@ export const InputSelection = React.forwardRef(({
     
     name, // name 
     value,
+    dataOption,
     dataSelect,
     borderRadius,
     widthInput,
@@ -1784,33 +1809,41 @@ export const InputSelection = React.forwardRef(({
     description, // description below title
     forwardRef }, { ref }) => {
 
-    const [listItemsSelect, setListItemsSelect] = useState( dataSelect ||["Data test 1","Data test 2", "Data test 3"]);
+    const [listItemsSelect, setListItemsSelect] = useState( dataOption || ["Data test 1","Data test 2", "Data test 3"]);
     const [statusShow, setStatusShow] = useState(false);
-    const [valueLocal,setValueLocal] = useState(value||undefined);
-    
+    const [valueLocal,setValueLocal] = useState( value || "");
+    const refInput = useRef()
     const handleStatus = () => setStatusShow(!statusShow);
     const handleClickItem = (e) => {
         setStatusShow(false)
         if(e.target.textContent){
-            console.log(e.target.textContent);
             setValueLocal(e.target.textContent);
         }
     }
     useEffect(()=>{
-        console.log(listItemsSelect);
-    },[listItemsSelect])
+        if(statusShow === true){
+            refInput.current.focus()
+        }
+    },[statusShow])
     return (
-        <div ref={forwardRef} className="input-seletion" > 
+        <div ref={forwardRef} className="input-selection" > 
             <label >{label}</label>
             {description ? (<span className="description-input">{description}</span>) : null}
+            <div className="content-input-select">
                 <input
-                readOnly={true}
-                name={ name || ""}
-                className={"success"}
-                type={typeInput} 
-                placeholder={placeholder} value={ valueLocal }
-                onClick={handleStatus}
-               />
+                    ref={refInput}
+                    readOnly={true}
+                    name={ name || ""}
+                    className={"success"}
+                    defaultValue={undefined}
+                    type={"text"}
+                    onChange={()=>null}
+                    placeholder={placeholder} value={ valueLocal }
+                    onClick={handleStatus}
+                />
+                <div className="show-list-items" onClick={handleStatus}><img src="../images/ar-ft.png"/></div>
+            </div>
+                   
             <div className={`${statusShow === true ? "content-list-items-select active" : "content-list-items-select"}`} >
                 {listItemsSelect.length > 0 ? (
                     <ul>
@@ -1833,12 +1866,28 @@ export const InputSelection = React.forwardRef(({
                     *:focus {
                         outline: none;
                     }
-                    .input-seletion{
+                    .input-selection{
                         position: relative;
+                    }
+                    .show-list-items{
+                        position: absolute;
+                        width: 10px;
+                        right: 15px;
+                        top: 50%;
+                        cursor: pointer;
+                        opacity: 0.5;
+                        transform: translate(0,-50%);
+                        transition: 0.3s;
+                    }
+                    .content-input-select{
+                        position: relative;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
                     }
                     .content-list-items-select{
                         display: flex;
-                        width: 100%;
+                        min-width: ${widthInput||"310px"};
+                        width: ${widthInput||"100%"};
                         transition: 0.3s ease-in-out;
                         overflow: hidden;
                         ul{
@@ -1848,23 +1897,33 @@ export const InputSelection = React.forwardRef(({
                             z-index: -1;
                             height: 0;
                             opacity: 0;
+                            box-shadow: 0px 2px 9px 5px #ececec;
                         }
                         li{
-                            margin: 10px 0;
-                            margin-top:0;
+                            padding: 5px;
                         }
                     }
+                   
                     .content-list-items-select.active{
                         transition: 0.3s ease-in-out;
-                        
+                        overflow: unset;
                         ul{
                             height: auto;
                             z-index: auto;
                             opacity: 1;
+                            padding: 10px;
+                            box-shadow: 0px 2px 9px 5px #ececec;
+                            max-height: 250px;
+                            overflow: auto;
                         }
                         li{
                             margin: 10px 0;
                             margin-top:0;
+                            cursor: pointer;
+                            &:hover{
+                                background-color: #ececec;
+                               
+                            }
                         }
                     }
                     label{
@@ -1890,6 +1949,14 @@ export const InputSelection = React.forwardRef(({
                         ::placeholder{
                             color: #95AAC9;
                         }
+                        &::after{
+                            content: "";
+                            position: absolute;
+                            width: 15px;
+                            height: 15px;
+                            color : red;
+                            z-index: 5;
+                        }
                     }
                     input:focus,{
                         background-color: #fff;
@@ -1910,6 +1977,145 @@ export const InputSelection = React.forwardRef(({
                     .success input{
                         color: #008eff !important;
                     }
+                    
+            `}</style>
+        </div>
+    )
+})
+
+export const InputImageAvatar = React.forwardRef(({
+    name, // name input
+    borderRadius,
+    widthInput,
+    heightInput,  // height input
+    typeInput,   // type input
+    label,      // label Input
+    placeholder, // placeholder input
+    description,
+    forwardRef }, { ref }) => {
+    
+    const [fileNames, setFileNames] = useState([]);
+    const [file, setFile] = useState([]);
+    const [files, setFiles] = useState([])
+    const handleDrop = async (acceptedFiles) => {
+        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
+        setFile([
+            ...acceptedFiles.map(file =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+            )
+        ]);
+    }
+    
+    return (
+        <div ref={forwardRef} className="input-avatar-upload">
+            <div className={"avatar-upload"}><img src={`${file[0] ? file[0].preview : "../images/avatar-default.png"}`}/></div>
+            <div style={{flex:"auto", padding:"0 10px"}}>
+                <label>{label}</label>
+                {description ? (<span className="description-input">{description}</span>) : null}
+            </div>
+                {
+                    typeInput === "avatar" ? (
+                        <div className="content-avatar-input">
+                            <Dropzone onDrop={handleDrop}>
+                                {({ getRootProps, getInputProps }) => (
+                                <div className="drop-zone" {...getRootProps({ className: "dropzone" })}>
+                                    <input {...getInputProps()} />
+                                    {
+                                        <p className="btn-upload" style={{padding:"5px 15px"}}>{placeholder||"Upload"}</p>
+                                    }
+                                
+                                </div>
+                                )}
+                            </Dropzone>
+                        </div>
+                    ):(
+                        null
+                    )
+                }
+               
+            <style jsx>{`
+                    *:focus {
+                        outline: none;
+                    }
+                    .input-avatar-upload{
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: space-between;
+                        .btn-upload {
+                            cursor: pointer;
+                            color: #fff;
+                            background-color: #2c7be5;
+                            border-color: #2c7be5;
+                            border-radius: 3px;
+                            &:hover{
+                                background-color: #1a68d1;
+                                border-color: #1862c6;
+                            }
+                        }
+                    }
+                    
+                    label{
+                        font-size: 15px;
+                        display: block;
+                        margin: 5px 0;
+                    }
+                    .description-input{
+                        color: #6E84A3;
+                        font-size:  13px; 
+                    }
+                    .avatar-upload{
+                        border-radius: ${borderRadius ||"2px"};
+                        height: ${heightInput || "50px"};
+                        width: ${widthInput || "50px"};
+                        overflow: hidden;
+                        justify-content: center;
+                        align-items: center;
+                        display: flex;
+                    }
+                   .content-avatar-input{
+                        background-color: blue;
+                        text-align: center;
+                        color: #fff;
+                        transition: all .2s ease-in-out;
+                        display: flex;
+                        align-items: center;
+                        justify-content:center;
+                        overflow: hidden;
+                        position: relative;
+                        border-radius: 4px;
+                        .drop-zone{
+                            width:100%;
+                            height:100%;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                        p{
+                            display:flex;
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 1;
+                            cursor:pointer;
+                            width:100%;
+                            height: 100%;
+                            margin:0;
+                        }
+                        img{
+                            max-width: 100%;
+                            max-height: 100%;
+                            width: 100%;
+                            height: 100%;
+                            border: "none";
+                            display:flex;
+                            justify-content: center;
+                            align-items: center;
+                            cursor:pointer;
+                        }
+                       
+                    }
+                   
                     
             `}</style>
         </div>

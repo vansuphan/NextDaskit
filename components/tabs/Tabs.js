@@ -13,15 +13,14 @@ export function Tabs({
     const refEle = useRef();
     const refContent = useRef();
     
-    const handelStatus = () => {
-        setStatus(!status);
-    }
+    // const handelStatus = () => {
+    //     setStatus(!status);
+    // }
 
     useEffect( () => {
-        console.log(indexGlobal, "111")
+      
         if(onChange){
-            console.log(indexGlobal, "222")
-            // onChange(indexGlobal);
+            onChange(indexGlobal);
         }
     },[indexGlobal])
 
@@ -71,6 +70,7 @@ export function Tabs({
                     )) 
                 }
             </ul>
+            <hr></hr>
             <div ref={refContent}>
                 {children}
             </div>
@@ -84,6 +84,7 @@ export function Tabs({
                         display: flex;
                         flex-direction:${tabNameDirection}; 
                         justify-content: ${justifyContent};
+                        margin: 10px 0;
                     }
                     .content-tab.active{
                         display : flex;
