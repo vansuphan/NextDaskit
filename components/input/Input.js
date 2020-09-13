@@ -334,6 +334,7 @@ export const InputBasic = React.forwardRef(({
     description, // description below title
     forwardRef }, { ref }) => {
 
+    // const [stateValue, setStateValue] = useState()
     const [passwords, setPassword] = useState("");
     const [statusShow, setStatusShow] = useState(false);
 
@@ -372,7 +373,8 @@ export const InputBasic = React.forwardRef(({
                             className={"success"}
                             type={typeInput} 
                             name={name || ""}
-                            placeholder={placeholder} value={value || ""}
+                            placeholder={placeholder} 
+                            value={ value || ""}
                             onChange={onChangePassword} />
                     )
             }
@@ -1984,6 +1986,7 @@ export const InputSelection = React.forwardRef(({
 })
 
 export const InputImageAvatar = React.forwardRef(({
+    value,
     name, // name input
     borderRadius,
     widthInput,
@@ -1996,9 +1999,25 @@ export const InputImageAvatar = React.forwardRef(({
     
     const [fileNames, setFileNames] = useState([]);
     const [file, setFile] = useState([]);
-    const [files, setFiles] = useState([])
+    // const [fileBase64, setFileBase64] = useState(value);
+    const [files, setFiles] = useState([]);
+    const onChangeImage =  async (event) =>{
+        event.preventDefault();
+        event.persist();
+        // console.log(fileBase64);
+    }
     const handleDrop = async (acceptedFiles) => {
-        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
+
+        setFileNames([acceptedFiles.map(file => file.name)]);
+        // let newFile;
+        // // BASE64 FILE:
+        // let reader = new FileReader();
+        // reader.onload = async (readerEvent) => {
+        //     // console.log(reader);
+        //     newFile = reader.result;
+        //     setFileBase64(newFile);
+        // }
+        // reader.readAsDataURL(acceptedFiles[0]);
         setFile([
             ...acceptedFiles.map(file =>
                 Object.assign(file, {
@@ -2021,11 +2040,10 @@ export const InputImageAvatar = React.forwardRef(({
                             <Dropzone onDrop={handleDrop}>
                                 {({ getRootProps, getInputProps }) => (
                                 <div className="drop-zone" {...getRootProps({ className: "dropzone" })}>
-                                    <input {...getInputProps()} />
+                                    <input accept="base64/*" name={name} {...getInputProps()} />
                                     {
                                         <p className="btn-upload" style={{padding:"5px 15px"}}>{placeholder||"Upload"}</p>
                                     }
-                                
                                 </div>
                                 )}
                             </Dropzone>
