@@ -24,6 +24,12 @@ export function Input({
     borderRadius = "2px",
 }) {
     const refInputText = useRef();
+    // const [stateValue, setValue] = useState();
+    // useEffect(()=>{
+    //     if(value){
+    //         setValue(value);
+    //     }
+    // },[])
     return (
         <>
             {
@@ -333,21 +339,34 @@ export const InputBasic = React.forwardRef(({
     placeholder, // placeholder input
     description, // description below title
     forwardRef }, { ref }) => {
-
-    // const [stateValue, setStateValue] = useState()
+    
+    const [stateValue, setStateValue] = useState("")
     const [passwords, setPassword] = useState("");
     const [statusShow, setStatusShow] = useState(false);
-
-    function onChangePassword(event) {
+    const [statusChange, setStatusChange] = useState(false);
+        
+    function onChange(event) {
         setPassword(event.target.value);
+        setStateValue(event.target.value);
+        // console.log(value, "value");
+        // console.log(stateValue, "stateValue");
+        
     }
 
+    function onClick(event){
+        setStatusChange(true);
+        setStateValue(value);
+        if(statusChange===true){
+            setStateValue(event.target.value);
+        }
+    }
+   
     const handleStatus = () => setStatusShow(!statusShow);
 
     return (
         <div ref={forwardRef} > 
             <label >{label}</label>
-            {description ? (<span className="description-input">{description}</span>) : null}
+            {description ? (<span className="description-input" style={{marginBottom:"10px"}}>{description}</span>) : null}
             {
                 typeInput === "password" ? (
                     statusShow === true ? (
@@ -356,7 +375,7 @@ export const InputBasic = React.forwardRef(({
                             className={"success"}
                             type="text"
                             placeholder={placeholder} value={undefined}
-                            onChange={onChangePassword} />
+                            onChange={onChange} />
                     ) : (
                             <input
                                 
@@ -364,23 +383,25 @@ export const InputBasic = React.forwardRef(({
                                 className={"success"}
                                 type="password"
                                 placeholder={placeholder} value={undefined}
-                                onChange={onChangePassword} />
+                                onChange={onChange} />
                         )
 
                 ) : (
                         <input
+                            readOnly={false}
                             name={name || ""}
                             className={"success"}
                             type={typeInput} 
                             name={name || ""}
                             placeholder={placeholder} 
-                            value={ value || ""}
-                            onChange={onChangePassword} />
+                            value={ statusChange === true  ? stateValue : value || ""}
+                            onClick={onClick}
+                            onChange={onChange}/>
                     )
             }
             {
                 typeInput === "password" ? (
-                    <div onClick={handleStatus} className={"show-password"}><img src={"images/icon-eye.png"} /></div>
+                    <div onClick={handleStatus} className={"show-password"}><img src={"../images/icon-eye.png"} /></div>
                 ) : null
             }
 
@@ -638,8 +659,6 @@ export const PasswordInputValidate = React.forwardRef(({
             setPassword(event.target.value);
         }
     }
-
-
 
     const handleStatus = () => setStatusShow(!statusShow);
 
@@ -989,9 +1008,9 @@ export const InputQuill = React.forwardRef(({
 
     return editorLoader ?
         (
-            <div ref={forwardRef} style={{width: widthInput}}>
+            <div ref={forwardRef} style={{width: widthInput, marginBottom:"20px"}}>
                 <label htmlFor={ name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
-                {description ? (<span className="description-input">{description}</span>) : null}
+                {description ? (<span className="description-input" style={{display:"block"}}>{description}</span>) : null}
                 <CKEditor 
                     name={name || ""}
                     className={"editorCustom"}
@@ -1018,7 +1037,8 @@ export const InputQuill = React.forwardRef(({
                 <style jsx>{`
                     .description-input{
                         color: #6E84A3;
-                        font-size:  13px; 
+                        font-size:  13px;
+                        padding-bottom:10px;
                     }
                     label{
                         font-size: 15px;
@@ -1046,7 +1066,8 @@ export const InputCalendar = React.forwardRef(({
 
     const inputRefHide = useRef()
     const [selectedDay, setSelectedDay] = useState(undefined);
-    const [valueLocal, setValue] = useState( value ||undefined);
+    const [valueLocal, setValue] = useState( selectedDay ||undefined);
+    const refDatePicker = useRef();
 
     const handleChange = (selectedDay)=>{
         let formatDate = selectedDay.day + "/" + selectedDay.month+ "/" + selectedDay.year;
@@ -1065,6 +1086,15 @@ export const InputCalendar = React.forwardRef(({
         }
     }, [selectedDay])
     
+    useEffect(()=>{
+        // Style for "DatePicker" width = 100%
+        const datePickerEle = Array.from(forwardRef.current.children).find((element,  index)=>{
+            return Array.from(element.classList).find(ele => ele === "DatePicker");
+        });
+        datePickerEle.style.width = "100%"
+        // console.log(datePickerEle);
+    },[])
+
     const renderCustomInput = ({ ref }) => (
         <>
             <input
@@ -1072,7 +1102,7 @@ export const InputCalendar = React.forwardRef(({
                 className="custom-input-hide" // a styling class
                 ref={ref} // necessary
                 placeholder={placeholder}
-                value={selectedDay || ""}
+                value={ selectedDay || value || "" }
                 onChange={handleChange}
                 onFocus={onFocus}
             />
@@ -1084,7 +1114,7 @@ export const InputCalendar = React.forwardRef(({
                 className="custom-input-calendar" // a styling class
                 ref={inputRefHide} // necessary
                 placeholder={placeholder}
-                value={valueLocal||""}
+                value={ valueLocal || value|| "" }
                 onChange={handleChange}
             />
             <style jsx>{`
@@ -1119,6 +1149,7 @@ export const InputCalendar = React.forwardRef(({
             `}</style>
         </>
     )
+    
     return (
         <div ref={forwardRef}>
             <label htmlFor={ name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
@@ -1265,8 +1296,8 @@ export const InputTag = React.forwardRef(({
     return(
         <div className={"container-select"} onMouseLeave={handleLeaveInput}onClick={handleChange}>
             <label>{label}</label>
-            {description ? (<span className="description-input">{description}</span>) : null}
-            <div className={"content-select"}>
+            {description ? (<span className="description-input" >{description}</span>) : null}
+            <div className={"content-select"} style={{marginTop:"10px"}}>
                 <div onClick={handleInputSelect} ref={refSelect} className="selection-control">
                     {listItemsDefault ? (
                         listItemsSelect.map((value, index)=>(
@@ -1352,7 +1383,7 @@ export const InputTag = React.forwardRef(({
                     border: 1px solid #E3EBF6;
                     border-radius: ${ borderRadius || "2px"};
                     min-height: ${heightInput || "40px"};
-                    
+                    background-color:#fff;
                     display: flex;
                     align-items: center;
                     flex-wrap: wrap;
@@ -1415,6 +1446,7 @@ export const InputTag = React.forwardRef(({
                 .container-select{
                     position: relative;
                     width: ${widthInput || "100%"};
+                    margin-bottom: 20px;
                 }
                 .content-value{
                     position: absolute;
@@ -1649,9 +1681,9 @@ export const InputImage = React.forwardRef(({
         }
      },[files, file])
     return (
-        <div ref={forwardRef} >
+        <div ref={forwardRef} style={{marginBottom:"20px"}}>
             <label>{label}</label>
-            {description ? (<span className="description-input">{description}</span>) : null}
+            {description ? (<span className="description-input" style={{display:"block", marginBottom:"10px"}}>{description}</span>) : null}
    
                 {
                     typeInput === "image" ? (
@@ -1659,7 +1691,7 @@ export const InputImage = React.forwardRef(({
                         <Dropzone onDrop={handleDrop}>
                             {({ getRootProps, getInputProps }) => (
                             <div className="drop-zone" {...getRootProps({ className: "dropzone" })}>
-                                <input {...getInputProps()} />
+                                <input  type="file" name={name || "image"} {...getInputProps()} />
                                 {
                                     file[0] ? null : <p>{placeholder||"Drop files here upload"}</p>
                                 }
@@ -1680,11 +1712,10 @@ export const InputImage = React.forwardRef(({
                                     {({ getRootProps, getInputProps }) => (
                                     <div className="drop-zone" {...getRootProps({ className: "dropzone" })} 
                                         style={{border: "1px dashed #d2ddec", borderRadius: `${borderRadius ||"2px"}`}}>
-                                        <input {...getInputProps()} />
+                                        <input multiple  type="file" name={name || "files"} {...getInputProps()} />
                                         {
-                                            files[0] ? null : <p>{placeholder||"Drop files here upload"}</p>
+                                            <p>{placeholder||"Drop files here upload"}</p>
                                         }
-                                        {files[0] ? <img src={files[0].preview}/> : null}
                                     </div>
                                     )}
                                 </Dropzone>
@@ -1693,7 +1724,6 @@ export const InputImage = React.forwardRef(({
                                     {
                                         files.length !== 0 ? (
                                         <>
-                                            {/* <strong>Files:</strong> */}
                                             <ul>
                                                 
                                                 {files.map((file, index) => (
@@ -1800,7 +1830,7 @@ export const InputSelection = React.forwardRef(({
     
     name, // name 
     value,
-    dataOption,
+    dataOption=["Data test 1","Data test 2", "Data test 3"],
     dataSelect,
     borderRadius,
     widthInput,
@@ -1811,11 +1841,16 @@ export const InputSelection = React.forwardRef(({
     description, // description below title
     forwardRef }, { ref }) => {
 
-    const [listItemsSelect, setListItemsSelect] = useState( dataOption || ["Data test 1","Data test 2", "Data test 3"]);
+    const [listItemsSelect, setListItemsSelect] = useState( dataOption || []);
     const [statusShow, setStatusShow] = useState(false);
-    const [valueLocal,setValueLocal] = useState( value || "");
-    const refInput = useRef()
-    const handleStatus = () => setStatusShow(!statusShow);
+    const [valueLocal,setValueLocal] = useState("Select role");
+    const [statusChange, setStatusChange] = useState(false);
+    const refInput = useRef();
+
+    const handleStatus = () => {
+        setStatusShow(!statusShow);
+        setStatusChange(true);
+    };
     const handleClickItem = (e) => {
         setStatusShow(false)
         if(e.target.textContent){
@@ -1826,11 +1861,19 @@ export const InputSelection = React.forwardRef(({
         if(statusShow === true){
             refInput.current.focus()
         }
-    },[statusShow])
+    },[statusShow]);
+
+    function onChange(event) {
+        setStateValue(event.target.value);
+        // console.log(value, "value");
+        // console.log(stateValue, "stateValue");
+        
+    }
+
     return (
-        <div ref={forwardRef} className="input-selection" > 
+        <div ref={forwardRef} className="input-selection" onMouseLeave={()=>setStatusShow(false)} > 
             <label >{label}</label>
-            {description ? (<span className="description-input">{description}</span>) : null}
+            {description ? (<span className="description-input" style={{marginBottom:"10px"}}>{description}</span>) : null}
             <div className="content-input-select">
                 <input
                     ref={refInput}
@@ -1840,17 +1883,18 @@ export const InputSelection = React.forwardRef(({
                     defaultValue={undefined}
                     type={"text"}
                     onChange={()=>null}
-                    placeholder={placeholder} value={ valueLocal }
+                    placeholder={placeholder} 
+                    value={ statusChange === true ? valueLocal : value || ""}
                     onClick={handleStatus}
                 />
                 <div className="show-list-items" onClick={handleStatus}><img src="../images/ar-ft.png"/></div>
             </div>
                    
             <div className={`${statusShow === true ? "content-list-items-select active" : "content-list-items-select"}`} >
-                {listItemsSelect.length > 0 ? (
+                {dataOption.length > 0 ? (
                     <ul>
                         {
-                            listItemsSelect.map((value,index)=>(
+                            dataOption.map((value,index)=>(
                                 <li 
                                     key={index}
                                     onClick={handleClickItem}
@@ -2004,10 +2048,10 @@ export const InputImageAvatar = React.forwardRef(({
     const onChangeImage =  async (event) =>{
         event.preventDefault();
         event.persist();
-        // console.log(fileBase64);
+       
     }
     const handleDrop = async (acceptedFiles) => {
-
+        
         setFileNames([acceptedFiles.map(file => file.name)]);
         // let newFile;
         // // BASE64 FILE:
@@ -2029,7 +2073,7 @@ export const InputImageAvatar = React.forwardRef(({
     
     return (
         <div ref={forwardRef} className="input-avatar-upload">
-            <div className={"avatar-upload"}><img src={`${file[0] ? file[0].preview : "../images/avatar-default.png"}`}/></div>
+            <div className={"avatar-upload"}><img src={`${file[0] ? file[0].preview : value ||  "../images/avatar-default.png"}`}/></div>
             <div style={{flex:"auto", padding:"0 10px"}}>
                 <label>{label}</label>
                 {description ? (<span className="description-input">{description}</span>) : null}
@@ -2040,7 +2084,7 @@ export const InputImageAvatar = React.forwardRef(({
                             <Dropzone onDrop={handleDrop}>
                                 {({ getRootProps, getInputProps }) => (
                                 <div className="drop-zone" {...getRootProps({ className: "dropzone" })}>
-                                    <input accept="base64/*" name={name} {...getInputProps()} />
+                                    <input accept="base64/*" name={name || "avatar"} {...getInputProps()} />
                                     {
                                         <p className="btn-upload" style={{padding:"5px 15px"}}>{placeholder||"Upload"}</p>
                                     }
