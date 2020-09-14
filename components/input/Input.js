@@ -347,10 +347,7 @@ export const InputBasic = React.forwardRef(({
         
     function onChange(event) {
         setPassword(event.target.value);
-        setStateValue(event.target.value);
-        // console.log(value, "value");
-        // console.log(stateValue, "stateValue");
-        
+        setStateValue(event.target.value);    
     }
 
     function onClick(event){
@@ -364,7 +361,7 @@ export const InputBasic = React.forwardRef(({
     const handleStatus = () => setStatusShow(!statusShow);
 
     return (
-        <div ref={forwardRef} > 
+        <div ref={forwardRef} style={{position:"relative"}} > 
             <label >{label}</label>
             {description ? (<span className="description-input" style={{marginBottom:"10px"}}>{description}</span>) : null}
             {
@@ -501,8 +498,18 @@ export const EmailInputValidate = React.forwardRef(({
     description,
     forwardRef }, { ref }) => {
 
+    const [stateValue, setValue] = useState("");
     const [error, setError] = useState(false);
     const [msError, setMsError] = useState("");
+    const [statusChange, setStatusChange] = useState(false);
+
+    function onClick(event){
+        setStatusChange(true);
+        setValue(value);
+        if(statusChange===true){
+            setValue(event.target.value);
+        }
+    }
 
     function checkEmailPattern(email) {
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -511,14 +518,18 @@ export const EmailInputValidate = React.forwardRef(({
 
     function onChangeEmail(event) {
         const checked = checkEmailPattern(event.target.value);
+        setValue(event.target.value);
         if (event.target.value.trim() === "") {
             setError(true);
             setMsError("Email không được để trống");
         } else {
             checked === true ? setError(false) : setError(true);
-            error === true ? setMsError("Email không đúng") : setMsError("");
         }
     }
+
+    useEffect(()=>{
+        error === true ? setMsError("Email không đúng") : setMsError("");
+    },[error])
 
     return (
         <div ref={forwardRef} className={classNames({ "error": error, "success": !error })}>
@@ -528,7 +539,10 @@ export const EmailInputValidate = React.forwardRef(({
                 name={name || "email"}
                 className={classNames({ "error": error, "success": !error })}
                 type="email"
-                placeholder={placeholder} value={value || undefined}
+                placeholder={placeholder} 
+                value={ statusChange === true  ? stateValue : value || ""}
+                // value={ stateVlaue ||value || undefined}
+                onClick={onClick}
                 onChange={onChangeEmail} />
             <span>{msError}</span>
             <style jsx>{`
@@ -587,7 +601,7 @@ export const EmailInputValidate = React.forwardRef(({
                         display:none;
                     }
                     .success input{
-                        color: #008eff !important;
+                        /* color: #008eff !important; */
                     }
             `}</style>
         </div>
@@ -751,7 +765,7 @@ export const PasswordInputValidate = React.forwardRef(({
                         display:none;
                     }
                     .success input{
-                        color: #008eff !important;
+                        /* color: #008eff !important; */
                     }   
             `}</style>
         </div>
@@ -879,11 +893,13 @@ export const InputPhone = React.forwardRef(({
             event.target.value = newValue;
             const checked = checkPhonePattern(event.target.value);
             checked === true ? setError(false) : setError(true);
-            error === true ? setMsError("Phone không đúng") : setMsError("");
+           
         }
 
     }
-
+    useEffect(()=>{
+        error === true ? setMsError("Phone không đúng") : setMsError("");
+    },[error])
     return (
         <div ref={forwardRef} className={classNames({ "error": error, "success": !error })}>
             <label>{label}</label>
@@ -897,7 +913,8 @@ export const InputPhone = React.forwardRef(({
                 value={value || undefined}
                 onChange={onChange}
             />
-            <span>{msError}</span>
+            {error ? (<span>{msError}</span>) : <></>}
+            
             <style jsx>{`
                     *:focus {
                         outline: none;
@@ -949,7 +966,7 @@ export const InputPhone = React.forwardRef(({
                         display:none;
                     }
                     .success input{
-                        color: #008eff !important;
+                       
                     }
                     .error{
                         position: relative;
@@ -2051,7 +2068,7 @@ export const InputImageAvatar = React.forwardRef(({
        
     }
     const handleDrop = async (acceptedFiles) => {
-        
+
         setFileNames([acceptedFiles.map(file => file.name)]);
         // let newFile;
         // // BASE64 FILE:
@@ -2084,7 +2101,9 @@ export const InputImageAvatar = React.forwardRef(({
                             <Dropzone onDrop={handleDrop}>
                                 {({ getRootProps, getInputProps }) => (
                                 <div className="drop-zone" {...getRootProps({ className: "dropzone" })}>
+
                                     <input accept="base64/*" name={name || "avatar"} {...getInputProps()} />
+
                                     {
                                         <p className="btn-upload" style={{padding:"5px 15px"}}>{placeholder||"Upload"}</p>
                                     }
