@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import DatePicker from 'react-modern-calendar-datepicker';
 import Dropzone from "react-dropzone";
+import { element } from "prop-types";
 // import CKEditor from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -1003,7 +1004,7 @@ export const InputQuill = React.forwardRef(({
     const editorRef = useRef();
     const [editorLoader, setEditorLoaded] = useState(false)
     const { CKEditor, ClassicEditor } = editorRef.current || {}
-    const [data, setData] = useState('')
+    const [dataState, setData] = useState('')
 
 
     useEffect(() => {
@@ -1018,15 +1019,25 @@ export const InputQuill = React.forwardRef(({
         onEditorChange
     },[editorLoader])
 
+    useEffect(()=>{
+        const htmlRender = forwardRef.current;
+        if(htmlRender){
+            setData(htmlRender.querySelector(".ck-editor__main .ck-content").innerHTML)
+        }
+    }, [dataState])
+
     const onEditorChange = (event, editor) => {
         const data = editor.getData();
-        console.log("editor",{ event, editor, data });
+        editor.updateSourceElement();
+        setData(data);
+        // console.log("editor",{ event, editor, data });
+        // console.log("Data editor",{ data });
     }
 
     return editorLoader ?
         (
             <div ref={forwardRef} style={{width: widthInput, marginBottom:"20px"}}>
-                <label htmlFor={ name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
+                <label htmlFor={name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
                 {description ? (<span className="description-input" style={{display:"block"}}>{description}</span>) : null}
                 <CKEditor 
                     name={name || ""}
@@ -1034,14 +1045,14 @@ export const InputQuill = React.forwardRef(({
                     editor={ClassicEditor}
                     config={{
                         ckfinder:{
-                            uploadUrl: "https://vi.imgbb.com/"
+                            uploadUrl: "/api/editor-post-image"
                         }
                     }}
-                    data={data}
+                    // data={data}
                     // data="<p>Hello from CKEditor 5!</p>"
                     onInit={editor => {
                         // You can store the "editor" and use when it is needed.
-                        console.log('Editor is ready to use!', editor);
+                        // console.log('Editor is ready to use!', editor);
                     }}
                     onChange={onEditorChange}
                     // onBlur={(event, editor) => {
@@ -1051,6 +1062,9 @@ export const InputQuill = React.forwardRef(({
                     //     console.log('Focus.', editor);
                     // }}
                 />
+                <div style={{display:"none"}}>
+                <textarea onChange={()=>{}} id={name+"-editor"} name={name||"data-editor"} value={ dataState ||""}></textarea>
+                </div>
                 <style jsx>{`
                     .description-input{
                         color: #6E84A3;
@@ -1105,11 +1119,10 @@ export const InputCalendar = React.forwardRef(({
     
     useEffect(()=>{
         // Style for "DatePicker" width = 100%
-        const datePickerEle = Array.from(forwardRef.current.children).find((element,  index)=>{
+        const datePickerEle = Array.from(forwardRef.current.children).find((element, index)=>{
             return Array.from(element.classList).find(ele => ele === "DatePicker");
         });
-        datePickerEle.style.width = "100%"
-        // console.log(datePickerEle);
+        datePickerEle.style.width = "100%";
     },[])
 
     const renderCustomInput = ({ ref }) => (
@@ -1210,8 +1223,8 @@ export const InputTag = React.forwardRef(({
 
     name, // name input
     widthInput,
-    dataOption,
-    dataSelect,
+    dataOption=["text 1", "text 2"],
+    dataSelect=[],
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -1220,14 +1233,13 @@ export const InputTag = React.forwardRef(({
     description,
     forwardRef }, { ref }) => {
 
-    const listItemsTest = dataOption || ["option 1", "option 2", "option 3", "option 4", "option 5", "option 6","option 7"]
+    const refInput = useRef();
     const refSelect = useRef()
     const refContentItems = useRef();
-    const refInput = useRef();
 
-    const [listItemsSelect, setListItemsSelect] = useState( dataSelect || []);
-    const [listItemsDefault, setListItemsDefault] = useState(listItemsTest);
-    const [lisItemsSearch, setLisItemsSearch] = useState(listItemsTest);
+    const [listItemsSelect, setListItemsSelect] = useState( dataSelect);
+    const [listItemsDefault, setListItemsDefault] = useState(dataOption);
+    const [lisItemsSearch, setLisItemsSearch] = useState(dataOption);
     const [clearAllItems, setClearAllItems] = useState(false);
     const [clearOneItem, setClearOneItem] = useState(false);
     const [valueSearch, setValueSearch] = useState(null);
@@ -1296,7 +1308,7 @@ export const InputTag = React.forwardRef(({
     useEffect(()=>{
         if( clearAllItems === true ){
             setListItemsSelect([]);
-            setListItemsDefault(listItemsTest);
+            setListItemsDefault(dataOption);
             refInput.current.value="";
             setClearAllItems(false);
         }
@@ -1666,12 +1678,9 @@ export const InputImage = React.forwardRef(({
     placeholder, // placeholder input
     description,
     forwardRef }, { ref }) => {
-    
-    const [fileNames, setFileNames] = useState([]);
     const [file, setFile] = useState([]);
     const [files, setFiles] = useState([])
     const handleDrop = async (acceptedFiles) => {
-        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
         setFile([
             ...acceptedFiles.map(file =>
                 Object.assign(file, {
@@ -1681,7 +1690,7 @@ export const InputImage = React.forwardRef(({
         ]);
     }
     const handleDropMuti = async (acceptedFiles) => {
-        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
+      
         setFiles([
             ...files,...acceptedFiles.map(file =>
                 Object.assign(file, {
@@ -1690,18 +1699,28 @@ export const InputImage = React.forwardRef(({
             )
         ]);
     }
+    const handleRemoveItem = (e)=>{
+        const nameFileRemove = Array.from(Array.from(e.target.parentElement.children).find(
+            element => Array.from(element.classList).indexOf("file-info") !== -1).children).find(
+                el => Array.from(el.classList).indexOf("name-file") !== -1).innerText;
+        console.log(nameFileRemove);
+        // const indexFile = 
+        
+        setFiles(files.filter((value, index)=>{
+            return value.name !== nameFileRemove
+        }))
+    }
+
     useEffect(()=>{
-        if(files.length !==0){
-            console.log("files",files);
-            console.log("files name",fileNames);
-            console.log("file", file);
-        }
+        // if(files.length !==0){
+        //     console.log("files",files);
+        //     console.log("file", file);
+        // }
      },[files, file])
     return (
         <div ref={forwardRef} style={{marginBottom:"20px"}}>
             <label>{label}</label>
-            {description ? (<span className="description-input" style={{display:"block", marginBottom:"10px"}}>{description}</span>) : null}
-   
+            {description ? (<span className="description-input" style={{display:"block", marginBottom:"10px"}}>{description}</span>) : null}  
                 {
                     typeInput === "image" ? (
                         <div className="content-image">
@@ -1727,7 +1746,7 @@ export const InputImage = React.forwardRef(({
                             <div className="content-image" style={{border:"none", padding: "20px"}}>
                                 <Dropzone onDrop={handleDropMuti}>
                                     {({ getRootProps, getInputProps }) => (
-                                    <div className="drop-zone" {...getRootProps({ className: "dropzone" })} 
+                                    <div className="drop-zone dropzone" {...getRootProps()} 
                                         style={{border: "1px dashed #d2ddec", borderRadius: `${borderRadius ||"2px"}`}}>
                                         <input multiple  type="file" name={name || "files"} {...getInputProps()} />
                                         {
@@ -1746,7 +1765,12 @@ export const InputImage = React.forwardRef(({
                                                 {files.map((file, index) => (
                                                     <li key={index} className="item-upload">
                                                         <img src={file.preview}/>
-                                                        <span>{file.path}</span>
+                                                        <div className="file-info">
+                                                            <h4 className={"name-file"} style={{margin:"0 0 7px 0"}}>{file.name}</h4>
+                                                            <span className={"description-input"}>{file.size/1000 + " KB"}</span>
+                                                        </div>
+                                                        <span onClick={handleRemoveItem}>Remove</span>
+                                                        
                                                     </li>
                                                 ))}
                                             </ul>
@@ -1822,20 +1846,43 @@ export const InputImage = React.forwardRef(({
                     ul{
                         width: 100%;
                         background-color: #fff;
+                        padding: 20px;
                         li{
-                            width: 100%;
                             align-items: center;
-                            padding: 20px;
+                            padding:20px 0px;
                         }
                     }
                     .item-upload{
                         display: flex;
+                        justify-content: space-between;
                         width : 100%;
                         img{
                             border-radius: 5px;
                             width: 40px !important;
                             height: 40px !important;
                             margin-right: 10px;
+                        }
+                        .file-info{
+                            flex: auto;
+                        }
+                    }
+                    .item-upload:first-child{
+                        padding-top: 0;
+                    }
+                    .item-upload:last-child{
+                        padding-bottom: 0;
+                    }
+                    .item-upload:not(:last-child){
+                        position: relative;
+                        &::after{
+                            content:"";
+                            position: absolute;
+                            width:100%;
+                            height: 1px;
+                            top: 100%;
+                            left:50%;
+                            transform: translate(-50%,0);
+                            background-color: #e3ebf6;
                         }
                     }
             `}</style>
@@ -1916,7 +1963,7 @@ export const InputSelection = React.forwardRef(({
                                     key={index}
                                     onClick={handleClickItem}
                                 >
-                                    {value}
+                                    {statusShow === true ? value : null}
                                 </li>
                             ))
                         }
@@ -1961,9 +2008,11 @@ export const InputSelection = React.forwardRef(({
                             height: 0;
                             opacity: 0;
                             box-shadow: 0px 2px 9px 5px #ececec;
+                            transition: 0.3s ease-in-out;
                         }
                         li{
                             padding: 5px;
+                            transition: 0.3s ease-in-out;
                         }
                     }
                    
@@ -1978,11 +2027,13 @@ export const InputSelection = React.forwardRef(({
                             box-shadow: 0px 2px 9px 5px #ececec;
                             max-height: 250px;
                             overflow: auto;
+                            transition: 0.3s ease-in-out;
                         }
                         li{
                             margin: 10px 0;
                             margin-top:0;
                             cursor: pointer;
+                            transition: 0.3s ease-in-out;
                             &:hover{
                                 background-color: #ececec;
                                
