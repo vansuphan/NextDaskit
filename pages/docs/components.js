@@ -3,7 +3,7 @@
 import GrandMasterPage from "components/page/GrandMasterPage";
 import BasicLayout from "components/layout/BasicLayout";
 import { DropdownCates, DropdownButton, DropdownContent } from 'components/DropDown/DropDownCates';
-import { Container, Row, Col, Card, CardHeader, CardBody, Button, ButtonOutline, Avatar } from "components";
+import { Container, Row, Col, Card, CardHeader, CardBody, Button, ButtonOutline, Avatar } from "components/PopularContent/node_modules/components";
 import asset from "plugins/assets/asset";
 import Alert from "components/Alerts/Alerts";
 import withAuth from 'components/page/withAuth';
