@@ -10,6 +10,7 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^22.0.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
+    "antd": "^4.7.0",
     "autoprefixer": "^9.8.5",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
