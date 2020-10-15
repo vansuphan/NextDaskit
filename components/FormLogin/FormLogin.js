@@ -249,11 +249,11 @@ export const PasswordInput = React.forwardRef(({
 
 
 export function FormLogin ({
-
+    handleOutSide,
     method="POST",
     action="/api/login",
     styleFrom="",   // has 3 mode :  "illustration" || "cover" || default is ""
-    type="signup", // has 3 mode:  "sigup" || "signin" || r"eset-password"
+    type="signup", // has 3 mode:  "sigup" || "signin" || "reset-password"
     nameForm="Sign in", // title form
     nameSubmit,     // name button submit
     linkTo=""       // link bottom form 
@@ -271,8 +271,8 @@ export function FormLogin ({
             });
             if(emailEle.value.trim() === "" || 
                 Array.from(emailEle.classList).indexOf("error") !== -1){
-                emailEle.focus();
-                event.preventDefault();
+                    emailEle.focus();
+                    event.preventDefault();
             }
         }else{
             const emailEle = Array.from(refEmail.current.children).find((value)=>{
@@ -288,18 +288,24 @@ export function FormLogin ({
             if(passwordEle){
                 if(passwordEle.value.trim() === "" || 
                     Array.from(passwordEle.classList).indexOf("error") !== -1){
-                    passwordEle.focus();
-                    event.preventDefault();
+                        passwordEle.focus();
+                        event.preventDefault();
+                        return;
                 }
             }
             if(emailEle){
                 if(emailEle.value.trim() === "" || 
                     Array.from(emailEle.classList).indexOf("error") !== -1){
-                    emailEle.focus();
-                    event.preventDefault();
+                        emailEle.focus();
+                        event.preventDefault();
+                        return;
                 }
             }
+            if(handleOutSide){
+                handleOutSide(emailEle.value,passwordEle.value);
+            }
         }
+        event.preventDefault();
     };
     
     return(
@@ -331,12 +337,28 @@ export function FormLogin ({
                         
 
                         <div className={"btn-submit"}>
-                            <input
-                                type="submit"
-                                name="signup-submit" 
-                                value= {nameSubmit||nameForm}
-                                onClick={handleSubmit}
-                            />
+                            <span 
+                                onClick={handleSubmit} 
+                                style={{
+                                    position:"relative !important", 
+                                    width: "100%", height:"100%"
+                                }}>
+                                <input
+                                    type="submit"
+                                    name="signup-submit"
+                                    onSubmit={handleSubmit}
+                                    value= {nameSubmit||nameForm}
+                                />
+                                <span
+                                    className={"btn-transf"}
+                                    style={{
+                                        position:"absolute", 
+                                        width:"100%", height:"100%", 
+                                        top:"0", left:"0", 
+                                        backgroundColor:"rgba(255,255,255,0)"
+                                    }}
+                                ></span>
+                            </span>
                         </div>
                         {type === "signup" ? (<span style={{ marginTop:"10px" }}>Already have an account? <Link href={linkTo ||"login"}><a style={{color: "#2C7BE5"}}>Log in</a></Link>.</span>):null}
                         {type === "signin" ? (<span style={{ marginTop:"10px" }}>Don’t have an account yet? <Link href={linkTo ||"signup"}><a style={{color: "#2C7BE5"}}>Sign up</a></Link>.</span>):null}                       
@@ -482,7 +504,13 @@ export function FormLogin ({
                             color: #2c7be5;
                         }
                     }
-
+                    .btn-transf{
+                        cursor:pointer;
+                        &:hover{
+                            background-color:rgba(255,255,255,0.2) !important;
+                            transition :0.3s;
+                        }
+                    }
                     @media only screen and (max-width : 767px){
                        
                         .illustration{
