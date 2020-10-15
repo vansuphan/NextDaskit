@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3030",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^22.0.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
+    "antd": "^4.7.0",
     "autoprefixer": "^9.8.5",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
@@ -27,6 +28,7 @@
     "jimp": "^0.14.0",
     "lqip-loader": "^2.2.0",
     "next": "9.4.4",
+    "next-iron-session": "^4.1.9",
     "next-optimized-images": "^2.6.1",
     "node-sass": "^4.14.1",
     "qs": "^6.9.4",

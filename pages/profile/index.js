@@ -115,6 +115,15 @@ export default function Profile({ ...dataPages }) {
                                                     typeInput="selection"
                                                 ></Input>
                                                 <input type="submit" value="Save changes"/>
+                                                <div className="">
+                                                    <div>
+                                                        <h3>Public profile</h3>
+                                                        <span>Making your profile public means that anyone on the Dashkit network will be able to find you.</span>
+                                                        <div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>

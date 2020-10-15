@@ -1,5 +1,5 @@
 import styles from '../Button/styles.module.scss';
-import { Button } from 'components';
+import { Button } from 'components/PopularContent/node_modules/components';
 import { useEffect, useState } from 'react';
 import Config from 'lib/config';
 import Axios from 'axios';

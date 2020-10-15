@@ -8,7 +8,12 @@ import BasicLayout from "components/layout/BasicLayout";
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
+
+//
+
 import MenuTop from "components/menu/MenuTop";
+//
+
 import {Input} from "components/input/Input"
 
 //
@@ -114,7 +119,7 @@ export default function Home(props) {
                 </Tabs>
               
               </div>
-              <div style={{width: "300px", height:"auto"}}>
+              <div style={{width: "600px", height:"auto"}}>
 
                 <Input
                   label="Input text"
@@ -178,7 +183,8 @@ export default function Home(props) {
                   typeInput="quill"
                   label="Input quill"
                   description="Input Quill"
-                  widthInput="280px"
+                  widthInput="100%"
+                  heightInput="300px"
                 >
                 </Input>
 

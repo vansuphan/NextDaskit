@@ -1,7 +1,6 @@
 
 import React from "react";
 import { useState, useEffect, useRef } from 'react';
-// import Link from "next/link";
 import classNames from 'classnames';
 import DatePicker from 'react-modern-calendar-datepicker';
 import Dropzone from "react-dropzone";
@@ -14,7 +13,7 @@ export function Input({
     children,
     name,   // name input
     value,
-    typeInput = "text",   // type input ex : "password" || "mail" || "text"
+    typeInput = "text",   // type input ex: "password" || "mail" || "text"
     label = "Please enter props label",      // label Input
     placeholder = "Please enter props placeholder!", // placeholder input
     description,
@@ -22,6 +21,7 @@ export function Input({
     heightInput = "40px",
     widthInput,
     borderRadius = "2px",
+    handleOutSide,
 }) {
     const refInputText = useRef();
     // const [stateValue, setValue] = useState();
@@ -47,6 +47,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         />
                         {children}
                     </div>
@@ -69,6 +70,7 @@ export function Input({
                                     ref={refInputText}
                                     placeholder={placeholder}
                                     description={description}
+                                    handleOutSide={handleOutSide ? handleOutSide : null}
                                 />
                                 {children}
                             </div>
@@ -86,6 +88,7 @@ export function Input({
                                     ref={refInputText}
                                     placeholder={placeholder}
                                     description={description}
+                                    handleOutSide={handleOutSide ? handleOutSide : null}
                                 />
                                 {children}
                             </div>
@@ -109,6 +112,7 @@ export function Input({
                                     ref={refInputText}
                                     placeholder={placeholder}
                                     description={description}
+                                    handleOutSide={handleOutSide ? handleOutSide : null}
                                 />
                                 {children}
                             </div>
@@ -126,6 +130,7 @@ export function Input({
                                     ref={refInputText}
                                     placeholder={placeholder}
                                     description={description}
+                                    handleOutSide={handleOutSide ? handleOutSide : null}
                                 />
                                 {children}
                             </div>
@@ -147,6 +152,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         />
                         {children}
                     </div>
@@ -167,6 +173,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         />
                         {children}
                     </div>
@@ -188,6 +195,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         />
                         {children}
                     </div>
@@ -208,6 +216,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         ></InputQuill>
                         {children}
                     </div>
@@ -229,6 +238,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         ></InputCalendar>
                         {children}
                     </div>
@@ -251,6 +261,7 @@ export function Input({
                             ref={refInputText}
                             placeholder={placeholder}
                             description={description}
+                            handleOutSide={handleOutSide ? handleOutSide : null}
                         ></InputTag>
                         {children}
                     </div>
@@ -270,7 +281,9 @@ export function Input({
                         forwardRef={refInputText}
                         ref={refInputText}
                         placeholder={placeholder}
-                        description={description}>
+                        description={description}
+                        handleOutSide={handleOutSide ? handleOutSide : null}
+                        >
                         </InputImage>
                         {children}
                     </div>
@@ -290,7 +303,9 @@ export function Input({
                         forwardRef={refInputText}
                         ref={refInputText}
                         placeholder={placeholder}
-                        description={description}>
+                        description={description}
+                        handleOutSide={handleOutSide ? handleOutSide : null}
+                        >
                         </InputImageAvatar>
                         {children}
                     </div>
@@ -312,7 +327,9 @@ export function Input({
                         forwardRef={refInputText}
                         ref={refInputText}
                         placeholder={placeholder}
-                        description={description}>
+                        description={description}
+                        handleOutSide={handleOutSide ? handleOutSide : null}
+                        >
                         </InputSelection>
                         {children}
                     </div>
@@ -328,7 +345,7 @@ export function Input({
 }
 
 export const InputBasic = React.forwardRef(({
-    
+    handleOutSide,
     name, // name 
     value,
     borderRadius,
@@ -347,7 +364,10 @@ export const InputBasic = React.forwardRef(({
         
     function onChange(event) {
         setPassword(event.target.value);
-        setStateValue(event.target.value);    
+        setStateValue(event.target.value);
+        if(handleOutSide){
+            handleOutSide(event.target.value);
+        }    
     }
 
     function onClick(event){
@@ -486,7 +506,7 @@ export const InputBasic = React.forwardRef(({
 })
 
 export const EmailInputValidate = React.forwardRef(({
-
+    handleOutSide,
     name, // name input
     value,
     borderRadius,
@@ -506,9 +526,7 @@ export const EmailInputValidate = React.forwardRef(({
     function onClick(event){
         setStatusChange(true);
         setValue(value);
-        if(statusChange===true){
-            setValue(event.target.value);
-        }
+        statusChange === true ? setValue(event.target.value) : null;
     }
 
     function checkEmailPattern(email) {
@@ -530,6 +548,14 @@ export const EmailInputValidate = React.forwardRef(({
     useEffect(()=>{
         error === true ? setMsError("Email không đúng") : setMsError("");
     },[error])
+
+    useEffect(()=>{
+        if(error !== true){
+            handleOutSide ? handleOutSide(stateValue) : null;
+        }else{
+            handleOutSide ? handleOutSide("") : null;
+        }
+    },[stateValue])
 
     return (
         <div ref={forwardRef} className={classNames({ "error": error, "success": !error })}>
@@ -609,7 +635,7 @@ export const EmailInputValidate = React.forwardRef(({
 })
 
 export const PasswordInputValidate = React.forwardRef(({
-
+    handleOutSide,
     name, // name input
     borderRadius,
     widthInput,
@@ -618,7 +644,6 @@ export const PasswordInputValidate = React.forwardRef(({
     label,      // label Input
     placeholder, // placeholder input
     description,
-
     forwardRef }, { ref }) => {
 
     const [passwords, setPassword] = useState("");
@@ -667,13 +692,20 @@ export const PasswordInputValidate = React.forwardRef(({
         const checked = checkPasswordPattern(event.target.value);
         setPassword(event.target.value);
         if (checked === true) {
-            setError(false)
+            setError(false);
+            if(handleOutSide){
+                handleOutSide(event.target.value);
+            }
         } else {
-            setError(true)
+            setError(true);
             setPassword(event.target.value);
         }
     }
-
+    useEffect(()=>{
+        if(error !== true){
+            handleOutSide ? handleOutSide(passwords) : null;
+        }
+    },[passwords]);
     const handleStatus = () => setStatusShow(!statusShow);
 
     return (
@@ -773,7 +805,7 @@ export const PasswordInputValidate = React.forwardRef(({
 });
 
 export const InputTextarea = React.forwardRef(({
-
+    handleOutSide,
     name,
     value,
     borderRadius,
@@ -785,12 +817,15 @@ export const InputTextarea = React.forwardRef(({
     description,
     forwardRef }, { ref }) => {
 
-    const [passwords, setPassword] = useState("");
-    const [statusShow, setStatusShow] = useState(false);
+    const [valueInside, setValueInside] = useState("");
 
-    function onChangePassword(event) {
-        setPassword(event.target.value);
+    function onChange(event) {
+        setValueInside(event.target.value);
     }
+
+    useEffect(()=>{
+        handleOutSide ? handleOutSide(valueInside) : null;
+    },[valueInside]);
 
     return (
         <div ref={forwardRef} >
@@ -801,7 +836,7 @@ export const InputTextarea = React.forwardRef(({
                 className={"success"}
                 name="Textarea"
                 placeholder={placeholder} value={value || undefined}
-                onChange={onChangePassword}
+                onChange={onChange}
             />
             <style jsx>{`
                     *:focus {
@@ -862,7 +897,7 @@ export const InputTextarea = React.forwardRef(({
 })
 
 export const InputPhone = React.forwardRef(({
-
+    handleOutSide,
     name, // name input
     value,
     borderRadius,
@@ -877,7 +912,7 @@ export const InputPhone = React.forwardRef(({
 
     const [error, setError] = useState(false);
     const [msError, setMsError] = useState("");
-
+    const [valueInSide, setValueInside] = useState("")
 
 
     function checkPhonePattern(phone) {
@@ -888,18 +923,23 @@ export const InputPhone = React.forwardRef(({
     function onChange(event) {
         const value = event.target.value.trim();
         let newValue = value.replace(/[^0-9]/g, "");
+        setValueInside(newValue);
         event.target.value = newValue;
         if (newValue) {
             event.target.value = newValue;
             const checked = checkPhonePattern(event.target.value);
             checked === true ? setError(false) : setError(true);
-           
         }
-
     }
     useEffect(()=>{
         error === true ? setMsError("Phone không đúng") : setMsError("");
-    },[error])
+    },[error]);
+
+    useEffect(()=>{
+        if(error === false){
+            handleOutSide ? handleOutSide(valueInSide) : null;
+        }
+    },[valueInSide])
     return (
         <div ref={forwardRef} className={classNames({ "error": error, "success": !error })}>
             <label>{label}</label>
@@ -989,7 +1029,7 @@ export const InputPhone = React.forwardRef(({
 })
 
 export const InputQuill = React.forwardRef(({
-
+    handleOutSide,
     name, // name input
     borderRadius,
     widthInput,
@@ -1003,7 +1043,7 @@ export const InputQuill = React.forwardRef(({
     const editorRef = useRef();
     const [editorLoader, setEditorLoaded] = useState(false)
     const { CKEditor, ClassicEditor } = editorRef.current || {}
-    const [data, setData] = useState('')
+    const [dataState, setData] = useState('')
 
 
     useEffect(() => {
@@ -1018,15 +1058,28 @@ export const InputQuill = React.forwardRef(({
         onEditorChange
     },[editorLoader])
 
+    useEffect(()=>{
+        const htmlRender = forwardRef.current;
+        if(htmlRender){
+            setData(htmlRender.querySelector(".ck-editor__main .ck-content").innerHTML)
+        }
+    }, [dataState]);
+
     const onEditorChange = (event, editor) => {
         const data = editor.getData();
-        console.log("editor",{ event, editor, data });
+        editor.updateSourceElement();
+        setData(data);
+        if(handleOutSide){
+            handleOutSide(data);
+        }
+        // console.log("editor",{ event, editor, data });
+        // console.log("Data editor",{ data });
     }
 
     return editorLoader ?
         (
             <div ref={forwardRef} style={{width: widthInput, marginBottom:"20px"}}>
-                <label htmlFor={ name !== undefined ? name + " calendar" : "calendar"}>{label}</label>
+                <label htmlFor={name !== undefined ? name + " quill" : "quill"}>{label}</label>
                 {description ? (<span className="description-input" style={{display:"block"}}>{description}</span>) : null}
                 <CKEditor 
                     name={name || ""}
@@ -1034,14 +1087,14 @@ export const InputQuill = React.forwardRef(({
                     editor={ClassicEditor}
                     config={{
                         ckfinder:{
-                            uploadUrl: "https://vi.imgbb.com/"
+                            uploadUrl: "/api/editor-post-image"
                         }
                     }}
-                    data={data}
+                    // data={data}
                     // data="<p>Hello from CKEditor 5!</p>"
                     onInit={editor => {
                         // You can store the "editor" and use when it is needed.
-                        console.log('Editor is ready to use!', editor);
+                        // console.log('Editor is ready to use!', editor);
                     }}
                     onChange={onEditorChange}
                     // onBlur={(event, editor) => {
@@ -1051,6 +1104,9 @@ export const InputQuill = React.forwardRef(({
                     //     console.log('Focus.', editor);
                     // }}
                 />
+                <div style={{display:"none"}}>
+                <textarea onChange={()=>{}} id={name+"-editor"} name={name||"data-editor"} value={ dataState ||""}></textarea>
+                </div>
                 <style jsx>{`
                     .description-input{
                         color: #6E84A3;
@@ -1069,7 +1125,7 @@ export const InputQuill = React.forwardRef(({
 })
 
 export const InputCalendar = React.forwardRef(({
-
+    handleOutSide,
     name,
     value,
     borderRadius,
@@ -1087,8 +1143,19 @@ export const InputCalendar = React.forwardRef(({
     const refDatePicker = useRef();
 
     const handleChange = (selectedDay)=>{
-        let formatDate = selectedDay.day + "/" + selectedDay.month+ "/" + selectedDay.year;
-        setValue(formatDate)
+        let day = selectedDay.day;
+        let month = selectedDay.month;
+        if(day.toString().length <= 1){
+            day = "0"+ day.toString();
+        }
+        if(month.toString().length <= 1){
+            month = "0"+ month.toString();
+        }
+        let formatDate = day + "-" + month + "-" + selectedDay.year;
+        setValue(formatDate);
+        if(handleOutSide){
+            handleOutSide(selectedDay);
+        }
         inputRefHide.current.focus();
         inputRefHide.current.value = valueLocal;
     }
@@ -1105,11 +1172,10 @@ export const InputCalendar = React.forwardRef(({
     
     useEffect(()=>{
         // Style for "DatePicker" width = 100%
-        const datePickerEle = Array.from(forwardRef.current.children).find((element,  index)=>{
+        const datePickerEle = Array.from(forwardRef.current.children).find((element, index)=>{
             return Array.from(element.classList).find(ele => ele === "DatePicker");
         });
-        datePickerEle.style.width = "100%"
-        // console.log(datePickerEle);
+        datePickerEle.style.width = "100%";
     },[])
 
     const renderCustomInput = ({ ref }) => (
@@ -1207,11 +1273,11 @@ export const InputCalendar = React.forwardRef(({
 });
 
 export const InputTag = React.forwardRef(({
-
+    handleOutSide,
     name, // name input
     widthInput,
-    dataOption,
-    dataSelect,
+    dataOption=["text 1", "text 2"],
+    dataSelect=[],
     borderRadius,
     heightInput,  // height input
     typeInput,   // type input
@@ -1220,14 +1286,13 @@ export const InputTag = React.forwardRef(({
     description,
     forwardRef }, { ref }) => {
 
-    const listItemsTest = dataOption || ["option 1", "option 2", "option 3", "option 4", "option 5", "option 6","option 7"]
+    const refInput = useRef();
     const refSelect = useRef()
     const refContentItems = useRef();
-    const refInput = useRef();
 
-    const [listItemsSelect, setListItemsSelect] = useState( dataSelect || []);
-    const [listItemsDefault, setListItemsDefault] = useState(listItemsTest);
-    const [lisItemsSearch, setLisItemsSearch] = useState(listItemsTest);
+    const [listItemsSelect, setListItemsSelect] = useState(dataSelect);
+    const [listItemsDefault, setListItemsDefault] = useState(dataOption);
+    const [lisItemsSearch, setLisItemsSearch] = useState(dataOption);
     const [clearAllItems, setClearAllItems] = useState(false);
     const [clearOneItem, setClearOneItem] = useState(false);
     const [valueSearch, setValueSearch] = useState(null);
@@ -1296,7 +1361,7 @@ export const InputTag = React.forwardRef(({
     useEffect(()=>{
         if( clearAllItems === true ){
             setListItemsSelect([]);
-            setListItemsDefault(listItemsTest);
+            setListItemsDefault(dataOption);
             refInput.current.value="";
             setClearAllItems(false);
         }
@@ -1308,7 +1373,11 @@ export const InputTag = React.forwardRef(({
             refInput.current.value = "";
             setClearOneItem(false);
         }
-    },[clearOneItem])
+    },[clearOneItem]);
+
+    useEffect(()=>{
+        handleOutSide ? handleOutSide(listItemsSelect) : null;
+    },[listItemsSelect])
 
     return(
         <div className={"container-select"} onMouseLeave={handleLeaveInput}onClick={handleChange}>
@@ -1344,7 +1413,7 @@ export const InputTag = React.forwardRef(({
                             style={{display:"none"}}
                         />)
                     }
-                     <input
+                    <input
                         onChange={()=>{console.log("")}}
                         defaultValue={undefined}
                         name={ name || "list-tag" }
@@ -1657,6 +1726,7 @@ export const InputImage2 = React.forwardRef(({
 })
 
 export const InputImage = React.forwardRef(({
+    handleOutSide,
     name, // name input
     borderRadius,
     widthInput,
@@ -1666,12 +1736,11 @@ export const InputImage = React.forwardRef(({
     placeholder, // placeholder input
     description,
     forwardRef }, { ref }) => {
-    
-    const [fileNames, setFileNames] = useState([]);
-    const [file, setFile] = useState([]);
+        
+    const [file, setFile] = useState([])
     const [files, setFiles] = useState([])
+
     const handleDrop = async (acceptedFiles) => {
-        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
         setFile([
             ...acceptedFiles.map(file =>
                 Object.assign(file, {
@@ -1680,8 +1749,8 @@ export const InputImage = React.forwardRef(({
             )
         ]);
     }
+
     const handleDropMuti = async (acceptedFiles) => {
-        setFileNames([...fileNames,...acceptedFiles.map(file => file.name)]);
         setFiles([
             ...files,...acceptedFiles.map(file =>
                 Object.assign(file, {
@@ -1690,18 +1759,31 @@ export const InputImage = React.forwardRef(({
             )
         ]);
     }
-    useEffect(()=>{
-        if(files.length !==0){
-            console.log("files",files);
-            console.log("files name",fileNames);
-            console.log("file", file);
-        }
-     },[files, file])
+
+    const handleRemoveItem = (e)=>{
+        const nameFileRemove = Array.from(Array.from(e.target.parentElement.children).find(
+            element => Array.from(element.classList).indexOf("file-info") !== -1).children).find(
+                el => Array.from(el.classList).indexOf("name-file") !== -1).innerText;
+        // console.log(nameFileRemove);
+        // const indexFile = 
+        
+        setFiles(files.filter((value, index)=>{
+            return value.name !== nameFileRemove
+        }))
+    }
+
+    useEffect(() => {
+        handleOutSide ? handleOutSide(files) : null
+    },[files])
+
+    useEffect(() => {
+        handleOutSide ? handleOutSide(file) : null
+    },[file])
+
     return (
         <div ref={forwardRef} style={{marginBottom:"20px"}}>
             <label>{label}</label>
-            {description ? (<span className="description-input" style={{display:"block", marginBottom:"10px"}}>{description}</span>) : null}
-   
+            {description ? (<span className="description-input" style={{display:"block", marginBottom:"10px"}}>{description}</span>) : null}  
                 {
                     typeInput === "image" ? (
                         <div className="content-image">
@@ -1727,7 +1809,7 @@ export const InputImage = React.forwardRef(({
                             <div className="content-image" style={{border:"none", padding: "20px"}}>
                                 <Dropzone onDrop={handleDropMuti}>
                                     {({ getRootProps, getInputProps }) => (
-                                    <div className="drop-zone" {...getRootProps({ className: "dropzone" })} 
+                                    <div className="drop-zone dropzone" {...getRootProps()} 
                                         style={{border: "1px dashed #d2ddec", borderRadius: `${borderRadius ||"2px"}`}}>
                                         <input multiple  type="file" name={name || "files"} {...getInputProps()} />
                                         {
@@ -1746,7 +1828,12 @@ export const InputImage = React.forwardRef(({
                                                 {files.map((file, index) => (
                                                     <li key={index} className="item-upload">
                                                         <img src={file.preview}/>
-                                                        <span>{file.path}</span>
+                                                        <div className="file-info">
+                                                            <h4 className={"name-file"} style={{margin:"0 0 7px 0"}}>{file.name}</h4>
+                                                            <span className={"description-input"}>{file.size/1000 + " KB"}</span>
+                                                        </div>
+                                                        <span onClick={handleRemoveItem}>Remove</span>
+                                                        
                                                     </li>
                                                 ))}
                                             </ul>
@@ -1822,20 +1909,43 @@ export const InputImage = React.forwardRef(({
                     ul{
                         width: 100%;
                         background-color: #fff;
+                        padding: 20px;
                         li{
-                            width: 100%;
                             align-items: center;
-                            padding: 20px;
+                            padding:20px 0px;
                         }
                     }
                     .item-upload{
                         display: flex;
+                        justify-content: space-between;
                         width : 100%;
                         img{
                             border-radius: 5px;
                             width: 40px !important;
                             height: 40px !important;
                             margin-right: 10px;
+                        }
+                        .file-info{
+                            flex: auto;
+                        }
+                    }
+                    .item-upload:first-child{
+                        padding-top: 0;
+                    }
+                    .item-upload:last-child{
+                        padding-bottom: 0;
+                    }
+                    .item-upload:not(:last-child){
+                        position: relative;
+                        &::after{
+                            content:"";
+                            position: absolute;
+                            width:100%;
+                            height: 1px;
+                            top: 100%;
+                            left:50%;
+                            transform: translate(-50%,0);
+                            background-color: #e3ebf6;
                         }
                     }
             `}</style>
@@ -1916,7 +2026,7 @@ export const InputSelection = React.forwardRef(({
                                     key={index}
                                     onClick={handleClickItem}
                                 >
-                                    {value}
+                                    {statusShow === true ? value : null}
                                 </li>
                             ))
                         }
@@ -1961,9 +2071,11 @@ export const InputSelection = React.forwardRef(({
                             height: 0;
                             opacity: 0;
                             box-shadow: 0px 2px 9px 5px #ececec;
+                            transition: 0.3s ease-in-out;
                         }
                         li{
                             padding: 5px;
+                            transition: 0.3s ease-in-out;
                         }
                     }
                    
@@ -1978,11 +2090,13 @@ export const InputSelection = React.forwardRef(({
                             box-shadow: 0px 2px 9px 5px #ececec;
                             max-height: 250px;
                             overflow: auto;
+                            transition: 0.3s ease-in-out;
                         }
                         li{
                             margin: 10px 0;
                             margin-top:0;
                             cursor: pointer;
+                            transition: 0.3s ease-in-out;
                             &:hover{
                                 background-color: #ececec;
                                
