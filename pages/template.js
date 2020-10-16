@@ -14,7 +14,8 @@ import HeaderProvider from "contexts/HeaderContext";
 import MenuTop from "components/menu/MenuTop";
 //
 
-import {Input} from "components/input/Input"
+import {Input, InputQuill} from "components/input/Input"
+
 
 //
 
@@ -120,7 +121,8 @@ export default function Home(props) {
               
               </div>
               <div style={{width: "600px", height:"auto"}}>
-
+                <InputQuill>
+                </InputQuill>
                 <Input
                   label="Input text"
                   placeholder="Input"
