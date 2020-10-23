@@ -48,6 +48,7 @@
     "svg-sprite-loader": "^5.0.0",
     "sweetalert2": "^9.17.0",
     "swr": "^0.2.3",
+    "three": "^0.121.1",
     "webp-loader": "^0.6.0"
   },
   "devDependencies": {
