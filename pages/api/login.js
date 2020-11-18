@@ -2,63 +2,42 @@
 import store from './store'
 import {withIronSession} from "next-iron-session";
 import CONFIG from "web.config";
+const jwt = require('jsonwebtoken');
 
 const METHOD = store.METHOD;
 const dataUser = store.DATA_USERS;
-// const checkLogin = async ({email,password})=>{
-//     const hasUser =  await dataUser.find((value) => value.email === email);
-//     if(hasUser){
-//         console.log(hasUser);
-//     }
-//     return false
-// }
-// const handleLogin = async (req,res) => {
-//     switch (req.method) {
-//         case METHOD.POST:
-//             console.log("req", req.body);
-//             // req.session.set("user", {
-//             //     id : Math.random(),
-//             //     admin : true
-//             // });
-//             // res.statusCode = 200;
-//             // res.json({status: "oke"});
-//             // await req.session.save();
-//             return res.status(200).json({name: `test get` });
-//             break;
-//         default:
-//             res.statusCode = 404;
-//             break;
-//     }
-// }
-// export default withIronSession (
-//     handleLogin,
-//     {
-//         cookieName: CONFIG.IRON_SESSION_NAME,
-//         cookieOptions: {
-//             secure: process.env.NODE_ENV === "production" ? true : false,
-//         },
-//         password: CONFIG.IRON_SESSION_SECRET,
-        
-//     }
-// )
+let infoUser;
+
+const checkLogin = async ({email,password})=>{
+    const hasUser =  await dataUser.find((value) => value.email === email);
+    if(hasUser){
+       if(hasUser.password === password){
+        infoUser = {...hasUser}
+        return true
+       }
+       return false
+    }
+    return false
+}
 
 export default async (req, res) => {
     switch (req.method) {
         case METHOD.POST:
-            // console.log("req", req.param)
-            res.statusCode = 200;
-            res.status(200).json({name: `test get` });
+            if(await checkLogin(req.body) === true){
+                const token = jwt.sign({_id: infoUser.id}, CONFIG.IRON_SESSION_SECRET);
+                // jwt.sign({
+                //     data: 'foobar'
+                //   }, 'secret', { expiresIn: '1h' });
+                // res.header('auth-token',token);
+                // console.log(res.writeHead)
+                // res.writeHead('auth-token',token);
+                res.status(200).json({message: `Login success`, token : token});
+            }else{
+                res.status(422).json({message: `Login false`});
+            }
             break;
         default:
             res.statusCode = 404;
             break;
     }
-    // if(req.body.email === "vansuphan88@gmail.com"){
-    //     res.statusCode = 200;
-    //     res.json({status: "oke"});
-    // }else{
-    //     res.statusCode = 300;
-    //     res.json({status: "error"});
-    // }
-  };
-  
+};

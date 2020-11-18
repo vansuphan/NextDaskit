@@ -3,7 +3,7 @@ import resource from "plugins/assets/resource";
 import CONFIG from "web.config";
 import FullScreenLayout from "components/layout/FullscreenLayout";
 import {FormLogin} from "components/FormLogin/FormLogin";
-
+const jwt = require('jsonwebtoken');
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";

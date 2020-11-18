@@ -4,7 +4,7 @@ import CONFIG from "web.config";
 import BasicLayout from "components/layout/BasicLayout";
 // import ChartCol from "components/charts/Conversions/index";
 // import RecentActive from "components/recentActive/recentActive";
-
+import Canvar from "components/Canvar/Canvar";
 // context
 import MainContentProvider from "contexts/MainContentContext"
 import HeaderProvider from "contexts/HeaderContext";
@@ -14,7 +14,8 @@ import HeaderProvider from "contexts/HeaderContext";
 import MenuTop from "components/menu/MenuTop";
 //
 
-import {Input} from "components/input/Input"
+import {Input, InputQuill} from "components/input/Input"
+
 
 //
 
@@ -120,7 +121,6 @@ export default function Home(props) {
               
               </div>
               <div style={{width: "600px", height:"auto"}}>
-
                 <Input
                   label="Input text"
                   placeholder="Input"
@@ -241,6 +241,15 @@ export default function Home(props) {
                 </Input>
               </div>
             <br></br>
+
+            <div>
+              <h3>
+                Tesst
+              </h3>
+              <div className="test">
+                <Canvar></Canvar>
+              </div>
+            </div>
             <br/>
           </div>
         </HeaderProvider>
